@@ -1,4 +1,4 @@
-// const tresHoras = 60 *60 * 3 * 1000  --> 60 seg , 60 min , 3horas, 1000 ms
+ // const tresHoras = 60 *60 * 3 * 1000  --> 60 seg , 60 min , 3horas, 1000 ms
 
 // const data = new Data(2019, 3) a, m, d, h, min, s, ms
 
