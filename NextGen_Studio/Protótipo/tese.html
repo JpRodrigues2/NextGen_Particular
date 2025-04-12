@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="desafiosApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafios Disponíveis - Debug</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="desafios.css">
+  <style>
+    .debug-info {
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 800px;
+      overflow: auto;
+      max-height: 400px;
+      color: #00ff00;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+    
+    .debug-title {
+      color: #007aff;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body ng-controller="DesafiosController">
+  <nav class="nav-bar">
+    <a href="ranking.html" class="nav-link">Ranking</a>
+    <a href="desafios.html" class="nav-link active">Desafios</a>
+  </nav>
+
+  <h1>🏅 Desafios Disponíveis</h1>
+  
+  <!-- Seção de Depuração -->
+  <div class="debug-info" ng-if="dataLoaded">
+    <div class="debug-title">Estrutura de Dados Retornada pela API:</div>
+    <div>Tipo de dados: {{tipoResposta}}</div>
+    <div>Propriedades disponíveis: {{propriedadesDisponiveis}}</div>
+    <div ng-if="desafios.length > 0">
+      <div class="debug-title">Primeiro item:</div>
+      <div>{{primeiroItem}}</div>
+    </div>
+    <div ng-if="ehArray && desafios.length === 0">
+      A API retornou um array vazio
+    </div>
+    <div ng-if="!ehArray">
+      A resposta não é um array, verifique o formato específico acima
+    </div>
+  </div>
+
+  <!-- Aqui exibiremos os desafios após depurar a estrutura correta -->
+  <div class="loading" ng-if="!dataLoaded">Carregando dados da API...</div>
+  
+  <script>
+    angular.module('desafiosApp', [])
+      .controller('DesafiosController', function($scope, $http) {
+        $scope.desafios = [];
+        $scope.dataLoaded = false;
+        $scope.ehArray = false;
+        $scope.tipoResposta = "";
+        $scope.propriedadesDisponiveis = "";
+        $scope.primeiroItem = "";
+
+        var req = {
+          method: 'GET',
+          url: 'https://service2.funifier.com/v3/challenge',
+          headers: {
+            "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsImNhbGciOiJHWklQIn0.H4sIAAAAAAAAAD2LQQrCMBAAvyJ7zqEm2yT1Lj149AGyphsIBhuaFBXx7y6K3oZh5glU0oEfsAPr4oCDZW20iw6jIYPBswMFNcyFJVmYphPlrDa3JTX-4sSZ_0yNzlRZHgphXq9Nrv2Rx5ZJ3Fp5-YmLF5FIgq1DxN5rjQr4Xj6i76zpNL7ee3EURqAAAAA.9bgvYEosoCQiBIrrdjm5c3pPyKpAbXWgrPnfM5OhxwCK35_H10XyZquub6ZKgMqEgsaT9cLuJqqLaHupYRL5QA",
+            "Content-Type": "application/json"
+          },
+          data: {}
+        };
+
+        $http(req).then(
+          function(response) {
+            // Armazenar a resposta completa para depuração
+            var dadosRetornados = response.data;
+            
+            // Definir que os dados foram carregados
+            $scope.dataLoaded = true;
+            
+            // Determinar o tipo de dados retornados
+            $scope.tipoResposta = typeof dadosRetornados;
+            
+            if (Array.isArray(dadosRetornados)) {
+              $scope.ehArray = true;
+              $scope.desafios = dadosRetornados;
+              
+              if (dadosReturnados.length > 0) {
+                // Se for um array com pelo menos um item, pegar o primeiro para análise
+                var primeiroDesafio = dadosRetornados[0];
+                $scope.propriedadesDisponiveis = JSON.stringify(Object.keys(primeiroDesafio));
+                $scope.primeiroItem = JSON.stringify(primeiroDesafio, null, 2);
+              }
+            } else if (typeof dadosRetornados === 'object' && dadosRetornados !== null) {
+              // Se for um objeto, verificar se existe alguma propriedade que possa conter os desafios
+              $scope.propriedadesDisponiveis = JSON.stringify(Object.keys(dadosRetornados));
+              $scope.primeiroItem = JSON.stringify(dadosRetornados, null, 2);
+              
+              // Verificar propriedades comuns que podem conter a lista de desafios
+              var possiveisPropriedadesDeArray = ['data', 'items', 'challenges', 'results', 'content'];
+              
+              for (var i = 0; i < possiveisPropriedadesDeArray.length; i++) {
+                var propriedade = possiveisPropriedadesDeArray[i];
+                if (dadosRetornados[propriedade] && Array.isArray(dadosRetornados[propriedade])) {
+                  $scope.desafios = dadosRetornados[propriedade];
+                  $scope.ehArray = true;
+                  break;
+                }
+              }
+            }
+            
+            // Log completo para depuração no console
+            console.log("Dados retornados da API:", dadosRetornados);
+          },
+          function(error) {
+            console.error("Erro ao carregar desafios:", error);
+            $scope.dataLoaded = true;
+          }
+        );
+      });
+  </script>
+</body>
+</html>

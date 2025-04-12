@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="rankingApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking de Jogadores</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="desafios.css">
+</head>
+<body ng-controller="RankingController">
+  <nav class="nav-bar">
+    <a href="ranking.html" class="nav-link active">Ranking</a>
+    <a href="desafios.html" class="nav-link">Desafios</a>
+  </nav>
+
+  <h1>🏆 Ranking de Jogadores</h1>
+
+  <div class="ranking-container" ng-if="jogadores.length > 0">
+    <table class="ranking-table">
+      <thead>
+        <tr>
+          <th>Classificação</th>
+          <th>Nome</th>
+          <th>Pontuação (XP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="jogador in jogadores" ng-style="{'animation-delay': ($index * 0.1) + 's'}">
+          <td class="position">{{jogador.position}}º</td>
+          <td class="name">{{jogador.name}}</td>
+          <td class="xp">{{jogador.total}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="loading" ng-if="jogadores.length === 0">Carregando ranking...</p>
+
+  <script>
+    angular.module('rankingApp', [])
+      .controller('RankingController', function($scope, $http) {
+        $scope.jogadores = [];
+
+        var req = {
+          method: 'POST',
+          url: 'https://service2.funifier.com/v3/leaderboard/ESjQeZN/leader/aggregate?period=&live=true',
+          headers: {
+            "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsImNhbGciOiJHWklQIn0.H4sIAAAAAAAAAD2LQQrCMBAAvyJ7zqEm2yT1Lj149AGyphsIBhuaFBXx7y6K3oZh5glU0oEfsAPr4oCDZW20iw6jIYPBswMFNcyFJVmYphPlrDa3JTX-4sSZ_0yNzlRZHgphXq9Nrv2Rx5ZJ3Fp5-YmLF5FIgq1DxN5rjQr4Xj6i76zpNL7ee3EURqAAAAA.9bgvYEosoCQiBIrrdjm5c3pPyKpAbXWgrPnfM5OhxwCK35_H10XyZquub6ZKgMqEgsaT9cLuJqqLaHupYRL5QA",
+            "Content-Type": "application/json"
+          },
+          data: []
+        };
+
+        $http(req).then(
+          function(response) {
+            $scope.jogadores = response.data;
+          },
+          function(error) {
+            console.error("Erro ao carregar ranking:", error);
+          }
+        );
+      });
+  </script>
+</body>
+</html>
