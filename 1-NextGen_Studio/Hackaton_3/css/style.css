@@ -1,0 +1,181 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0d3c2c; /* Verde escuro igual da imagem */
+  color: white;
+}
+
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #0d3c2c; /* fundo geral */
+}
+
+.auth-container {
+  background-color: transparent;
+  padding: 30px;
+  border-radius: 28px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.logo-inova {
+  width: 120px;
+  margin-bottom: 40px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  background-color: #1a4636;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  color: white;
+}
+
+input::placeholder {
+  color: #b2b2b2;
+}
+
+input:focus {
+  outline: 2px solid #f29100;
+}
+
+button.btn-white {
+  background-color: white;
+  color: #0d3c2c;
+  font-weight: bold;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.btn-white:hover {
+  background-color: #f2f2f2;
+}
+
+p{
+  margin-top: 20px;
+}
+/*----------------------------*/
+/* menu lateral */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #006400;
+  padding: 20px;
+  color: white;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+/*---------------------*/
+/*-desafios*/
+
+
+
+
+
+
+/*----------------------------*/
+/* ranking  */
+body.ranking-body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #121212;
+  color: white;
+}
+
+.menu-lateral {
+  width: 220px;
+  background-color: #006400;
+  position: fixed;
+  height: 100vh;
+  padding-top: 20px;
+}
+
+.menu-lateral ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-lateral li {
+  padding: 15px 20px;
+}
+
+.menu-lateral a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.menu-lateral a.ativo {
+  background-color: #004d00;
+  border-radius: 8px;
+}
+
+.ranking-container {
+  margin-left: 240px;
+  padding: 40px;
+}
+
+.ranking-title {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ranking-table th,
+.ranking-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #333;
+}
+
+.ranking-table th {
+  background-color: #006400;
+}

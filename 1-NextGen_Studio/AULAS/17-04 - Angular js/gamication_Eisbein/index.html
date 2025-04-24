@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>Funifier - Quest List</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.js"></script>
+<script>
+    angular.module('app', []).controller('cont', ["$scope","$http","$location", function ($scope, $http, $location) {
+
+        $scope.all = [];
+
+        var req = {
+            method: "GET", 
+            url:"https://service2.funifier.com/v3/challenge", 
+            headers: {"Authorization": "Basic NjdmZDdmMzEyMzI3Zjc0ZjNhMzU2MTVmOjY4MDEyZGQyMjMyN2Y3NGYzYTM1ZWU1Mw=="}
+        };
+
+        $http(req).then(function(data){
+            $scope.all = data.data;
+        }, function(err){
+            console.log(err);
+        });
+
+    }]);
+</script>
+</head>
+<body ng-app="app" ng-controller="cont">
+
+    <div ng-repeat="(index, obj) in all">
+        <img ng-src="{{obj.badgeUrl}}" style="width: 30px;" /> {{obj.challenge}}
+    </div>
+
+</body>
+</html>

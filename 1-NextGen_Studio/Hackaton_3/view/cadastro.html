@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="gamificacaoApp" ng-controller="CadastroController">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro - Inova Barbearia</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/controllers/cadastroController.js"></script>
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <img src="../img/logo-inova.png" alt="Logo Inova Barbearia" class="logo-inova">
+
+    <form ng-submit="fazerCadastro()">
+      <input type="text" placeholder="Nome" ng-model="novoUsuario.name" required>
+      <input type="text" placeholder="CPF" ng-model="novoUsuario._id" required>
+      <input type="text" placeholder="Senha" ng-model="novoUsuario.password" required>
+      <input type="text" placeholder="Telefone" ng-model="novoUsuario.telefone" required>
+      <input type="email" placeholder="E-mail" ng-model="novoUsuario.email" required>
+
+      <label class="checkbox-container">
+        <input type="checkbox" ng-model="novoUsuario.aceitaTermos" required>
+        <span class="checkmark"></span>
+        Aceito os termos de uso
+      </label>
+
+      <button type="submit" class="btn-white">CADASTRAR</button>
+    </form>
+    <p>Já tem conta? <a href="login.html">Fazer login</a></p>
+  </div>
+</body>
+</html>

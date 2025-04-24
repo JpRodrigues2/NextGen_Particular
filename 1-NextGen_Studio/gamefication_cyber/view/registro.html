@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Venda - CyberRegister</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        :root {
+            --neon-pink: #ff0080;
+            --neon-blue: #00ffff;
+            --neon-purple: #9d00ff;
+            --dark-bg: #0a0b18;
+            --panel-bg: #14152b;
+            --glow: 0 0 15px;
+        }
+        
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: 
+                linear-gradient(0deg, rgba(20, 21, 43, 0.8) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(20, 21, 43, 0.8) 2px, transparent 2px);
+            background-size: 50px 50px;
+            margin: 0;
+            padding: 0;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background-color: var(--panel-bg);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--neon-blue);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--neon-purple));
+            animation: gradientFlow 3s linear infinite;
+        }
+        
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        .header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--neon-blue);
+            text-shadow: var(--glow) var(--neon-blue);
+        }
+        
+        .header button {
+            background-color: transparent;
+            border: 2px solid var(--neon-pink);
+            padding: 10px 18px;
+            color: var(--neon-pink);
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 0, 128, 0.3);
+        }
+        
+        .header button:hover {
+            background-color: var(--neon-pink);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+        
+        .form-container {
+            background-color: var(--panel-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
+            max-width: 450px;
+            margin: 80px auto;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-container:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-blue), transparent, var(--neon-purple), transparent, var(--neon-pink));
+            z-index: -1;
+            animation: borderGlow 6s linear infinite;
+            border-radius: 16px;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { 
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+        }
+        
+        .input-group {
+            position: relative;
+            margin: 25px 0;
+        }
+        
+        input {
+            background-color: rgba(10, 11, 24, 0.7);
+            color: white;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .display-panel {
+            text-align: right;
+            font-size: 2rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid var(--neon-blue);
+            border-radius: 8px;
+            color: var(--neon-blue);
+            text-shadow: var(--glow) var(--neon-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .display-panel:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--neon-blue);
+            animation: scanline 2s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        button.confirmar {
+            padding: 15px 25px;
+            background-color: var(--neon-purple);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
+            text-shadow: 0 0 5px white;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button.confirmar:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink), var(--neon-blue), var(--neon-purple));
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        button.confirmar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(157, 0, 255, 0.8);
+        }
+        
+        button.confirmar:hover:before {
+            opacity: 0.7;
+            animation: glowingBtn 2s linear infinite;
+        }
+        
+        @keyframes glowingBtn {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+        
+        .digital-glitch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 65%, rgba(0, 255, 255, 0.1) 70%, transparent 75%);
+            background-size: 200% 200%;
+            animation: glitch 5s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes glitch {
+            0% { background-position: 0 0; }
+            100% { background-position: 200% 200%; }
+        }
+    </style>
+</head>
+<body ng-app="gameApp" ng-controller="registroCtrl">
+
+    <div class="header">
+        <h2>CyberRegister v2.0</h2>
+        <button ng-click="logout()">Desconectar</button>
+    </div>
+
+    <div class="form-container">
+        <div class="digital-glitch"></div>
+        <div class="display-panel">{{ valor || '0.00' }}</div>
+        
+        <div class="input-group">
+            <input type="text" ng-model="produto" placeholder="NOME DO PRODUTO" required>
+        </div>
+        
+        <div class="input-group">
+            <input type="number" ng-model="valor" placeholder="VALOR DO PRODUTO" required>
+        </div>
+        
+        <button class="confirmar" ng-click="registrarVenda()">REGISTRAR VENDA</button>
+    </div>
+
+    <script src="https://code.angularjs.org/1.8.2/angular.min.js"></script>
+    <script>
+        angular.module('gameApp', [])
+        .controller('registroCtrl', function($scope, $http, $window) {
+            $scope.registrarVenda = function() {
+                var userId = $window.localStorage.getItem('userId');
+                var token = $window.localStorage.getItem('token');
+    
+                if (!token || !userId) {
+                    alert("Sessão expirada. Faça login novamente.");
+                    $window.location.href = 'login.html';
+                    return;
+                }
+    
+                if (!$scope.produto || !$scope.valor) {
+                    alert("Preencha todos os campos!");
+                    return;
+                }
+    
+                var req = {
+                    method: 'POST',
+                    url: 'https://service2.funifier.com/v3/action/log',
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    },
+                    data: {
+                        "actionId": "vender",
+                        "userId": userId,
+                        "attributes": {
+                            "produto": $scope.produto,
+                            "valor": $scope.valor
+                        }
+                    }
+                };
+    
+                $http(req).then(function(response) {
+                    // Tocar som de caixa registradora
+                    var audio = new Audio('https://cdn.pixabay.com/download/audio/2021/08/04/audio_83f3c638c6.mp3?filename=cash-register-voiceover-130269.mp3');
+                    audio.play();
+    
+                    // Calcular moedas ganhas (ex: 1 moeda a cada R$10)
+                    var moedas = Math.floor($scope.valor);
+                    if (moedas < 1) moedas = 1;
+    
+                    // Exibir popup com moedas ganhas
+                    alert("Venda registrada! 💸 Você ganhou " + moedas + " moedas!");
+    
+                    // Limpar campos
+                    $scope.produto = '';
+                    $scope.valor = '';
+    
+                }, function(error) {
+                    alert("Erro ao registrar venda. Tente novamente.");
+                });
+            };
+    
+            $scope.logout = function() {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                window.location.href = 'login.html';
+            };
+        });
+    </script>
+    
+</body>
+</html>

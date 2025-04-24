@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eisbein Burger - Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFA726;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .login-container {
+            background-color: #E65100;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 350px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: #FFD180;
+            box-sizing: border-box;
+            border: 8px solid #B33F00;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .burger-icon {
+            width: 100px;
+            height: 100px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 10px 0 30px 0;
+            font-size: 36px;
+            color: #FFD180;
+        }
+        
+        h3 {
+            font-size: 28px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background-color: #FFD180;
+            color: #333;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background-color: #FFB74D;
+            color: #E65100;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #FFA726;
+        }
+        
+        .login-button {
+            margin-top: 20px;
+            background-color: #FFB74D;
+        }
+        
+        .signup-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        
+        .signup-link {
+            color: #FFD180;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .player-info {
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .player-info img {
+            border-radius: 50%;
+            border: 3px solid #FFD180;
+        }
+        
+        .player-name {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        
+        .logout-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        angular.module('app', []).controller('cont', ["$scope","$http","$location", function ($scope, $http, $location) {
+            $scope.auth = {};
+            $scope.token = null;
+            $scope.player = {};
+            $scope.isLoggedIn = false;
+
+            $scope.getPlayer = function(){
+                var token = localStorage.getItem('funifier_token');
+                if (!token) {
+                    console.warn("Token não encontrado no localStorage.");
+                    return;
+                }
+
+                var req = {
+                    method: 'GET',
+                    url: 'https://service2.funifier.com/v3/player/me',
+                    headers: {"Authorization": token, "Content-Type": "application/json"}
+                };
+
+                $http(req).then(function (data) {
+                    $scope.player = data.data;
+                    $scope.isLoggedIn = true;
+                    document.getElementById('loginForm').style.display = 'none';
+                    document.getElementById('playerInfo').style.display = 'block';
+                }, function (err) {
+                    console.log(err);
+                    $scope.isLoggedIn = false;
+                });
+            };
+
+            $scope.login = function(){
+                $http({
+                    method: 'POST',
+                    url: 'https://service2.funifier.com/v3/auth/token',
+                    headers: {"Content-Type":"application/json"},
+                    data: {
+                        "apiKey": "67fd7f312327f74f3a35615f",
+                        "grant_type": "password",
+                        "username": $scope.auth.username,
+                        "password": $scope.auth.password
+                    }
+                }).then(function(data){
+                    $scope.token = "Bearer " + data.data.access_token;
+                    localStorage.setItem('funifier_token', $scope.token);
+                    $scope.getPlayer();
+                }, function(err){
+                    console.log(err);
+                    alert("Login failed. Please check your credentials.");
+                });
+            };
+
+            $scope.logout = function() {
+                localStorage.removeItem('funifier_token');
+                $scope.isLoggedIn = false;
+                $scope.player = {};
+                $scope.token = null;
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('playerInfo').style.display = 'none';
+            };
+
+            // Recupera token do localStorage ao iniciar
+            if (localStorage.getItem('funifier_token')) {
+                $scope.token = localStorage.getItem('funifier_token');
+                $scope.getPlayer();
+            }
+        }]);
+    </script>
+</head>
+<body ng-app="app" ng-controller="cont">
+    <div class="login-container">
+        <div class="logo-container">
+            <svg class="burger-icon" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="#FFB74D" />
+                <path d="M25,35 C35,20 65,20 75,35 L75,40 C65,25 35,25 25,40 Z" fill="#FFA000" />
+                <rect x="25" y="40" width="50" height="8" rx="4" fill="#FFA000" />
+                <rect x="25" y="52" width="50" height="10" rx="5" fill="#43A047" />
+                <rect x="25" y="66" width="50" height="8" rx="4" fill="#FFA000" />
+                <path d="M25,78 L75,78 C75,83 65,88 50,88 C35,88 25,83 25,78 Z" fill="#FFA000" />
+                <circle cx="35" cy="45" r="1" fill="#E65100" />
+                <circle cx="43" cy="43" r="1" fill="#E65100" />
+                <circle cx="50" cy="46" r="1" fill="#E65100" />
+                <circle cx="58" cy="44" r="1" fill="#E65100" />
+                <circle cx="65" cy="45" r="1" fill="#E65100" />
+            </svg>
+            <h1>EISBEIN<br>BURGER</h1>
+        </div>
+
+        <h3>Login</h3>
+
+        <div id="loginForm">
+            <div class="input-group">
+                <input ng-model="auth.username" type="text" placeholder="Email" />
+            </div>
+            
+            <div class="input-group">
+                <input ng-model="auth.password" type="password" placeholder="Password" />
+            </div>
+            
+            <button class="login-button" ng-click="login()">LOG IN</button>
+            
+            <div class="signup-text">
+                Don't have an account?<br>
+                <span class="signup-link">Sign up</span>
+            </div>
+        </div>
+
+        <div id="playerInfo" class="player-info" style="display: none;">
+            <img ng-src="{{player.image.small.url}}" style="width: 100px; height: 100px;" alt="Player avatar" />
+            <h2 class="player-name">{{player.name}}</h2>
+            
+            <div class="logout-section">
+                <button ng-click="logout()">LOG OUT</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

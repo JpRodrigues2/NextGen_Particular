@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="spaceRaceApp" ng-controller="RankingController">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking Espacial</title>
+  <style>
+    body {
+      margin: 0;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png'), black;
+      background-size: cover;
+      animation: moveBg 5s linear infinite;
+      overflow: hidden;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    @keyframes moveBg {
+      from { background-position: 0 0; }
+      to { background-position: 0 1000px; }
+    }
+
+    .ranking-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .ship {
+      width: 100px;
+      height: 100px;
+      margin: 20px;
+      border-radius: 50%;
+      background-size: cover;
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .ship:hover {
+      transform: scale(1.1);
+      z-index: 2;
+    }
+
+    .tooltip {
+      display: none;
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      padding: 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .ship:hover .tooltip {
+      display: block;
+    }
+
+    .position {
+      position: absolute;
+      bottom: -30px;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    <div class="ranking-container">
+        <div class="track">
+          <div class="ship" ng-repeat="player in players"
+               ng-style="{'background-color': player.cor}">
+            <img ng-src="{{player.foto}}" alt="{{player.name}}">
+            <div class="tooltip">
+              {{player.name}}<br>
+              {{player.total}} pts
+            </div>
+          </div>
+        </div>
+      </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="../js/rankingController.js"></script>
+</body>
+</html>

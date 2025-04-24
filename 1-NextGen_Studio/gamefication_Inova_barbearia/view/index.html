@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="rankingApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Ranking - Barbearia</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap">
+</head>
+<body ng-controller="rankingController">
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="desafios.html">Desafios</a></li>
+            <li><a href="ranking.html">Ranking</a></li>
+            <li><a href="login.html" onclick="logout()">Sair</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h2 class="page-title">Ranking</h2>
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Jogador</th>
+                        <th>Nível</th>
+                        <th>Pontos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="player in players track by $index" ng-class="{'current-player': player.username === currentUser}">
+                        <td>{{$index + 1}}</td>
+                        <td>
+                            <img ng-src="{{player.image.small.url}}" alt="{{player.username}}" class="player-avatar"> 
+                            {{player.username}}
+                        </td>
+                        <td>{{player.level}}</td>
+                        <td>{{player.total_points}} pts</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('username');
+        }
+    </script>
+
+    <script src="../js/ranking.js"></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="rankingApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking - Barbearia</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="../js/controllers/rankingController.js"></script>
+  <script src="../js/logout.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #0d3c2c;
+      color: white;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow: hidden;
+    }
+
+    .dashboard-container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Sidebar estilizada */
+    .sidebar {
+      width: 240px;
+      background-color: rgba(26, 70, 54, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 32px 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 100;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      font-weight: 500;
+      padding: 0 24px 20px;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0 12px;
+    }
+
+    .sidebar ul li {
+      margin: 4px 0;
+    }
+
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      display: block;
+      padding: 12px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      opacity: 0.8;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    .sidebar ul li a.active {
+      background-color: rgba(242, 145, 0, 0.2);
+      color: #f29100;
+      font-weight: 500;
+      opacity: 1;
+    }
+
+    /* Botão Logout */
+    .sidebar ul li:last-child a {
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+    }
+
+    .sidebar ul li:last-child a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    /* Conteúdo principal */
+    .main-content {
+      flex: 1;
+      padding: 40px 60px;
+      overflow-y: auto;
+      background: linear-gradient(160deg, #0d3c2c 0%, #0a2e22 100%);
+    }
+
+    .main-content h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 32px;
+      opacity: 0.95;
+      letter-spacing: -0.5px;
+    }
+
+    /* Estilos específicos para a página de ranking */
+    .ranking-controls {
+      margin-bottom: 24px;
+    }
+
+    .btn-refresh {
+      background-color: rgba(26, 70, 54, 0.8);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 16px;
+    }
+
+    .btn-refresh:hover {
+      background-color: rgba(242, 145, 0, 0.2);
+      color: #f29100;
+      transform: translateY(-2px);
+    }
+
+    .btn-refresh i {
+      margin-right: 8px;
+    }
+
+    .loading {
+      display: none;
+      font-size: 18px;
+      margin: 20px 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .loading.active {
+      display: block;
+    }
+
+    .ranking-container {
+      background-color: rgba(26, 70, 54, 0.6);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 24px;
+    }
+
+    .ranking-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .ranking-table th {
+      text-align: left;
+      padding: 16px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .ranking-table td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .ranking-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ranking-table img {
+      border-radius: 50%;
+      vertical-align: middle;
+      border: 2px solid rgba(242, 145, 0, 0.5);
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+    }
+
+    .status-up {
+      color: #4ade80;
+      font-weight: 500;
+    }
+
+    .status-down {
+      color: #f87171;
+      font-weight: 500;
+    }
+
+    .no-results {
+      background-color: rgba(26, 70, 54, 0.6);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        padding: 20px 0;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .main-content {
+        padding: 24px;
+      }
+      
+      .ranking-table th:nth-child(4),
+      .ranking-table td:nth-child(4) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body ng-controller="RankingController">
+  <div class="dashboard-container">
+    <div class="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="desafios.html">Desafios</a></li>
+        <li><a href="ranking.html" class="active">Ranking</a></li>
+        <li><a href="loja.html">Loja Virtual</a></li>
+        <li><a href="login.html" ng-click="logout()">Logout</a></li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <h1>Ranking dos Barbeiros</h1>
+      
+      <div class="ranking-controls">
+        <button ng-click="loadRanking()" class="btn-refresh">
+          <i class="fas fa-sync-alt"></i> Atualizar
+        </button>
+      </div>
+
+      <div class="loading" ng-class="{ 'active': loading }">
+        <i class="fas fa-spinner fa-spin"></i> Carregando ranking...
+      </div>
+
+      <div class="ranking-container" ng-if="!loading && ranking.length > 0">
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th width="15%">Posição</th>
+              <th width="45%">Barbeiro</th>
+              <th width="25%">Pontuação</th>
+              <th width="15%">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in ranking">
+              <td>{{ item.position }}</td>
+              <td>
+                <img ng-src="{{ item.image }}" alt="{{ item.name }}"
+                     onerror="this.src='../images/default-avatar.png'">
+                <span style="margin-left: 12px;">{{ item.name }}</span>
+              </td>
+              <td>{{ item.total | number:2 }}</td>
+              <td>
+                <span ng-class="{'status-up': item.move==='up','status-down': item.move==='down'}">
+                  <i class="fas" ng-class="{'fa-arrow-up': item.move==='up','fa-arrow-down': item.move==='down'}"></i>
+                  {{ item.move==='up' ? 'Subindo' : (item.move==='down' ? 'Descendo' : 'Estável') }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="no-results" ng-if="!loading && ranking.length===0">
+        <p>Nenhum dado de ranking disponível no momento.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

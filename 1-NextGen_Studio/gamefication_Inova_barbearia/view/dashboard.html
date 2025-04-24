@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Barbearia</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="desafios.html">Desafios</a></li>
+      <li><a href="ranking.html">Ranking</a></li>
+      <li><a href="login.html" onclick="logout()">Sair</a></li>
+    </ul>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="main-content">
+    <div class="dashboard-container">
+      <div class="profile-section">
+        <img class="profile-img" src="" alt="Avatar do jogador">
+        <div class="profile-details">
+          <h3>Nome do Jogador</h3>
+          <p>Nível: -</p>
+        </div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stat-item"></div>
+        <div class="stat-item"></div>
+        <div class="stat-item"></div>
+        <div class="stat-item"></div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="level-info">
+          <p class="current-level">-</p>
+          <p class="next-level">Próximo nível: -</p>
+        </div>
+      </div>
+
+      <div class="dashboard-buttons">
+        <button onclick="window.location.href='desafios.html'" class="nav-button">
+          <i class="fas fa-trophy"></i> Ver Desafios
+        </button>
+        <button onclick="window.location.href='ranking.html'" class="nav-button">
+          <i class="fas fa-medal"></i> Ver Ranking
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/logout.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="rankingApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking - Barbearia</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .status-up {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-down {
+            color: red;
+            font-weight: bold;
+        }
+
+        .loading {
+            display: none;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .ranking-container img {
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body ng-controller="RankingController">
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="desafios.html">Desafios</a></li>
+            <li><a href="ranking.html" class="active">Ranking</a></li>
+            <li><a href="login.html" onclick="logout()">Sair</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h1 class="page-title">Ranking dos Barbeiros</h1>
+
+            <div class="ranking-controls">
+                <button ng-click="loadRanking()" class="btn-refresh">
+                    <i class="fas fa-sync-alt"></i> Atualizar
+                </button>
+            </div>
+
+            <div class="loading" ng-class="{ 'active': loading }">
+                <i class="fas fa-spinner fa-spin"></i> Carregando ranking...
+            </div>
+
+            <div class="ranking-container" ng-if="!loading && ranking.length > 0">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th width="15%">Posição</th>
+                            <th width="45%">Barbeiro</th>
+                            <th width="25%">Pontuação</th>
+                            <th width="15%">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in ranking">
+                            <td>{{ item.position }}</td>
+                            <td>
+                                <img ng-src="{{ item.image }}" alt="{{ item.name }}" width="32" height="32" onerror="this.src='../images/default-avatar.png'">
+                                <span style="margin-left: 8px;">{{ item.name }}</span>
+                            </td>
+                            <td>{{ item.total }}</td>
+                            <td>
+                                <span ng-class="{'status-up': item.move === 'up', 'status-down': item.move === 'down'}">
+                                    <i class="fas" ng-class="{'fa-arrow-up': item.move === 'up', 'fa-arrow-down': item.move === 'down'}"></i>
+                                    {{ item.move === 'up' ? 'Subindo' : (item.move === 'down' ? 'Descendo' : 'Estável') }}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="no-results" ng-if="!loading && ranking.length === 0">
+                <p>Nenhum dado de ranking disponível no momento.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="../js/ranking.js"></script>
+    <script src="../js/logout.js"></script>
+</body>
+</html>

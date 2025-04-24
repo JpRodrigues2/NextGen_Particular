@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eisbein Burger - Player Status</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.11/angular.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* (mantido seu CSS original) */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFA726;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .player-container {
+            background-color: #E65100;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 350px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: #FFD180;
+            box-sizing: border-box;
+            border: 8px solid #B33F00;
+        }
+        .back-button {
+            color: #FFD180;
+            font-size: 24px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .player-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .player-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #FFD180;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .player-name {
+            font-size: 32px;
+            margin: 5px 0;
+            color: #FFD180;
+        }
+        .stats-container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .burger-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+        .points {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .level-text {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #B33F00;
+            border-radius: 10px;
+            margin: 10px 0 25px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #FFB74D;
+            border-radius: 10px;
+        }
+        .burger-graphic {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .burger-stack {
+            width: 200px;
+            height: auto;
+        }
+    </style>
+    <script>
+        angular.module('app', []).controller('cont', ["$scope", "$http", "$location", function ($scope, $http, $location) {
+            $scope.player = null;
+            $scope.points = 1250;
+            $scope.level = 5;
+            $scope.progress = 75;
+
+            $scope.loadPlayer = function () {
+                var token = localStorage.getItem('funifier_token');
+                if (!token) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                var req = {
+                    method: 'GET',
+                    url: 'https://service2.funifier.com/v3/player/me',
+                    headers: { "Authorization": token, "Content-Type": "application/json" }
+                };
+
+                $http(req).then(function (data) {
+                    $scope.player = data.data;
+                }, function (err) {
+                    console.error(err);
+                    window.location.href = 'login.html';
+                });
+            };
+
+            $scope.goBack = function () {
+                window.location.href = 'login.html';
+            };
+
+            $scope.loadPlayer();
+        }]);
+    </script>
+</head>
+<body ng-app="app" ng-controller="cont">
+    <div class="player-container">
+        <div class="back-button" ng-click="goBack()">←</div>
+
+        <div class="player-profile">
+            <img class="player-avatar"
+                 ng-src="{{player?.image?.small?.url || '/api/placeholder/120/120'}}"
+                 alt="Player avatar" />
+            <h2 class="player-name">{{player?.name || 'David'}}</h2>
+        </div>
+
+        <div class="stats-container">
+            <svg class="burger-icon" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="#FFB74D" />
+                <path d="M25,35 C35,20 65,20 75,35 L75,40 C65,25 35,25 25,40 Z" fill="#FFA000" />
+                <rect x="25" y="40" width="50" height="8" rx="4" fill="#FFA000" />
+                <rect x="25" y="52" width="50" height="10" rx="5" fill="#43A047" />
+                <rect x="25" y="66" width="50" height="8" rx="4" fill="#FFA000" />
+                <path d="M25,78 L75,78 C75,83 65,88 50,88 C35,88 25,83 25,78 Z" fill="#FFA000" />
+            </svg>
+            <span class="points">{{points}}</span>
+        </div>
+
+        <div class="level-text">Level {{level}}</div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" ng-style="{'width': progress + '%'}"></div>
+        </div>
+
+        <div class="burger-graphic">
+            <svg class="burger-stack" viewBox="0 0 200 100">
+                <path d="M20,80 H180 C180,95 150,100 100,100 C50,100 20,95 20,80 Z" fill="#FFB74D" />
+                <rect x="25" y="65" width="150" height="15" rx="5" fill="#8D6E63" />
+                <rect x="20" y="55" width="160" height="10" rx="2" fill="#FFCA28" />
+                <rect x="25" y="40" width="150" height="15" rx="5" fill="#8D6E63" />
+                <path d="M30,38 Q40,33 50,38 Q60,33 70,38 Q80,33 90,38 Q100,33 110,38 Q120,33 130,38 Q140,33 150,38 Q160,33 170,38 L170,40 Q160,35 150,40 Q140,35 130,40 Q120,35 110,40 Q100,35 90,40 Q80,35 70,40 Q60,35 50,40 Q40,35 30,40 Z" fill="#7CB342" />
+                <rect x="25" y="25" width="150" height="15" rx="5" fill="#8D6E63" />
+                <path d="M25,25 H175 C175,10 145,0 100,0 C55,0 25,10 25,25 Z" fill="#FFB74D" />
+            </svg>
+        </div>
+    </div>
+</body>
+</html>

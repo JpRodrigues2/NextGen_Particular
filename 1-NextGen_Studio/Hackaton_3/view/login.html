@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="gamificacaoApp" ng-controller="LoginController">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Inova Barbearia</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <img src="../img/logo-inova.png" alt="Logo Inova Barbearia" class="logo-inova">
+    <form ng-submit="fazerLogin()">
+      <input type="text" ng-model="usuario.username" placeholder="CPF" required>
+      <input type="password" ng-model="usuario.password" placeholder="Senha" required>
+      <button type="submit" class="btn-white">ENTRAR</button>
+    </form>
+    <p>Não tem conta? <a href="cadastro.html">Faça seu cadastro</a></p>
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/controllers/loginController.js"></script>
+</body>
+</html>

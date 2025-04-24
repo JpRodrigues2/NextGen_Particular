@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="gamificacaoApp" ng-controller="DashboardController">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="../js/controllers/dashboardController.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #0d3c2c;
+      color: white;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow: hidden;
+    }
+
+    .dashboard-container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Sidebar estilizada */
+    .sidebar {
+      width: 240px;
+      background-color: rgba(26, 70, 54, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 32px 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 100;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      font-weight: 500;
+      padding: 0 24px 20px;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0 12px;
+    }
+
+    .sidebar ul li {
+      margin: 4px 0;
+    }
+
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      display: block;
+      padding: 12px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      opacity: 0.8;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    .sidebar ul li:first-child a {
+      background-color: rgba(242, 145, 0, 0.2);
+      color: #f29100;
+      font-weight: 500;
+      opacity: 1;
+    }
+
+    /* Conteúdo principal */
+    .main-content {
+      flex: 1;
+      padding: 40px 60px;
+      overflow-y: auto;
+      background: linear-gradient(160deg, #0d3c2c 0%, #0a2e22 100%);
+    }
+
+    .main-content h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 32px;
+      opacity: 0.95;
+      letter-spacing: -0.5px;
+    }
+
+    /* Cards de estatísticas */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background-color: rgba(26, 70, 54, 0.6);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-card h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+
+    .stat-card .value {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #f29100;
+    }
+
+    .stat-card .label {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    /* Barra de progresso */
+    .progress-container {
+      background-color: rgba(26, 70, 54, 0.6);
+      border-radius: 16px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .progress-title {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .progress-level {
+      font-size: 18px;
+      color: #f29100;
+      font-weight: 600;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f29100, #ffb700);
+      border-radius: 4px;
+      transition: width 1s ease-in-out;
+    }
+
+    .progress-percent {
+      text-align: right;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    /* Botão Logout */
+    .sidebar ul li:last-child a {
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+    }
+
+    .sidebar ul li:last-child a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        padding: 20px 0;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .main-content {
+        padding: 24px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="ranking.html">Ranking</a></li>
+        <li><a href="desafios.html">Desafios</a></li>
+        <li><a href="loja.html">Loja Virtual</a></li>
+        <li><a href="#" ng-click="logout()">Logout</a></li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <h1>Bem-vindo, {{dados.name}}</h1>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Pontos XP</h3>
+          <div class="value">{{dados.point_categories.xp}}</div>
+          <div class="label">Pontos de experiência</div>
+        </div>
+        
+        <div class="stat-card">
+          <h3>Moedas</h3>
+          <div class="value">{{dados.point_categories.moedas}}</div>
+          <div class="label">Moedas disponíveis</div>
+        </div>
+        
+        <div class="stat-card">
+          <h3>Nível</h3>
+          <div class="value">{{dados.level_progress.next_level.level}}</div>
+          <div class="label">Nível atual</div>
+        </div>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-header">
+          <div class="progress-title">Progresso para o próximo nível</div>
+          <div class="progress-level">Nível {{dados.level_progress.next_level.level}}</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" ng-style="{'width': dados.level_progress.percent_completed + '%'}"></div>
+        </div>
+        <div class="progress-percent">{{dados.level_progress.percent_completed}}% concluído</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
