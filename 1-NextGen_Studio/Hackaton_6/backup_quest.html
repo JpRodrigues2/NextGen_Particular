@@ -1,0 +1,13 @@
+<div id="quest_list" ng-controller="quest_list">
+  <ul>
+    <li ng-repeat="challenge in challenges">
+      <div>
+        <div class="challenge-details">
+          <h3>{{challenge.challenge}}</h3>
+          <p>{{challenge.description}}</p>
+          <div ng-if = "challenge.points.category"> xp  </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

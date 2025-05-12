@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="RankingApp" ng-controller="RankingController">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking Gamificado</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    body {
+      background: #0d1117;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .ranking-container {
+      max-width: 800px;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    .ranking-container h1 {
+      color: #39ff14;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .ranking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .player-card {
+      display: flex;
+      align-items: center;
+      background: #161b22;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #39ff1455;
+      transition: transform 0.2s;
+    }
+
+    .player-card:hover {
+      transform: scale(1.02);
+    }
+
+    .player-card .position {
+      font-size: 1.5em;
+      width: 50px;
+      font-weight: bold;
+      color: #39ff14;
+    }
+
+    .player-card .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 15px;
+      border: 2px solid #39ff14;
+    }
+
+    .player-card .info h2 {
+      margin: 0;
+      font-size: 1.4em;
+      color: #fff;
+    }
+
+    .player-card .info p {
+      margin: 5px 0 0;
+      font-size: 1em;
+    }
+
+    .pos-1 {
+      background: linear-gradient(90deg, gold, #f1c40f);
+      color: #000;
+    }
+
+    .pos-2 {
+      background: linear-gradient(90deg, silver, #bdc3c7);
+      color: #000;
+    }
+
+    .pos-3 {
+      background: linear-gradient(90deg, #cd7f32, #a97142);
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="ranking-container">
+    <h1>🏆 Ranking</h1>
+    <div class="ranking-list">
+      <div class="player-card" ng-repeat="player in ranking track by $index" ng-class="'pos-' + player.position">
+        <div class="position">#{{player.position}}</div>
+        <img class="avatar" ng-src="{{player.image}}" alt="{{player.name}}">
+        <div class="info">
+          <h2>{{player.name}}</h2>
+          <p>🏅 Pontos: {{player.total}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    angular.module('RankingApp', [])
+      .controller('RankingController', function($scope, $http) {
+        var req = {
+          method: 'POST',
+          url: 'https://service2.funifier.com/v3/leaderboard/EUWmYBd/leader/aggregate?period=&live=true',
+          headers: {
+            "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsImNhbGciOiJHWklQIn0.H4sIAAAAAAAAAFWMzQoCIRRGXyVcu8gfrk77IGjZA8RVryBIiuNUQ_TuSVHQ7vBxvvNgWNORVrZjYEWE6EAqaaLRUaFyPkTFOJt9qTSURhjOmDPf3Frq9MFAmX6MHR3OND7ofVku_RsmiP9hD0NaZmrD2J_Wg7-WMSQcD2E02ElIsJzRvb4HoyfYgn2-AO3Dh7SxAAAA.u6K2Xr6y4c-Qdtc1MOe5PvlJ77YQw4VP6gEFyTAGeEiX4jOVw1o_osAnjsLseNfGtaNG_2P02GEPbzZ1tySSQQ",
+            "Content-Type": "application/json"
+          },
+          data: []
+        };
+
+        $http(req).then(
+          function (response) {
+            $scope.ranking = response.data;
+          },
+          function (err) {
+            console.error("Erro ao carregar ranking:", err);
+          }
+        );
+      });
+  </script>
+</body>
+</html>

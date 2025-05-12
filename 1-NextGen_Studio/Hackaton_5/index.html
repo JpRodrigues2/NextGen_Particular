@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela RACI - Porão do Rock</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #1a1a1a;
+            border: 2px solid #ff4081;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 64, 129, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #ff4081, #7c4dff);
+            padding: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+        }
+        
+        th {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: left;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #ff4081;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #252525;
+        }
+        
+        tr:nth-child(odd) {
+            background-color: #1a1a1a;
+        }
+        
+        tr:hover {
+            background-color: #303030;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #444;
+        }
+        
+        .activity {
+            font-weight: bold;
+            color: #ff4081;
+        }
+        
+        .role-r {
+            font-weight: bold;
+            color: #ff4081;
+            background-color: rgba(255, 64, 129, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .role-a {
+            font-weight: bold;
+            color: #7c4dff;
+            background-color: rgba(124, 77, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .role-c {
+            font-weight: bold;
+            color: #00e5ff;
+            background-color: rgba(0, 229, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .role-i {
+            font-weight: bold;
+            color: #ffea00;
+            background-color: rgba(255, 234, 0, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            background-color: #252525;
+            border-top: 1px solid #444;
+        }
+        
+        .skull-icon {
+            display: inline-block;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            gap: 15px;
+            flex-wrap: wrap;
+            background-color: #252525;
+            border-top: 1px solid #444;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .r-color {
+            background-color: #ff4081;
+        }
+        
+        .a-color {
+            background-color: #7c4dff;
+        }
+        
+        .c-color {
+            background-color: #00e5ff;
+        }
+        
+        .i-color {
+            background-color: #ffea00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            Matriz RACI - Porão do Rock
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade</th>
+                    <th>Responsável (R)</th>
+                    <th>Aprovador (A)</th>
+                    <th>Consultado (C)</th>
+                    <th>Informado (I)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="activity">Estrutura técnica e frameworks</td>
+                    <td class="role-r">João Pedro e João Oliveira</td>
+                    <td class="role-a">Cliente</td>
+                    <td class="role-c">Aline</td>
+                    <td class="role-i">Equipe geral</td>
+                </tr>
+                <tr>
+                    <td class="activity">Score Drivers</td>
+                    <td class="role-r">Aline e Júlia</td>
+                    <td class="role-a">João Pedro</td>
+                    <td class="role-c">Equipe geral</td>
+                    <td class="role-i">Cliente</td>
+                </tr>
+                <tr>
+                    <td class="activity">Criação visual das telas (Clube Porão)</td>
+                    <td class="role-r">Júlia, João Pedro e Arthur</td>
+                    <td class="role-a">João Pedro</td>
+                    <td class="role-c">Bia e Júlia</td>
+                    <td class="role-i">Equipe geral</td>
+                </tr>
+                <tr>
+                    <td class="activity">Design do mascote e identidade visual</td>
+                    <td class="role-r">Bia</td>
+                    <td class="role-a">João Pedro</td>
+                    <td class="role-c">Júlia</td>
+                    <td class="role-i">Equipe geral</td>
+                </tr>
+                <tr>
+                    <td class="activity">Apresentação no Canva</td>
+                    <td class="role-r">Aline e Júlia</td>
+                    <td class="role-a">João Pedro</td>
+                    <td class="role-c">Arthur</td>
+                    <td class="role-i">Equipe geral</td>
+                </tr>
+                <tr>
+                    <td class="activity">Relatório técnico de escopo e estratégia</td>
+                    <td class="role-r">João Pedro e João Oliveira</td>
+                    <td class="role-a">Cliente</td>
+                    <td class="role-c">Aline</td>
+                    <td class="role-i">Equipe geral</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color r-color"></div>
+                <span>R - Responsável</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color a-color"></div>
+                <span>A - Aprovador</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color c-color"></div>
+                <span>C - Consultado</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color i-color"></div>
+                <span>I - Informado</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <span class="skull-icon">&#x2620;</span> Porão do Rock - Projeto de Gamificação <span class="skull-icon">&#x2620;</span>
+        </div>
+    </div>
+</body>
+</html>

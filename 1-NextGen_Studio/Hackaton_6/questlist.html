@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>Desafios</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    body {
+    background-color: #232728; /* tom do fundo da imagem */
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .profile-card {
+    max-width: 600px;
+    margin: 30px auto;
+    background-color: #f4f4f4; /* fundo claro do card */
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    color: #111;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 15px;
+  }
+
+  .avatar-container {
+    margin-right: 15px;
+  }
+
+  .avatar-placeholder {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #4a90e2; /* azul suave da imagem */
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-name {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2a2a2a;
+  }
+
+  .profile-title {
+    font-size: 14px;
+    color: #1d4f91; /* tom de azul do subtítulo "Hurricane" */
+  }
+
+  .challenge-list {
+    margin-top: 20px;
+  }
+
+  .challenge-item {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: background-color 0.3s;
+  }
+
+  .challenge-item:hover {
+    background-color: #d0d0d0;
+  }
+
+  .challenge-text {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .rewards {
+    display: flex;
+    gap: 15px;
+  }
+
+  .reward {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+  }
+
+  .coin-icon {
+    color: #f4c542; /* cor da moeda */
+    font-weight: bold;
+  }
+
+  .xp-icon {
+    color: #d3393f; /* vermelho do "XP" */
+    font-weight: bold;
+  }
+
+  .reward-value {
+    font-size: 14px;
+  }
+
+  </style>
+</head>
+<body ng-controller="DesafiosController">
+  <div class="profile-card">
+    <div class="profile-header">
+      
+      <div class="profile-info">
+        <div class="profile-name">Missões</div>
+        <div class="profile-title">Complete e ganhe recompensas!</div>
+      </div>
+    </div>
+
+    <div class="challenge-list">
+      <div class="challenge-item" ng-repeat="desafio in desafios">
+        <div class="challenge-text">{{ desafio.challenge }}</div>
+        <div class="rewards">
+          <div class="reward" ng-repeat="p in desafio.points">
+            <div ng-if="p.category === 'moedas'" class="coin-icon">₿</div>
+            <div ng-if="p.category === 'xp'" class="xp-icon">XP</div>
+            <div class="reward-value">{{ p.total }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var app = angular.module('app', []);
+
+    app.controller('DesafiosController', function($scope, $http) {
+      var req = {
+        method: 'GET',
+        url: 'https://service2.funifier.com/v3/challenge',
+        headers: {
+          "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsImNhbGciOiJHWklQIn0.H4sIAAAAAAAAAFWMzQoCIRRGXyVcu8gfrk77IGjZA8RVryBIiuNUQ_TuSVHQ7vBxvvNgWNORVrZjYEWE6EAqaaLRUaFyPkTFOJt9qTSURhjOmDPf3Frq9MFAmX6MHR3OND7ofVku_RsmiP9hD0NaZmrD2J_Wg7-WMSQcD2E02ElIsJzRvb4HoyfYgn2-AO3Dh7SxAAAA.u6K2Xr6y4c-Qdtc1MOe5PvlJ77YQw4VP6gEFyTAGeEiX4jOVw1o_osAnjsLseNfGtaNG_2P02GEPbzZ1tySSQQ",
+          "Content-Type": "application/json"
+        }
+      };
+
+      $http(req).then(
+        function(response) {
+          $scope.desafios = response.data;
+        },
+        function(error) {
+          console.error("Erro ao carregar desafios:", error);
+        }
+      );
+    });
+  </script>
+</body>
+</html>
