@@ -1,0 +1,23 @@
+<div id="FP02W5" ng-controller="FP02W5">
+    <!-- Logo opcional -->
+    <div ng-if="logoUrl" style="text-align:center; margin-bottom: 20px;">
+      <img ng-src="{{logoUrl}}" alt="Logo" style="max-width: 150px; max-height: 150px;">
+    </div>
+  
+    <ul>
+      <li ng-repeat="challenge in challenges">
+        <div class="challenge-details">
+          <h2>{{challenge.image.small.url}}</h2>
+          <h3>{{ challenge.challenge }}</h3>
+          <p>{{ challenge.description }}</p>
+  
+          <div ng-if="challenge.points && challenge.points.length">
+            <p ng-repeat="point in challenge.points">
+              <strong>{{ point.category | uppercase }}:</strong> {{ point.total }}
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  
