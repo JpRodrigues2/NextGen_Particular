@@ -1,0 +1,118 @@
+:root {
+    --bg-color: #f5f5f5;
+    --text-color: #222;
+    --border-color: #000;
+  }
+  
+  #FP02W5 {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 3px solid var(--border-color);
+    border-radius: 16px;
+  }
+  
+  #FP02W5 ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #FP02W5 li {
+    background-color: #ffffff;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 2px solid var(--border-color);
+  }
+  
+  #FP02W5 li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  .challenge-image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 24px;
+    background-color: #ffffff;
+    border: 3px solid #f26950;
+    box-shadow: 0 2px 8px rgba(242, 105, 80, 0.2);
+  }
+  
+  .challenge-details {
+    flex: 1;
+  }
+  
+  .challenge-details h3 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    color: var(--text-color);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  .challenge-details p {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    color: var(--text-color);
+    font-weight: 500;
+  }
+  
+  .challenge-stats {
+    background-color: #2d3a40;
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  
+  .xp-points {
+    color: #f26950;
+    font-weight: 700;
+    font-size: 22px;
+  }
+  
+  .coin-count {
+    display: flex;
+    align-items: center;
+  }
+  
+  .coin-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    background-color: #f5c518;
+    border-radius: 50%;
+  }
+  
+  .achievements {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+  }
+  
+  .achievements-label {
+    font-size: 16px;
+    color: var(--text-color);
+  }
+  
+  .achievements-count {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+  
