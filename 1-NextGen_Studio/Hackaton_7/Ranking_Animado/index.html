@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="gamificacaoApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking Corrida</title>
+  <link rel="stylesheet" href="css/ranking.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/RankingController.js"></script>
+</head>
+<body ng-controller="RankingController">
+  <h2>Ranking - Corrida de Carros 🚗</h2>
+  <div class="pista">
+    <div class="carro" ng-repeat="jogador in jogadores"
+         ng-style="{'left': (jogador.posicao * 100) + 'px', 'bottom': (jogador.xp * 2) + 'px'}">
+      <img ng-src="img/{{jogador.tipo}}.png" alt="{{jogador.nome}}">
+      <div class="info-jogador">
+        <strong>{{jogador.nome}}</strong><br>
+        Moedas: {{jogador.moedas}}<br>
+        XP: {{jogador.xp}}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="RankingApp">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+  <title>Corrida dos Jogadores</title>
+  <link rel="stylesheet" href="css/ranking.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body ng-controller="RankingController">
+  <div class="game-container">
+    <!-- Grandstand Section (Top) -->
+    <div class="grandstand-section">
+      <img src="img/grandstand.png" alt="Arquibancada" class="grandstand-image">
+    </div>
+    
+    <!-- Track Section (Bottom) -->
+    <div class="track-section">
+      <!-- Connection status indicator -->
+      <div class="connection-status" ng-class="connectionStatus">
+        <div class="status-indicator"></div>
+        <span ng-if="connectionStatus === 'connected'">Conectado</span>
+        <span ng-if="connectionStatus === 'connecting'">Conectando...</span>
+        <span ng-if="connectionStatus === 'disconnected'">Desconectado</span>
+      </div>
+      
+      <div class="pista-container">
+        <div class="pista-scroll">
+          <div class="pista" ng-style="{'width': (maxDistance) + 'px'}">
+            <!-- Track lanes -->
+            <div class="track-lanes">
+              <div class="lane lane-1"></div>
+              <div class="lane lane-2"></div>
+              <div class="lane lane-3"></div>
+              <div class="lane lane-4"></div>
+              <div class="lane-markings"></div>
+            </div>
+            
+            <!-- Finish line -->
+            <div class="finish-line"></div>
+            
+            <!-- Ambient effects -->
+            <div class="ambient-effects">
+              <div class="light-beam light-beam-1"></div>
+              <div class="light-beam light-beam-2"></div>
+              <div class="light-beam light-beam-3"></div>
+            </div>
+            
+            <!-- Player cars -->
+            <div
+              class="carro"
+              ng-repeat="player in players"
+              ng-style="getCarStyle($index, player.total)"
+              data-player-id="{{player.id || player.name}}"
+            >
+              <div class="car-wrapper">
+                <div class="car-light"></div>
+                <img ng-src="{{getCarImage(player.position)}}" alt="Carro do Jogador" />
+                <div class="smoke-effect"></div>
+              </div>
+              
+              <!-- Player info card (always visible) -->
+              <div class="player-info-card">
+                <div class="position-badge" ng-class="getPositionClass(player.position)">
+                  {{player.position}}
+                </div>
+                <div class="player-info-text">
+                  <p class="player-info-name">{{player.name}}</p>
+                  <p class="player-info-points"><span>{{player.total}}</span> pts</p>
+                </div>
+              </div>
+              
+              <!-- Player photo tooltip (visible on hover) -->
+              <div class="player-photo-tooltip">
+                <img class="player-photo" ng-src="{{getPlayerImageUrl(player)}}" alt="Foto do jogador" />
+                <div class="tooltip-arrow"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Scroll hint -->
+          <div class="scroll-hint">← Deslize para ver mais →</div>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-color gold"></div>
+            <span>1º Lugar</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color silver"></div>
+            <span>2º Lugar</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color bronze"></div>
+            <span>3º Lugar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preload audio files -->
+  <audio id="bell-sound" src="audio/bell.mp3" preload="auto" style="display:none;"></audio>
+  <audio id="engine-sound" src="audio/engine.mp3" preload="auto" style="display:none;"></audio>
+
+  <!-- Adicionar a aba lateral no final do body, antes dos scripts -->
+  <div id="player-sidebar" class="player-sidebar">
+    <button class="sidebar-close" onclick="closeSidebar()">&times;</button>
+    <div class="sidebar-header">
+      <img id="sidebar-photo" class="sidebar-photo" src="img/default-player.png" alt="Foto do jogador">
+      <div class="sidebar-title">
+        <h3 id="sidebar-name" class="sidebar-name">Nome do Jogador</h3>
+        <p id="sidebar-position" class="sidebar-position">1º Lugar</p>
+      </div>
+    </div>
+    <div class="sidebar-details">
+      <div class="sidebar-stat">
+        <span class="sidebar-stat-label">Pontuação</span>
+        <span id="sidebar-points" class="sidebar-stat-value">0 pts</span>
+      </div>
+      <div class="sidebar-stat">
+        <span class="sidebar-stat-label">Carro</span>
+        <span id="sidebar-car" class="sidebar-stat-value">Ouro</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Função global para fechar a sidebar
+    function closeSidebar() {
+      document.getElementById('player-sidebar').classList.remove('active');
+      // Remover classe selected de todos os carros
+      document.querySelectorAll('.carro.selected').forEach(car => {
+        car.classList.remove('selected');
+      });
+    }
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/rankingController.js"></script>
+</body>
+</html>

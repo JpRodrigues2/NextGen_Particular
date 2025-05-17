@@ -1,0 +1,60 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #000;
+  overflow: hidden;
+}
+
+h2 {
+  text-align: center;
+  color: #00ff88;
+  margin-top: 10px;
+}
+
+.pista {
+  position: relative;
+  width: 100vw;
+  height: 90vh;
+  background-image: url('../img/pista.jpg'); /* Coloque uma imagem vertical de pista */
+  background-size: cover;
+  background-repeat: repeat-y;
+  animation: pistaAnimada 10s linear infinite;
+  overflow: hidden;
+}
+
+@keyframes pistaAnimada {
+  from { background-position-y: 0; }
+  to { background-position-y: -100%; }
+}
+
+.carro {
+  position: absolute;
+  transform: translateX(-50%);
+  transition: bottom 0.8s ease-in-out;
+  cursor: pointer;
+}
+
+.carro img {
+  width: 80px;
+  height: auto;
+}
+
+.info-jogador {
+  position: absolute;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.85);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  white-space: nowrap;
+  display: none;
+  font-size: 14px;
+  z-index: 10;
+}
+
+.carro:hover .info-jogador {
+  display: block;
+}

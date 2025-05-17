@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="RankingApp">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corrida dos Jogadores</title>
+  <link rel="stylesheet" href="css/ranking.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body ng-controller="RankingController">
+  <div class="game-container">
+    <div class="header">
+      <div class="lights">
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+      </div>
+      <h1>🏁 Ranking de Corrida 🏎️</h1>
+      <div class="lights">
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+      </div>
+    </div>
+    
+    <div class="pista-container">
+      <div class="pista-scroll">
+        <div class="pista" ng-style="{'width': (maxDistance) + 'px'}">
+          <!-- Track lanes -->
+          <div class="track-lanes">
+            <div class="lane lane-1"></div>
+            <div class="lane lane-2"></div>
+            <div class="lane lane-3"></div>
+            <div class="lane lane-4"></div>
+            <div class="lane-markings"></div>
+          </div>
+          
+          <!-- Finish line -->
+          <div class="finish-line"></div>
+          
+          <!-- Ambient effects -->
+          <div class="ambient-effects">
+            <div class="light-beam light-beam-1"></div>
+            <div class="light-beam light-beam-2"></div>
+            <div class="light-beam light-beam-3"></div>
+          </div>
+          
+          <!-- Player cars -->
+          <div
+            class="carro"
+            ng-repeat="player in players"
+            ng-style="getCarStyle($index, player.total)"
+            ng-mouseenter="hoveredPlayer = player; showTooltip = true"
+            ng-mouseleave="hoveredPlayer = null; showTooltip = false"
+          >
+            <div class="posicao" ng-class="{'top-position': player.position <= 3, 'pos-1': player.position === 1, 'pos-2': player.position === 2, 'pos-3': player.position === 3}">#{{player.position}}</div>
+            <div class="car-wrapper">
+              <div class="car-light"></div>
+              <img ng-src="{{getCarImage(player.position)}}" alt="Carro do Jogador" />
+              <div class="smoke-effect"></div>
+            </div>
+            <div class="player-name">{{player.name | limitTo: 10}}{{player.name.length > 10 ? '...' : ''}}</div>
+            
+            <!-- Player tooltip -->
+            <div class="tooltip" ng-if="hoveredPlayer === player && showTooltip">
+              <img class="foto-jogador" ng-src="{{player.image || 'img/default-player.png'}}" alt="Foto do jogador" />
+              <p class="player-tooltip-name"><strong>{{player.name}}</strong></p>
+              <p class="player-stats">Pontos: <span>{{player.total}}</span></p>
+              <div class="tooltip-arrow"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color gold"></div>
+          <span>1º Lugar</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color silver"></div>
+          <span>2º Lugar</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color bronze"></div>
+          <span>3º Lugar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/rankingController.js"></script>
+</body>
+</html>
