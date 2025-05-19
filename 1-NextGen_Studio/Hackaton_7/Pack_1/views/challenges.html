@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafios</title>
+  <link rel="stylesheet" href="../css/challenges.css">
+  <!-- Incluir AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="challengesApp" ng-controller="ChallengesController">
+  <div id="funifier-challenges-widget">
+    <div class="challenges-header">{{t('challengesTitle')}}</div>
+    <div class="challenges-content">
+      <!-- Lista de desafios -->
+      <div class="challenges-list">
+        <div class="challenge-card" 
+             ng-repeat="challenge in challengesData" 
+             ng-class="{'challenge-even': $index % 2 === 0, 'challenge-odd': $index % 2 !== 0}">
+          <div class="challenge-icon">
+            <img ng-src="{{getChallengeIcon(challenge)}}" alt="{{challenge.challenge}}">
+          </div>
+          <div class="challenge-info">
+            <div class="challenge-title">{{challenge.challenge}}</div>
+            <div class="challenge-description">{{getTranslatedDescription(challenge)}}</div>
+            <div class="challenge-rewards">
+              <div class="reward" ng-repeat="point in challenge.points">
+                <span class="reward-value">{{point.total}}</span>
+                <span class="reward-type">{{getPointTypeName(point.category)}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mensagem quando não há dados -->
+        <div class="no-data" ng-if="challengesData.length === 0">
+          {{t('noChallengesData')}}
+        </div>
+      </div>
+      
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+    </div>
+  </div>
+  
+  <script src="../js/challenges.js"></script>
+</body>
+</html>

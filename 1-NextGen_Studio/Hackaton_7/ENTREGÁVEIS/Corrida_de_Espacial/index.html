@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="RankingApp">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+  <title>Corrida Espacial</title>
+  <link rel="stylesheet" href="css/ranking.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body ng-controller="RankingController">
+  <!-- Botão de alternância de idioma -->
+  <div class="language-toggle">
+    <button ng-click="changeLanguage('pt')" ng-class="{'active': currentLang === 'pt'}">PT</button>
+    <button ng-click="changeLanguage('en')" ng-class="{'active': currentLang === 'en'}">EN</button>
+  </div>
+
+  <!-- Connection status indicator -->
+  <div class="connection-status" ng-class="connectionStatus">
+    <div class="status-indicator"></div>
+    <span ng-if="connectionStatus === 'connected'">{{ 'CONNECTION_STATUS.CONNECTED' | translate }}</span>
+    <span ng-if="connectionStatus === 'connecting'">{{ 'CONNECTION_STATUS.CONNECTING' | translate }}</span>
+    <span ng-if="connectionStatus === 'disconnected'">{{ 'CONNECTION_STATUS.DISCONNECTED' | translate }}</span>
+  </div>
+  
+  <!-- Updating indicator -->
+  <div class="updating-indicator" ng-class="{'active': isUpdating}"></div>
+
+  <!-- Wrapper para scroll horizontal -->
+  <div id="scroll-wrapper" class="scroll-wrapper">
+    <!-- Space Section (Full height) -->
+    <div class="space-section">
+      <!-- Background espacial dinâmico -->
+      <div class="space-background">
+        <!-- Camada de estrelas -->
+        <div class="stars-layer"></div>
+        
+        <!-- Camada de nebulosas -->
+        <div class="nebula-layer"></div>
+        
+        <!-- Container de cometas -->
+        <div class="comets-container">
+          <div class="comet"></div>
+          <div class="comet"></div>
+          <div class="comet"></div>
+        </div>
+        
+        <!-- Container para estrelas de scroll -->
+        <div class="stars-container"></div>
+      </div>
+      
+      <!-- Player spaceships -->
+      <div
+        class="nave"
+        ng-repeat="player in players"
+        ng-style="getShipStyle($index, player.total)"
+        data-player-id="{{player.id || player.name}}"
+      >
+        <div class="ship-wrapper">
+          <div class="ship-engine"></div>
+          <img ng-src="{{getShipImage(player.position)}}" alt="{{ 'PLAYER_SHIP' | translate }}" />
+          <div class="ship-laser"></div>
+          <div class="energy-trail"></div>
+        </div>
+        
+        <!-- Player info card (always visible) -->
+        <div class="player-info-card">
+          <div class="position-badge" ng-class="getPositionClass(player.position)">
+            {{player.position}}
+          </div>
+          <div class="player-info-text">
+            <p class="player-info-name">{{player.name}}</p>
+            <p class="player-info-points"><span>{{player.total}}</span> {{ 'POINTS' | translate }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Wormhole/Portal (finish line) -->
+      <div class="wormhole">
+        <div class="wormhole-inner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preload audio files -->
+  <audio id="warp-sound" src="audio/bell.mp3" preload="auto" style="display:none;"></audio>
+  <audio id="thruster-sound" src="audio/thruster.mp3" preload="auto" style="display:none;"></audio>
+
+  <!-- Adicionar a aba lateral no final do body, antes dos scripts -->
+  <div id="player-sidebar" class="player-sidebar">
+    <button class="sidebar-close" ng-click="hidePlayerSidebar()">&times;</button>
+    <div class="sidebar-header">
+      <img id="sidebar-photo" class="sidebar-photo" src="img/default-player.png" alt="{{ 'PLAYER_PHOTO' | translate }}">
+      <div class="sidebar-title">
+        <h3 id="sidebar-name" class="sidebar-name">{{ 'PLAYER_NAME' | translate }}</h3>
+        <p id="sidebar-position" class="sidebar-position">{{ 'POSITIONS.FIRST' | translate }}</p>
+      </div>
+    </div>
+    <div class="sidebar-details">
+      <div class="sidebar-stat">
+        <span class="sidebar-stat-label">{{ 'SCORE' | translate }}</span>
+        <span id="sidebar-points" class="sidebar-stat-value">0 {{ 'POINTS' | translate }}</span>
+      </div>
+      <div class="sidebar-stat">
+        <span class="sidebar-stat-label">{{ 'SHIP' | translate }}</span>
+        <span id="sidebar-ship" class="sidebar-stat-value">{{ 'SHIP_TYPES.GOLD' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adicionar Angular e Angular Translate -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.19.0/angular-translate.min.js"></script>
+  <script src="js/rankingController.js"></script>
+</body>
+</html>

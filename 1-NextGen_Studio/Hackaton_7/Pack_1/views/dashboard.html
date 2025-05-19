@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Dashboard</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <!-- Incluir AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="playerDashboard" ng-controller="PlayerStatusController">
+  <div id="funifier-player-widget">
+    <!-- O conteúdo será renderizado pelo AngularJS -->
+    <div class="player-header">{{t('playerStatus')}}</div>
+    <div class="player-content" ng-if="playerData">
+      <div class="player-avatar">
+        <img ng-src="{{playerData.image.medium.url}}" alt="{{playerData.name}}">
+      </div>
+      <div class="player-name">{{playerData.name}}</div>
+      
+      <div class="player-stats">
+        <!-- Restaurar a pontuação total (XP) -->
+        <div class="stat-box points-box">
+          <div class="stat-title">{{t('totalPoints')}}</div>
+          <div class="stat-value">
+            {{playerData.total_points}}
+          </div>
+        </div>
+        
+        <!-- Nível atual (nome do nível) -->
+        <div class="stat-box level-box">
+          <div class="stat-title">{{t('level')}}</div>
+          <div class="stat-value">
+            {{getLevelName()}}
+          </div>
+        </div>
+        
+        <!-- Moedas (antes era conquistas) -->
+        <div class="stat-box achievements-box">
+          <div class="stat-title">{{t('coins')}}</div>
+          <div class="stat-value">
+            {{getCoins()}}
+          </div>
+        </div>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" ng-style="{'width': getProgressPercent() + '%'}"></div>
+          <div class="progress-text">
+            <span>{{getProgressPercent()}}%</span>
+            <span>{{t('nextLevel')}} {{getNextLevelPosition()}}</span>
+          </div>
+        </div>
+        <div class="progress-label">{{t('levelProgress')}}</div>
+      </div>
+    </div>
+    
+    <div class="language-toggle" ng-click="toggleLanguage()">
+      {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+    </div>
+    
+    <div class="player-id-selector">
+      <label for="player-id">Player ID:</label>
+      <input type="text" id="player-id" ng-model="playerId">
+      <button ng-click="loadPlayer()">Carregar</button>
+    </div>
+  </div>
+  
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

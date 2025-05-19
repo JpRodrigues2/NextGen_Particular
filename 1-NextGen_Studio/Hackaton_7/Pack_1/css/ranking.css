@@ -1,0 +1,197 @@
+/* Reset específico para o widget */
+#funifier-ranking-widget * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+#funifier-ranking-widget {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#funifier-ranking-widget .ranking-header {
+  background-color: #f8b37f;
+  color: #2d5c5c;
+  text-align: center;
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#funifier-ranking-widget .ranking-content {
+  background-color: #a8d3c8;
+  padding: 20px;
+  position: relative;
+}
+
+/* Estilo da lista de jogadores */
+#funifier-ranking-widget .ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#funifier-ranking-widget .ranking-player {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Cores alternadas para os jogadores */
+#funifier-ranking-widget .player-first {
+  background-color: #ffeaaa; /* Amarelo claro para o primeiro lugar */
+}
+
+#funifier-ranking-widget .player-second {
+  background-color: #e8f4f0; /* Verde claro para o segundo lugar */
+}
+
+#funifier-ranking-widget .player-third {
+  background-color: #f8c8a0; /* Laranja claro para o terceiro lugar */
+}
+
+#funifier-ranking-widget .ranking-player:nth-child(n + 4) {
+  background-color: white; /* Branco para os demais jogadores */
+}
+
+#funifier-ranking-widget .player-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 15px;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#funifier-ranking-widget .player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#funifier-ranking-widget .player-info {
+  flex-grow: 1;
+}
+
+#funifier-ranking-widget .player-name {
+  font-weight: bold;
+  font-size: 28px;
+  color: #2d5c5c;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+#funifier-ranking-widget .crown {
+  margin-left: 8px;
+  font-size: 24px;
+}
+
+#funifier-ranking-widget .player-position {
+  font-size: 16px;
+  color: white;
+  background-color: #7fbfb2;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+#funifier-ranking-widget .trend-indicator {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+#funifier-ranking-widget .trend-up {
+  color: #4caf50;
+}
+
+#funifier-ranking-widget .trend-down {
+  color: #f44336;
+}
+
+#funifier-ranking-widget .player-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 15px;
+}
+
+#funifier-ranking-widget .score-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2d5c5c;
+}
+
+#funifier-ranking-widget .no-data {
+  padding: 30px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  background-color: white;
+  border-radius: 15px;
+}
+
+#funifier-ranking-widget .show-more {
+  text-align: center;
+  padding: 12px;
+  background-color: #2d5c5c;
+  color: white;
+  border-radius: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+#funifier-ranking-widget .show-more:hover {
+  background-color: #3a7373;
+}
+
+#funifier-ranking-widget .language-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  #funifier-ranking-widget .ranking-header {
+    font-size: 24px;
+    padding: 15px;
+  }
+
+  #funifier-ranking-widget .player-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  #funifier-ranking-widget .player-name {
+    font-size: 20px;
+  }
+
+  #funifier-ranking-widget .player-position {
+    font-size: 14px;
+    padding: 4px 10px;
+  }
+
+  #funifier-ranking-widget .score-value {
+    font-size: 22px;
+  }
+}

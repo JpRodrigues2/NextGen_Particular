@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleta da Sorte</title>
+  <link rel="stylesheet" href="../css/roleta.css">
+  <!-- Incluir AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="roletaApp" ng-controller="RoletaController">
+  <div id="funifier-roleta-widget">
+    <div class="roleta-header">{{t('roletaTitle')}}</div>
+    <div class="roleta-content">
+      <!-- Mensagem de erro -->
+      <div class="error-message" ng-class="{'active': errorMessage}">
+        {{errorMessage}}
+      </div>
+      
+      <!-- Seção de prêmios -->
+      <div class="premios-section">
+        <div class="premios-title">{{t('premiosTitle')}}</div>
+        <div class="premios-grid">
+          <div class="premio-item" ng-repeat="option in roletaData.options">
+            <img ng-src="{{option.image || getDefaultImage(option)}}" alt="{{option.title}}">
+            {{option.title}}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Roleta simplificada -->
+      <div class="roleta-container">
+        <div class="roleta-marker"></div>
+        <div class="roleta-outer" id="roleta-outer">
+          <!-- Seções da roleta geradas dinamicamente -->
+          <div ng-repeat="option in roletaData.options" 
+               class="roleta-item"
+               ng-style="getItemStyle($index, roletaData.options.length)">
+            <div class="roleta-text">{{getShortTitle(option.title)}}</div>
+          </div>
+        </div>
+        <div class="roleta-center"></div>
+      </div>
+      
+      <!-- Botões -->
+      <div class="roleta-buttons">
+        <button class="roleta-button" ng-click="girarRoleta()" ng-disabled="isSpinning">
+          <span class="coin-icon">🪙</span> 20 {{t('moedas')}}
+        </button>
+      </div>
+      
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+      
+      <!-- Seletor de jogador -->
+      <div class="player-id-selector">
+        <label for="player-id">Player ID:</label>
+        <input type="text" id="player-id" ng-model="playerId">
+        <button ng-click="loadPlayer()">{{t('carregar')}}</button>
+      </div>
+    </div>
+    
+    <!-- Modal de resultado -->
+    <div class="resultado-modal" ng-class="{'active': showResultado}">
+      <div class="resultado-content">
+        <div class="resultado-title">{{resultadoTitle}}</div>
+        <div class="resultado-image">
+          <img ng-src="{{resultadoImage}}" alt="{{resultadoTitle}}">
+        </div>
+        <div class="resultado-description">{{resultadoDescription}}</div>
+        <button class="resultado-button" ng-click="fecharResultado()">{{t('fechar')}}</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../js/roleta.js"></script>
+</body>
+</html>

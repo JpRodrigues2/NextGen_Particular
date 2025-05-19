@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Ranking</title>
+  <link rel="stylesheet" href="../css/ranking.css">
+  <!-- Incluir AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="playerRankingApp" ng-controller="RankingController">
+  <div id="funifier-ranking-widget">
+    <div class="ranking-header">{{t('rankingTitle')}}</div>
+    <div class="ranking-content">
+      <!-- Lista de jogadores no ranking -->
+      <div class="ranking-list">
+        <div class="ranking-player" 
+             ng-repeat="player in rankingData | limitTo:displayLimit" 
+             ng-class="{'player-first': $index === 0, 'player-second': $index === 1, 'player-third': $index === 2}">
+          <div class="player-avatar">
+            <img ng-src="{{player.image}}" alt="{{player.name}}">
+          </div>
+          <div class="player-info">
+            <div class="player-name">{{player.name}} <span class="crown" ng-if="player.position === 1">👑</span></div>
+            <div class="player-position">
+              <span ng-if="currentLang === 'pt'">{{player.position}}º {{t('place')}}</span>
+              <span ng-if="currentLang === 'en'">{{formatPosition(player.position)}} place</span>
+              <span class="trend-indicator" ng-if="player.move === 'up'">
+                <span class="trend-up">▲</span>
+              </span>
+              <span class="trend-indicator" ng-if="player.move === 'down'">
+                <span class="trend-down">▼</span>
+              </span>
+            </div>
+          </div>
+          <div class="player-score">
+            <div class="score-value">{{player.total}}</div>
+          </div>
+        </div>
+        
+        <!-- Botão para mostrar mais jogadores -->
+        <div class="show-more" ng-if="rankingData.length > displayLimit" ng-click="showMore()">
+          {{t('showMore')}}
+        </div>
+        
+        <!-- Mensagem quando não há dados -->
+        <div class="no-data" ng-if="rankingData.length === 0">
+          {{t('noRankingData')}}
+        </div>
+      </div>
+      
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+    </div>
+  </div>
+  
+  <script src="../js/ranking.js"></script>
+</body>
+</html>

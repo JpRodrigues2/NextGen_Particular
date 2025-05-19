@@ -1,0 +1,219 @@
+/* Reset específico para o widget */
+#funifier-player-widget * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+#funifier-player-widget {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#funifier-player-widget .player-header {
+  background-color: #f8b37f;
+  color: #2d5c5c;
+  text-align: center;
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#funifier-player-widget .player-content {
+  background-color: #a8d3c8;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#funifier-player-widget .player-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid white;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+#funifier-player-widget .player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#funifier-player-widget .player-name {
+  color: #2d5c5c;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#funifier-player-widget .player-stats {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#funifier-player-widget .stat-box {
+  flex: 1;
+  min-width: 120px;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#funifier-player-widget .points-box {
+  background-color: #f8b37f;
+}
+
+#funifier-player-widget .level-box {
+  background-color: #e8e8e8;
+}
+
+/* Ajustar o estilo da caixa de nível para acomodar texto mais longo */
+#funifier-player-widget .level-box .stat-value {
+  font-size: 24px;
+}
+
+#funifier-player-widget .achievements-box {
+  background-color: #ffeaaa;
+}
+
+#funifier-player-widget .stat-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2d5c5c;
+  margin-bottom: 10px;
+}
+
+#funifier-player-widget .stat-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #2d5c5c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Atualizar a cor da barra de progresso para um tom de azul */
+#funifier-player-widget .progress-container {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#funifier-player-widget .progress-bar {
+  width: 100%;
+  height: 30px;
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+#funifier-player-widget .progress-fill {
+  height: 100%;
+  background-color: #4a90e2;
+  border-radius: 15px;
+  position: relative;
+}
+
+#funifier-player-widget .progress-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  line-height: 30px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+#funifier-player-widget .progress-label {
+  color: #2d5c5c;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#funifier-player-widget .language-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10;
+}
+
+#funifier-player-widget .player-id-selector {
+  background-color: #a8d3c8;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#funifier-player-widget .player-id-selector input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#funifier-player-widget .player-id-selector button {
+  padding: 8px 15px;
+  background-color: #2d5c5c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#funifier-player-widget .player-id-selector button:hover {
+  background-color: #3a7373;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  #funifier-player-widget .player-stats {
+    flex-direction: column;
+  }
+
+  #funifier-player-widget .stat-box {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  #funifier-player-widget .player-header {
+    font-size: 24px;
+  }
+
+  #funifier-player-widget .player-name {
+    font-size: 28px;
+  }
+
+  #funifier-player-widget .player-id-selector {
+    flex-direction: column;
+  }
+
+  #funifier-player-widget .level-box .stat-value {
+    font-size: 20px;
+  }
+}
