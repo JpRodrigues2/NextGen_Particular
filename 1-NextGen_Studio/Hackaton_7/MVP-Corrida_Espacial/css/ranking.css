@@ -74,7 +74,7 @@ body {
   z-index: 1;
   overflow: hidden;
   /* Atualizado para usar background.png em vez de background.jpg */
-  background: #0a0a14 url("../img/background.png") center / cover no-repeat;
+  background: #0a0a14 url("../img/seu-background.png") center / cover no-repeat;
 }
 
 /* Estrelas cintilantes */

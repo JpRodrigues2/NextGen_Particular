@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="bbGamificationApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafios - Floresta BB</title>
+  <link rel="stylesheet" href="../css/challenges.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+  <script src="../js/challenges.js"></script>
+</head>
+<body ng-controller="ChallengesController" ng-cloak>
+  <div class="challenges-container">
+    <header class="challenges-header">
+      <div class="logo-container">
+        <img src="../img/logo.png" alt="Banco do Brasil">
+      </div>
+      <div class="navigation">
+        <button class="nav-button" ng-click="goToDashboard()">
+          <span class="button-icon">←</span>
+          Dashboard
+        </button>
+        <button class="logout-button" ng-click="logout()">
+          <span class="button-icon">⏻</span>
+          Sair
+        </button>
+      </div>
+    </header>
+    
+    <div class="challenges-content">
+      <div class="challenges-header-content">
+        <h1>Desafios da Floresta</h1>
+        <p class="challenges-description">Complete desafios para ganhar pontos e fazer sua floresta crescer</p>
+      </div>
+      
+      <div class="loading-indicator" ng-if="isLoading">
+        <div class="spinner"></div>
+        <p>Carregando desafios...</p>
+      </div>
+      
+      <div class="challenges-list" ng-if="!isLoading">
+        <div class="challenge-card" ng-repeat="challenge in challenges">
+          <h3 class="challenge-title">{{challenge.challenge}}</h3>
+          <p class="challenge-description" ng-if="challenge.description">{{challenge.description}}</p>
+          <p class="challenge-description" ng-if="!challenge.description">Complete este desafio para fazer sua floresta crescer.</p>
+          
+          <div class="challenge-rewards">
+            <div class="reward" ng-if="challenge.points && challenge.points.length > 0">
+              <div class="reward-icon xp">XP</div>
+              <div class="reward-details">
+                <span class="reward-value">+{{challenge.points[0].total}}</span>
+                <span class="reward-label">pontos</span>
+              </div>
+            </div>
+            
+            <div class="reward" ng-if="challenge.rewards && challenge.rewards.length > 0">
+              <div class="reward-icon item">
+                <span ng-if="challenge.rewards[0].item === 'EVPEO6m'">🌳</span>
+                <span ng-if="challenge.rewards[0].item === 'EVPEKuv'">🌱</span>
+                <span ng-if="challenge.rewards[0].item === 'EVPDzeD'">🌰</span>
+                <span ng-if="challenge.rewards[0].item === 'EVPEQ76'">🍎</span>
+                <span ng-if="!['EVPEO6m', 'EVPEKuv', 'EVPDzeD', 'EVPEQ76'].includes(challenge.rewards[0].item)">🏆</span>
+              </div>
+              <div class="reward-details">
+                <span class="reward-value">+{{challenge.rewards[0].total}}</span>
+                <span class="reward-label">
+                  <span ng-if="challenge.rewards[0].item === 'EVPEO6m'">árvore</span>
+                  <span ng-if="challenge.rewards[0].item === 'EVPEKuv'">broto</span>
+                  <span ng-if="challenge.rewards[0].item === 'EVPDzeD'">semente</span>
+                  <span ng-if="challenge.rewards[0].item === 'EVPEQ76'">fruto</span>
+                  <span ng-if="!['EVPEO6m', 'EVPEKuv', 'EVPDzeD', 'EVPEQ76'].includes(challenge.rewards[0].item)">item</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="no-challenges" ng-if="challenges.length === 0">
+          <div class="no-challenges-icon">🔍</div>
+          <p>Nenhum desafio encontrado.</p>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="challenges-footer">
+      <p>Floresta BB - Gamificação para Gerentes Exclusivos</p>
+      <p class="sustainability">Juntos pela Sustentabilidade</p>
+    </footer>
+  </div>
+</body>
+</html>

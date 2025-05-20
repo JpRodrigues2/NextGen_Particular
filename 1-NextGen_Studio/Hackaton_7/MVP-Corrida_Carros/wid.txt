@@ -1,19 +1,18 @@
-// Criar o módulo Angular com dependência do angular-translate
-angular
-  .module("RankingApp", ["pascalprecht.translate"])
-  // Configurar o provedor de tradução
-  .config([
-    "$translateProvider",
+angular.module("carros", []).controller("carros", [
+  "$scope",
+  "$http",
+  function ($scope, $http) {
+    console.log("Desafios inicializado");
     ($translateProvider) => {
       // Definir as traduções para português
       $translateProvider.translations("pt", {
-        SPACE_STATION: "Estação Espacial",
-        PLAYER_SHIP: "Nave do Jogador",
+        GRANDSTAND: "Arquibancada",
+        PLAYER_CAR: "Carro do Jogador",
         PLAYER_PHOTO: "Foto do jogador",
         PLAYER_NAME: "Nome do Jogador",
         POINTS: "pts",
         SCORE: "Pontuação",
-        SHIP: "Nave",
+        CAR: "Carro",
         SCROLL_HINT: "← Deslize para ver mais →",
         CONNECTION_STATUS: {
           CONNECTED: "Conectado",
@@ -27,11 +26,11 @@ angular
           FOURTH: "4º Lugar",
           OTHER: "Posição",
         },
-        SHIP_TYPES: {
-          GOLD: "Elite",
-          SILVER: "Avançada",
-          BRONZE: "Padrão",
-          REGULAR: "Básica",
+        CAR_TYPES: {
+          GOLD: "Ouro",
+          SILVER: "Prata",
+          BRONZE: "Bronze",
+          REGULAR: "Regular",
         },
         TV_MODE_CONFIRM: "Detectamos uma tela grande. Ativar modo TV (sem interação)?",
         ORIENTATION_MESSAGE: "Por favor, gire seu dispositivo para visualizar melhor",
@@ -39,13 +38,13 @@ angular
 
       // Definir as traduções para inglês
       $translateProvider.translations("en", {
-        SPACE_STATION: "Space Station",
-        PLAYER_SHIP: "Player Ship",
+        GRANDSTAND: "Grandstand",
+        PLAYER_CAR: "Player Car",
         PLAYER_PHOTO: "Player Photo",
         PLAYER_NAME: "Player Name",
         POINTS: "pts",
         SCORE: "Score",
-        SHIP: "Ship",
+        CAR: "Car",
         SCROLL_HINT: "← Scroll to see more →",
         CONNECTION_STATUS: {
           CONNECTED: "Connected",
@@ -59,11 +58,11 @@ angular
           FOURTH: "4th Place",
           OTHER: "Position",
         },
-        SHIP_TYPES: {
-          GOLD: "Elite",
-          SILVER: "Advanced",
-          BRONZE: "Standard",
-          REGULAR: "Basic",
+        CAR_TYPES: {
+          GOLD: "Gold",
+          SILVER: "Silver",
+          BRONZE: "Bronze",
+          REGULAR: "Regular",
         },
         TV_MODE_CONFIRM: "We detected a large screen. Activate TV mode (no interaction)?",
         ORIENTATION_MESSAGE: "Please rotate your device for a better view",
@@ -79,22 +78,13 @@ angular
     $scope.players = []
     $scope.previousPlayers = [] // Store previous state to detect position changes
     $scope.maxDistance = 0
-    $scope.baseSpacing = 120 // Base spacing between ships
+    $scope.baseSpacing = 120 // Base spacing between cars
     $scope.progressiveSpacing = 20 // Additional spacing for higher positions
     $scope.connectionStatus = "connected" // Default status
     $scope.isTVMode = false // TV mode flag (no interaction)
     $scope.isFirstLoad = true // Flag for first load (no animations)
     $scope.firstPlaceId = null // Track first place player ID
     $scope.currentLang = "pt" // Idioma atual
-    $scope.isUpdating = false // Flag para indicar atualização em andamento
-
-    // Referência ao wrapper de scroll
-    let scrollWrapper = null
-
-    // Variável para armazenar a posição do scroll
-    let lastScrollPosition = 0
-    let scrollRestorationAttempts = 0
-    const MAX_RESTORATION_ATTEMPTS = 5
 
     // Função para alternar o idioma
     $scope.changeLanguage = (langKey) => {
@@ -108,9 +98,9 @@ angular
     // Função para atualizar traduções na sidebar
     function updateSidebarTranslations() {
       // Obter o jogador selecionado
-      const selectedShip = document.querySelector(".nave.selected")
-      if (selectedShip) {
-        const playerId = selectedShip.getAttribute("data-player-id")
+      const selectedCar = document.querySelector(".carro.selected")
+      if (selectedCar) {
+        const playerId = selectedCar.getAttribute("data-player-id")
         const player = $scope.players.find((p) => (p.id || p.name) === playerId)
 
         if (player) {
@@ -121,19 +111,19 @@ angular
     }
 
     // Audio elements
-    let warpSound
-    let thrusterSound
+    let bellSound
+    let engineSound
 
     // Initialize audio elements
     function initAudio() {
-      // Warp sound for first place change - Corrigido para bell.mp3
-      warpSound = new Audio("audio/bell.mp3")
-      warpSound.volume = 0.7
+      // Bell sound for first place change
+      bellSound = new Audio("audio/bell.mp3")
+      bellSound.volume = 0.7
 
-      // Thruster sound for position changes
-      thrusterSound = new Audio("audio/thruster.mp3")
-      thrusterSound.volume = 0.5
-      thrusterSound.loop = false
+      // Engine sound for position changes
+      engineSound = new Audio("audio/engine.mp3")
+      engineSound.volume = 0.5
+      engineSound.loop = false
     }
 
     // Check if we're in TV mode (based on URL parameter or screen size)
@@ -235,40 +225,8 @@ angular
       return "img/default-player.png"
     }
 
-    // Função para restaurar a posição do scroll com múltiplas tentativas
-    function restoreScrollPosition() {
-      if (!scrollWrapper || lastScrollPosition <= 0 || scrollRestorationAttempts >= MAX_RESTORATION_ATTEMPTS) {
-        scrollRestorationAttempts = 0
-        return
-      }
-
-      console.log(`Tentativa ${scrollRestorationAttempts + 1} de restaurar posição do scroll:`, lastScrollPosition)
-
-      // Restaurar a posição do scroll
-      scrollWrapper.scrollLeft = lastScrollPosition
-
-      // Verificar se a restauração funcionou
-      if (Math.abs(scrollWrapper.scrollLeft - lastScrollPosition) < 10) {
-        console.log("Posição do scroll restaurada com sucesso!")
-        scrollRestorationAttempts = 0
-      } else {
-        // Tentar novamente após um pequeno delay
-        scrollRestorationAttempts++
-        $timeout(restoreScrollPosition, 100)
-      }
-    }
-
     // Fetch leaderboard data
     function fetchLeaderboard() {
-      // Marcar que uma atualização está em andamento
-      $scope.isUpdating = true
-
-      // Salvar a posição atual do scroll antes de atualizar
-      if (scrollWrapper) {
-        lastScrollPosition = scrollWrapper.scrollLeft
-        console.log("Salvando posição do scroll:", lastScrollPosition)
-      }
-
       $scope.connectionStatus = "connecting"
 
       const req = {
@@ -290,13 +248,12 @@ angular
         (error) => {
           console.error("Error fetching ranking:", error)
           $scope.connectionStatus = "disconnected"
-          $scope.isUpdating = false
 
           // Fallback data in case API fails
           if ($scope.players.length === 0) {
             $scope.players = generateDummyData(10)
             $scope.maxDistance = calculateMaxDistance($scope.players)
-            initializeShipPositions()
+            initializeCarPositions()
           }
 
           // Try again after a delay
@@ -311,7 +268,6 @@ angular
     function processLeaderboardData(data) {
       if (!data || !Array.isArray(data)) {
         console.error("Invalid data format:", data)
-        $scope.isUpdating = false
         return
       }
 
@@ -329,17 +285,17 @@ angular
         // Assign lane (row) for F1 grid layout
         player.lane = index % 2 === 0 ? 0 : 1 // Alternating top/bottom lanes
 
-        // Assign ship color based on position
-        player.shipColor = getShipColorByPosition(index + 1)
+        // Assign car color based on position
+        player.carColor = getCarColorByPosition(index + 1)
       })
 
       // Check for first place change
       const newFirstPlace = data.length > 0 ? data[0].id : null
 
       if ($scope.firstPlaceId !== null && newFirstPlace !== $scope.firstPlaceId) {
-        // First place has changed, play warp sound
-        if (warpSound && !$scope.isFirstLoad) {
-          warpSound.play().catch((e) => console.log("Could not play sound:", e))
+        // First place has changed, play bell sound
+        if (bellSound && !$scope.isFirstLoad) {
+          bellSound.play().catch((e) => console.log("Could not play sound:", e))
         }
       }
 
@@ -352,32 +308,24 @@ angular
       // Calculate total track width based on number of players and spacing
       $scope.maxDistance = calculateMaxDistance(data)
 
-      // Ajustar a largura da seção espacial com base na distância máxima
+      // Ajustar a largura da seção carros com base na distância máxima
       const spaceSection = document.querySelector(".space-section")
       if (spaceSection) {
         spaceSection.style.width = $scope.maxDistance + 500 + "px"
       }
 
-      // Initialize ship positions with animation
+      // Initialize car positions with animation
       if ($scope.isFirstLoad) {
         // First load - no animations
         $scope.isFirstLoad = false
-        initializeShipPositions(false)
+        initializeCarPositions(false)
       } else {
         // Subsequent loads - animate position changes
         animatePositionChanges()
       }
 
       // Após atualizar os players, reconfigurar os event listeners
-      setupShipEventListeners()
-
-      // Restaurar a posição do scroll após a atualização
-      $timeout(() => {
-        if (scrollWrapper && lastScrollPosition > 0) {
-          scrollWrapper.scrollLeft = lastScrollPosition
-        }
-        $scope.isUpdating = false // Marcar que a atualização foi concluída
-      }, 100)
+      setupCarEventListeners()
     }
 
     // Animate position changes
@@ -396,33 +344,33 @@ angular
       })
 
       if (changedPlayers.length > 0) {
-        // Play thruster sound for position changes
-        if (thrusterSound) {
-          thrusterSound.play().catch((e) => console.log("Could not play sound:", e))
+        // Play engine sound for position changes
+        if (engineSound) {
+          engineSound.play().catch((e) => console.log("Could not play sound:", e))
         }
 
         // Add animation classes to changed players
         $timeout(() => {
           changedPlayers.forEach((player) => {
-            const shipElement = document.querySelector(`.nave[data-player-id="${player.id}"]`)
-            if (shipElement) {
+            const carElement = document.querySelector(`.carro[data-player-id="${player.id}"]`)
+            if (carElement) {
               // Add animation class based on direction of change
               if (player.position < prevPositions[player.id]) {
                 // Moved up in ranking
-                shipElement.classList.add("position-improved")
-                $timeout(() => shipElement.classList.remove("position-improved"), 1000)
+                carElement.classList.add("position-improved")
+                $timeout(() => carElement.classList.remove("position-improved"), 1000)
               } else {
                 // Moved down in ranking
-                shipElement.classList.add("position-lost")
-                $timeout(() => shipElement.classList.remove("position-lost"), 1000)
+                carElement.classList.add("position-lost")
+                $timeout(() => carElement.classList.remove("position-lost"), 1000)
               }
             }
           })
         }, 100)
       }
 
-      // Initialize ship positions after checking changes
-      initializeShipPositions(true)
+      // Initialize car positions after checking changes
+      initializeCarPositions(true)
     }
 
     // Calculate total track width needed
@@ -441,29 +389,18 @@ angular
       return Math.max(totalWidth, 1200)
     }
 
-    // Initialize ship positions with animation
-    function initializeShipPositions(animate = true) {
+    // Initialize car positions with animation
+    function initializeCarPositions(animate = true) {
       $timeout(() => {
-        // Se for a primeira carga, mostrar os primeiros colocados
-        // Caso contrário, não alterar a posição do scroll (será restaurada em processLeaderboardData)
-        if ($scope.isFirstLoad && scrollWrapper) {
-          // Encontrar o elemento que contém os primeiros colocados
-          const firstPlaceShip = document.querySelector('.nave[data-player-id="' + $scope.firstPlaceId + '"]')
-
-          if (firstPlaceShip) {
-            // Calcular a posição do primeiro colocado
-            const rect = firstPlaceShip.getBoundingClientRect()
-            const centerX = rect.left + rect.width / 2
-
-            // Centralizar a visualização no primeiro colocado
-            scrollWrapper.scrollLeft = Math.max(0, centerX - window.innerWidth / 2)
-          }
+        // Force browser reflow to ensure animations work
+        if (document.querySelector(".pista")) {
+          document.querySelector(".pista").offsetHeight
         }
 
-        // Add animation class to ships if animating
+        // Add animation class to cars if animating
         if (animate) {
-          document.querySelectorAll(".nave").forEach((ship) => {
-            ship.classList.add("animated")
+          document.querySelectorAll(".carro").forEach((car) => {
+            car.classList.add("animated")
           })
         }
       }, 100)
@@ -472,7 +409,7 @@ angular
     // Generate dummy data for testing or API failure
     function generateDummyData(count) {
       const dummyPlayers = []
-      const shipColors = ["red", "blue", "green", "yellow"]
+      const carColors = ["red", "blue", "green", "yellow"]
 
       for (let i = 1; i <= count; i++) {
         dummyPlayers.push({
@@ -482,7 +419,7 @@ angular
           position: i,
           image: null,
           lane: i % 2 === 0 ? 0 : 1, // Alternating top/bottom lanes
-          shipColor: shipColors[i % shipColors.length],
+          carColor: carColors[i % carColors.length],
         })
       }
 
@@ -497,8 +434,8 @@ angular
       return dummyPlayers
     }
 
-    // Get ship color based on position
-    function getShipColorByPosition(position) {
+    // Get car color based on position
+    function getCarColorByPosition(position) {
       // First 3 positions get special colors
       if (position === 1) return "gold"
       if (position === 2) return "silver"
@@ -509,8 +446,8 @@ angular
       return colors[(position - 1) % colors.length]
     }
 
-    // Calculate ship position in F1 grid style
-    $scope.getShipStyle = (index, total) => {
+    // Calculate car position in F1 grid style
+    $scope.getCarStyle = (index, total) => {
       const player = $scope.players[index]
       const position = player.position
 
@@ -522,10 +459,28 @@ angular
       // Calculate total distance from right edge
       let distanceFromRight = 150 // Base distance from finish line
 
+      // Add additional spacing for top 3 positions to prevent overlap
+      let additionalSpacing = 0
+      if (position <= 3) {
+        // Add extra spacing for top 3 positions (more for 1st, less for 3rd)
+        additionalSpacing = (4 - position) * 30; // 90px for 1st, 60px for 2nd, 30px for 3rd
+      }
+
       // Add progressive spacing for each position
       for (let i = 1; i < position; i++) {
-        distanceFromRight += baseSpacing + i * progressiveSpacing
+        // Add extra spacing for positions 1-3 when calculating distance
+        let positionSpacing = baseSpacing + i * progressiveSpacing;
+        
+        // Add additional spacing for top positions
+        if (i <= 3) {
+          positionSpacing += (4 - i) * 30;
+        }
+        
+        distanceFromRight += positionSpacing;
       }
+
+      // Add the additional spacing for the current position
+      distanceFromRight += additionalSpacing;
 
       // Calculate right position (from right edge)
       const rightPosition = distanceFromRight
@@ -558,149 +513,132 @@ angular
       }
     }
 
-    // Get ship image based on position and color
-    $scope.getShipImage = (position) => {
-      // Special ships for top 3 positions
-      if (position === 1) return "img/nave-ouro.png"
-      if (position === 2) return "img/nave-prata.png"
-      if (position === 3) return "img/nave-bronze.png"
+    // Get car image based on position and color
+    $scope.getCarImage = (position) => {
+      // Special cars for top 3 positions
+      if (position === 1) return "img/carro-ouro.png"
+      if (position === 2) return "img/carro-prata.png"
+      if (position === 3) return "img/carro-bronze.png"
 
-      // For other positions, use color-based ships
+      // For other positions, use color-based cars
       const colors = ["red", "blue", "green", "yellow"]
       const colorIndex = (position - 1) % colors.length
-      return `img/nave${colorIndex + 1}.png`
+      return `img/carro${colorIndex + 1}.png`
     }
 
-    // Função para centralizar a visualização no primeiro colocado
-    $scope.focusOnFirstPlace = () => {
-      if (!scrollWrapper) return
-
-      const firstPlaceShip = document.querySelector('.nave[data-player-id="' + $scope.firstPlaceId + '"]')
-      if (firstPlaceShip) {
-        // Calcular a posição do primeiro colocado
-        const rect = firstPlaceShip.getBoundingClientRect()
-        const centerX = rect.left + rect.width / 2
-
-        // Centralizar a visualização no primeiro colocado com animação suave
-        scrollWrapper.scrollTo({
-          left: Math.max(0, centerX - window.innerWidth / 2),
-          behavior: "smooth",
-        })
-      }
-    }
-
-    // Configurar navegação horizontal com mouse wheel - Implementação baseada no código da corrida de carros
+    // Configurar navegação horizontal com mouse wheel
     function setupHorizontalScroll() {
       // Verificar se o wrapper de scroll existe
-      if (!scrollWrapper) return
-
-      // Adicionar evento de roda do mouse para scroll horizontal
-      scrollWrapper.addEventListener(
-        "wheel",
-        function (event) {
-          // Prevenir o comportamento padrão (scroll vertical)
-          event.preventDefault()
-
-          // Determinar a quantidade de scroll (multiplicar por um fator para ajustar a velocidade)
-          const scrollFactor = 2.5
-          const scrollAmount = event.deltaY * scrollFactor
-
-          // Aplicar o scroll horizontal
-          this.scrollLeft += scrollAmount
-
-          // Adicionar efeito visual durante o scroll
-          addScrollEffect(scrollAmount > 0 ? "right" : "left")
-
-          // Atualizar a posição do scroll
-          lastScrollPosition = this.scrollLeft
-        },
-        { passive: false }
-      )
-
-      // Adicionar evento de teclado para navegação
-      document.addEventListener("keydown", (event) => {
-        const scrollStep = 200
-
-        if (event.key === "ArrowLeft") {
-          scrollWrapper.scrollLeft -= scrollStep
-          addScrollEffect("left")
-          lastScrollPosition = scrollWrapper.scrollLeft
-        } else if (event.key === "ArrowRight") {
-          scrollWrapper.scrollLeft += scrollStep
-          addScrollEffect("right")
-          lastScrollPosition = scrollWrapper.scrollLeft
-        }
-      })
-
-      // Adicionar evento para monitorar mudanças no scroll
-      scrollWrapper.addEventListener("scroll", function () {
-        // Atualizar a posição do scroll sempre que o usuário rolar manualmente
-        lastScrollPosition = this.scrollLeft
-      })
-
-      console.log("Horizontal scroll setup complete")
+      // if (!scrollWrapper) return
+      // // Adicionar evento de roda do mouse para scroll horizontal
+      // scrollWrapper.addEventListener(
+      //   "wheel",
+      //   function (event) {
+      //     // Prevenir o comportamento padrão (scroll vertical)
+      //     event.preventDefault()
+      //     // Determinar a direção e quantidade de scroll
+      //     const scrollAmount = event.deltaY || event.deltaX
+      //     // Aplicar o scroll horizontal
+      //     this.scrollLeft += scrollAmount
+      //     // Adicionar efeito visual durante o scroll
+      //     addScrollEffect(scrollAmount > 0 ? "right" : "left")
+      //     // Log para depuração
+      //     console.log("Scroll horizontal: ", scrollAmount)
+      //   },
+      //   { passive: false },
+      // )
+      // // Adicionar evento de teclado para navegação
+      // document.addEventListener("keydown", (event) => {
+      //   const scrollStep = 200
+      //   if (event.key === "ArrowLeft") {
+      //     scrollWrapper.scrollLeft -= scrollStep
+      //     addScrollEffect("left")
+      //   } else if (event.key === "ArrowRight") {
+      //     scrollWrapper.scrollLeft += scrollStep
+      //     addScrollEffect("right")
+      //   }
+      // })
+      // // Log para depuração
+      // console.log("Horizontal scroll setup complete")
     }
 
     // Event listeners for ship selection
     function setupShipEventListeners() {
-      console.log("Setting up ship event listeners with event delegation")
+      // console.log("Setting up ship event listeners with event delegation")
+      // // Remover event listeners anteriores para evitar duplicação
+      // const spaceSection = document.querySelector(".space-section")
+      // if (spaceSection) {
+      //   // Usar delegação de eventos para lidar com elementos dinâmicos
+      //   spaceSection.addEventListener("click", (event) => {
+      //     // Verificar se o clique foi em uma nave ou em um elemento filho da nave
+      //     const shipElement = event.target.closest(".nave")
+      //     if (shipElement) {
+      //       console.log("Ship clicked via delegation:", shipElement)
+      //       // Remover classe selected de todas as naves
+      //       document.querySelectorAll(".nave.selected").forEach((ship) => {
+      //         ship.classList.remove("selected")
+      //       })
+      //       // Adicionar classe selected à nave clicada
+      //       shipElement.classList.add("selected")
+      //       // Obter o ID do jogador
+      //       const playerId = shipElement.getAttribute("data-player-id")
+      //       console.log("Player ID:", playerId)
+      //       // Encontrar o jogador correspondente
+      //       const player = $scope.players.find((p) => (p.id || p.name) === playerId)
+      //       if (player) {
+      //         console.log("Player found:", player)
+      //         // Mostrar a sidebar com as informações do jogador
+      //         showPlayerSidebar(player)
+      //         $scope.$apply() // Atualizar a UI
+      //       } else {
+      //         console.log("Player not found for ID:", playerId)
+      //       }
+      //     }
+      //   })
+      //   console.log("Event delegation setup complete on space-section")
+      // } else {
+      //   console.error("Could not find .space-section element for event delegation")
+      // }
+      // // Fechar a sidebar quando clicar fora das naves
+      // document.addEventListener("click", (event) => {
+      //   if (!event.target.closest(".nave") && !event.target.closest(".player-sidebar")) {
+      //     document.getElementById("player-sidebar").classList.remove("active")
+      //     document.querySelectorAll(".nave.selected").forEach((ship) => {
+      //       ship.classList.remove("selected")
+      //     })
+      //     $scope.$apply()
+      //   }
+      // })
+    }
 
-      // Remover event listeners anteriores para evitar duplicação
-      const spaceSection = document.querySelector(".space-section")
-      if (spaceSection) {
-        // Usar delegação de eventos para lidar com elementos dinâmicos
-        spaceSection.addEventListener("click", (event) => {
-          // Verificar se o clique foi em uma nave ou em um elemento filho da nave
-          const shipElement = event.target.closest(".nave")
-          if (shipElement) {
-            console.log("Ship clicked via delegation:", shipElement)
-
-            // Remover classe selected de todas as naves
-            document.querySelectorAll(".nave.selected").forEach((ship) => {
-              ship.classList.remove("selected")
-            })
-
-            // Adicionar classe selected à nave clicada
-            shipElement.classList.add("selected")
-
-            // Obter o ID do jogador
-            const playerId = shipElement.getAttribute("data-player-id")
-            console.log("Player ID:", playerId)
-
-            // Encontrar o jogador correspondente
-            const player = $scope.players.find((p) => (p.id || p.name) === playerId)
-
-            if (player) {
-              console.log("Player found:", player)
-              // Mostrar a sidebar com as informações do jogador
-              showPlayerSidebar(player)
-              $scope.$apply() // Atualizar a UI
-            } else {
-              console.log("Player not found for ID:", playerId)
-            }
-          }
-        })
-
-        console.log("Event delegation setup complete on space-section")
-      } else {
-        console.error("Could not find .space-section element for event delegation")
-      }
-
-      // Fechar a sidebar quando clicar fora das naves
-      document.addEventListener("click", (event) => {
-        if (!event.target.closest(".nave") && !event.target.closest(".player-sidebar")) {
-          document.getElementById("player-sidebar").classList.remove("active")
-          document.querySelectorAll(".nave.selected").forEach((ship) => {
-            ship.classList.remove("selected")
-          })
-          $scope.$apply()
-        }
-      })
+    // Handler para clique nas naves
+    function shipClickHandler(event) {
+      // Prevenir propagação do evento para evitar conflitos com o scroll
+      // event.stopPropagation()
+      // console.log("Ship clicked:", this)
+      // // Remover classe selected de todas as naves
+      // document.querySelectorAll(".nave.selected").forEach((ship) => {
+      //   ship.classList.remove("selected")
+      // })
+      // // Adicionar classe selected à nave clicada
+      // this.classList.add("selected")
+      // // Obter o ID do jogador
+      // const playerId = this.getAttribute("data-player-id")
+      // console.log("Player ID:", playerId)
+      // // Encontrar o jogador correspondente
+      // const player = $scope.players.find((p) => (p.id || p.name) === playerId)
+      // if (player) {
+      //   console.log("Player found:", player)
+      //   // Mostrar a sidebar com as informações do jogador
+      //   showPlayerSidebar(player)
+      // } else {
+      //   console.log("Player not found for ID:", playerId)
+      // }
     }
 
     // Função para mostrar a sidebar do jogador
     function showPlayerSidebar(player) {
-      $scope.showPlayerSidebar(player)
+      // $scope.showPlayerSidebar(player)
     }
 
     // Função para atualizar a sidebar com informações do jogador
@@ -724,15 +662,15 @@ angular
       })
 
       // Definir o tipo de nave com base na posição
-      let shipTypeKey = ""
-      if (player.position === 1) shipTypeKey = "SHIP_TYPES.GOLD"
-      else if (player.position === 2) shipTypeKey = "SHIP_TYPES.SILVER"
-      else if (player.position === 3) shipTypeKey = "SHIP_TYPES.BRONZE"
-      else shipTypeKey = "SHIP_TYPES.REGULAR"
+      // let shipTypeKey = ""
+      // if (player.position === 1) shipTypeKey = "SHIP_TYPES.GOLD"
+      // else if (player.position === 2) shipTypeKey = "SHIP_TYPES.SILVER"
+      // else if (player.position === 3) shipTypeKey = "SHIP_TYPES.BRONZE"
+      // else shipTypeKey = "SHIP_TYPES.REGULAR"
 
-      $translate(shipTypeKey).then((translation) => {
-        document.getElementById("sidebar-ship").textContent = translation
-      })
+      // $translate(shipTypeKey).then((translation) => {
+      //   document.getElementById("sidebar-ship").textContent = translation
+      // })
 
       // Atualizar a foto do jogador
       document.getElementById("sidebar-photo").src = $scope.getPlayerImageUrl(player)
@@ -740,97 +678,115 @@ angular
 
     // Adicionar efeito visual durante o scroll
     function addScrollEffect(direction) {
-      const starsContainer = document.querySelector(".stars-container")
-      if (!starsContainer) return
-
-      // Criar uma estrela
-      const star = document.createElement("div")
-      star.className = "scroll-star"
-
-      // Posicionar aleatoriamente na altura
-      star.style.top = Math.random() * 100 + "%"
-
-      // Definir direção com base no scroll
-      if (direction === "right") {
-        star.style.left = "0"
-        star.style.transform = "rotate(0deg)"
-      } else {
-        star.style.right = "0"
-        star.style.transform = "rotate(180deg)"
-      }
-
-      // Adicionar ao container
-      starsContainer.appendChild(star)
-
-      // Remover após a animação
-      setTimeout(() => {
-        star.remove()
-      }, 1000)
+      // const starsContainer = document.querySelector(".stars-container")
+      // if (!starsContainer) return
+      // // Criar uma estrela
+      // const star = document.createElement("div")
+      // star.className = "scroll-star"
+      // // Posicionar aleatoriamente na altura
+      // star.style.top = Math.random() * 100 + "%"
+      // // Definir direção com base no scroll
+      // if (direction === "right") {
+      //   star.style.left = "0"
+      //   star.style.transform = "rotate(0deg)"
+      // } else {
+      //   star.style.right = "0"
+      //   star.style.transform = "rotate(180deg)"
+      // }
+      // // Adicionar ao container
+      // starsContainer.appendChild(star)
+      // // Remover após a animação
+      // setTimeout(() => {
+      //   star.remove()
+      // }, 1000)
     }
 
     // Inicialização
     function init() {
-      console.log("Initializing Space Race...")
-
+      // console.log("Initializing Space Race...")
       // Initialize audio
-      initAudio()
-
+      // initAudio()
       // Check TV mode
-      checkTVMode()
-
+      // checkTVMode()
       // Force landscape on mobile
-      forceLandscapeOnMobile()
-
+      // forceLandscapeOnMobile()
       // Obter referência ao wrapper de scroll
-      scrollWrapper = document.getElementById("scroll-wrapper")
-      console.log("Scroll wrapper:", scrollWrapper)
-
+      // scrollWrapper = document.getElementById("scroll-wrapper")
+      // console.log("Scroll wrapper:", scrollWrapper)
       // Configurar scroll horizontal
-      setupHorizontalScroll()
-
+      // setupHorizontalScroll()
       // Fetch leaderboard data
-      fetchLeaderboard()
-
+      // fetchLeaderboard()
       // Fetch leaderboard data every 10 seconds
-      $interval(fetchLeaderboard, 10000)
-
-      // Adicionar listener para redimensionamento da janela
-      window.addEventListener("resize", handleWindowResize)
-    }
-
-    // Função para lidar com o redimensionamento da janela
-    function handleWindowResize() {
-      // Verificar orientação em dispositivos móveis
-      checkOrientation()
-
-      // Ajustar layout responsivo
-      adjustResponsiveLayout()
-    }
-
-    // Função para ajustar o layout responsivo
-    function adjustResponsiveLayout() {
-      // Detectar tipo de dispositivo
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-      const isTV = window.innerWidth >= 1920 && window.innerHeight >= 1080
-
-      // Aplicar classes específicas para cada tipo de dispositivo
-      document.body.classList.toggle("mobile-device", isMobile)
-      document.body.classList.toggle("tv-device", isTV)
-
-      // Ajustar tamanho das naves e informações com base no dispositivo
-      const naves = document.querySelectorAll(".nave")
-      naves.forEach((nave) => {
-        if (isMobile) {
-          nave.classList.add("mobile-size")
-        } else if (isTV) {
-          nave.classList.add("tv-size")
-        } else {
-          nave.classList.add("desktop-size")
-        }
-      })
+      // $interval(fetchLeaderboard, 10000)
     }
 
     // Adicionar esta função ao escopo para que possa ser chamada de qualquer lugar
+    // $scope.showPlayerSidebar = (player) => {
+    //   updateSidebarForPlayer(player)
+
+    //   // Mostrar a sidebar
+    //   document.getElementById("player-sidebar").classList.add("active")
+    // }
+
+    // Adicionar esta função ao escopo para que possa ser chamada de qualquer lugar
+    // $scope.hidePlayerSidebar = () => {
+    //   document.getElementById("player-sidebar").classList.remove("active")
+
+    //   // Remover classe selected de todas as naves
+    //   document.querySelectorAll(".nave.selected").forEach((ship) => {
+    //     ship.classList.remove("selected")
+    //   })
+    // }
+
+    // Initialize the app
+    // $timeout(init, 100)
+
+    // Função auxiliar para obter o sufixo ordinal correto em inglês
+    function getOrdinalSuffix(num) {
+      if (num === 1) return "st"
+      if (num === 2) return "nd"
+      if (num === 3) return "rd"
+      if (num >= 4 && num <= 20) return "th"
+
+      const lastDigit = num % 10
+      if (lastDigit === 1) return "st"
+      if (lastDigit === 2) return "nd"
+      if (lastDigit === 3) return "rd"
+      return "th"
+    }
+
+    // Handle window resize
+    function handleResize() {
+      $timeout(() => {
+        // Recalculate layout on window resize
+        $scope.maxDistance = calculateMaxDistance($scope.players)
+
+        // Check if we should enter TV mode
+        if (window.innerWidth >= 1920 && window.innerHeight >= 1080 && !$scope.isTVMode) {
+          // Only suggest TV mode if not already in it and on a large screen
+          $translate("TV_MODE_CONFIRM").then((translation) => {
+            if (confirm(translation)) {
+              $scope.isTVMode = true
+              document.body.classList.add("tv-mode")
+            }
+          })
+        }
+
+        // Check orientation on mobile
+        checkOrientation()
+      }, 200)
+    }
+
+    // Set up periodic refresh
+    function setupPeriodicRefresh() {
+      // Refresh data every 30 seconds
+      $interval(() => {
+        fetchLeaderboard()
+      }, 30000)
+    }
+
+    // Adicionar função para mostrar a aba lateral com informações do jogador
     $scope.showPlayerSidebar = (player) => {
       updateSidebarForPlayer(player)
 
@@ -838,20 +794,114 @@ angular
       document.getElementById("player-sidebar").classList.add("active")
     }
 
-    // Adicionar esta função ao escopo para que possa ser chamada de qualquer lugar
+    // Adicionar função para esconder a aba lateral
     $scope.hidePlayerSidebar = () => {
       document.getElementById("player-sidebar").classList.remove("active")
-
-      // Remover classe selected de todas as naves
-      document.querySelectorAll(".nave.selected").forEach((ship) => {
-        ship.classList.remove("selected")
-      })
     }
 
-    // Initialize the app
-    $timeout(init, 100)
+    // Função para configurar os event listeners dos carros
+    function setupCarEventListeners() {
+      $timeout(() => {
+        // Usar delegação de eventos para lidar com elementos dinâmicos
+        document.querySelector(".pista").addEventListener("click", (event) => {
+          // Verificar se o clique foi em um carro ou em um elemento filho do carro
+          const carElement = event.target.closest(".carro")
+          if (carElement) {
+            // Remover classe selected de todos os carros
+            document.querySelectorAll(".carro.selected").forEach((car) => {
+              car.classList.remove("selected")
+            })
 
-    // Função auxiliar para obter o sufixo ordinal correto
+            // Adicionar classe selected ao carro clicado
+            carElement.classList.add("selected")
+
+            // Obter o ID do jogador
+            const playerId = carElement.getAttribute("data-player-id")
+
+            // Encontrar o jogador correspondente
+            const player = $scope.players.find((p) => (p.id || p.name) === playerId)
+
+            if (player) {
+              // Mostrar a sidebar com as informações do jogador
+              $scope.showPlayerSidebar(player)
+              $scope.$apply() // Atualizar a UI
+            }
+          }
+        })
+
+        // Fechar a sidebar quando clicar fora dos carros
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".carro") && !event.target.closest(".player-sidebar")) {
+            $scope.hidePlayerSidebar()
+            $scope.$apply()
+          }
+        })
+      }, 500)
+    }
+
+    // Adicionar função para habilitar o scroll horizontal com a roda do mouse
+    function enableHorizontalMouseScroll() {
+      const pistaScroll = document.querySelector(".pista-scroll")
+
+      if (pistaScroll) {
+        pistaScroll.addEventListener(
+          "wheel",
+          (event) => {
+            // Prevenir o comportamento padrão de scroll vertical
+            event.preventDefault()
+
+            // Determinar a quantidade de scroll (multiplicar por um fator para ajustar a velocidade)
+            const scrollFactor = 2.5
+            const scrollAmount = event.deltaY * scrollFactor
+
+            // Aplicar o scroll horizontal
+            pistaScroll.scrollLeft += scrollAmount
+          },
+          { passive: false },
+        )
+
+        console.log("Horizontal mouse scroll enabled")
+      }
+    }
+
+    // Initialize the application
+    function initialize() {
+      // Initialize audio elements
+      initAudio()
+
+      // Check if we're in TV mode
+      checkTVMode()
+
+      // Force landscape on mobile
+      forceLandscapeOnMobile()
+
+      // Fetch initial data
+      fetchLeaderboard()
+
+      // Set up periodic refresh
+      setupPeriodicRefresh()
+
+      // Adicionar event listeners para os carros
+      setupCarEventListeners()
+
+      // Habilitar scroll horizontal com o mouse
+      enableHorizontalMouseScroll()
+
+      // Register resize event listener
+      angular.element($window).on("resize", handleResize)
+    }
+
+    // Start the application
+    initialize()
+
+    // Clean up listeners when controller is destroyed
+    $scope.$on("$destroy", () => {
+      angular.element($window).off("resize", handleResize)
+      window.removeEventListener("orientationchange", checkOrientation)
+      window.removeEventListener("resize", checkOrientation)
+    })
+
+    // Função auxiliar para obter o sufixo ordinal correto em inglês
     function getOrdinalSuffix(num) {
       if (num === 1) return "st"
       if (num === 2) return "nd"

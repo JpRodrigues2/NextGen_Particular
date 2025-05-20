@@ -1,0 +1,34 @@
+<div id="ENQ01" ng-app="ENQ01" ng-controller="ENQ01">
+  <div class="title">{{ getLabel('enquete') }}</div>
+
+  <!-- TELA DE VOTAÇÃO -->
+  <div class="poll" id="poll">
+    <div class="question">{{obj.question}}</div>
+    <div class="options">
+      <label ng-repeat="q in obj.answers">
+        <input type="radio" name="optionPoll" value="{{q.answer}}">
+        {{q.answer}}
+      </label>
+    </div>
+    <button ng-click="vote()">{{ getLabel('votar') }}</button>
+    <button ng-click="showResults()" ng-if="obj.seeResultButton">{{ getLabel('mostrarResultados') }}</button>
+  </div>
+
+  <!-- TELA DE RESULTADOS -->
+  <div class="results" id="results">
+    <div class="back" ng-click="goBack()">&lt; {{ getLabel('voltar') }}</div>
+    <div class="question">{{obj.question}}</div>
+
+    <div ng-repeat="r in resultPoll">
+      <div>{{r._id}}</div>
+      <div class="result-bar">
+        <div class="bar-fill" ng-style="{'width': r.percent + '%'}">{{r.percent}}%</div>
+      </div>
+    </div>
+
+    <div>Total de votos: <span>{{ totalVotes }}</span> | <a href="#" class="moreResults">Resultado Avançado</a></div>
+
+  </div>
+
+  <div class="footer">Develop by Funifier</div>
+</div>
