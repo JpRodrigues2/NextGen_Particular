@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="bbGamificationApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Floresta BB - Dashboard</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+  <script src="../js/dashboard.js"></script>
+</head>
+<body ng-controller="DashboardController" ng-cloak>
+  <div class="dashboard-container">
+    <!-- Coluna Esquerda -->
+    <div class="sidebar left-sidebar">
+      <div class="sidebar-top">
+        <button class="challenges-button" ng-click="goToChallenges()">Desafios</button>
+      </div>
+      
+      <div class="player-info">
+        <div class="player-avatar">
+          <img ng-src="{{playerAvatar || '../img/default-avatar.png'}}" alt="Avatar do Jogador">
+        </div>
+        <div class="player-name">{{playerData.name || 'Carregando...'}}</div>
+        <div class="player-xp">
+          <span class="label">XP</span>
+          <span class="value">{{playerData.point_categories.xp || 0}}</span>
+        </div>
+        <div class="player-level">
+          <span class="label">Nível</span>
+          <span class="value">{{playerData.level.position || 0}}</span>
+          <span class="level-name">{{playerData.level.level || ''}}</span>
+        </div>
+        <div class="player-rank">
+          <span class="label">Colocação</span>
+          <span class="value">#{{playerRank || '...'}}</span>
+        </div>
+        <div class="tips-button-container">
+          <button class="tips-button" ng-click="openTipsCarousel()">Dicas</button>
+        </div>
+      </div>
+      
+      <div class="sidebar-bottom">
+        <button class="logout-button" ng-click="logout()">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Área Central - Floresta -->
+    <div class="forest-area">
+      <div class="forest-container">
+        <!-- Céu com nuvens e sol -->
+        <div class="sky">
+          <div class="sun"></div>
+          <div class="cloud cloud-1"></div>
+          <div class="cloud cloud-2"></div>
+          <div class="cloud cloud-3"></div>
+        </div>
+        
+        <!-- Área verde da floresta -->
+        <div class="forest-green"></div>
+        
+        <!-- Linhas de elementos de cima para baixo -->
+        <div class="forest-row row-trees-top" id="row-trees-top"></div>
+        <div class="forest-row row-seeds-top" id="row-seeds-top"></div>
+        
+        <!-- Caminho marrom no meio -->
+        <div class="dirt-path"></div>
+        
+        <!-- Avatar do jogador no início do caminho -->
+        <div class="player-avatar-forest">
+          <img src="../img/avatar1.png" alt="Avatar do Jogador">
+        </div>
+        
+        <!-- Linhas de elementos abaixo da rua -->
+        <div class="forest-row row-fruit-trees-bottom" id="row-fruit-trees-bottom"></div>
+        <div class="forest-row row-sprouts-bottom" id="row-sprouts-bottom"></div>
+      </div>
+    </div>
+    
+    <!-- Coluna Direita -->
+    <div class="sidebar right-sidebar">
+      <div class="items-container">
+        <!-- Item estático -->
+        <div class="item">
+          <div class="item-image">
+            <img src="../img/saco.png" alt="Saco de Sementes">
+          </div>
+          <div class="item-count">800</div>
+        </div>
+        
+        <!-- Itens da API -->
+        <div class="item" ng-repeat="item in catalogItems">
+          <div class="item-image">
+            <img ng-src="{{item.image.medium.url}}" alt="{{item.name}}">
+          </div>
+          <div class="item-count">{{getItemCount(item._id)}}</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sequência de Pop-ups de Introdução -->
+    <div class="popup-overlay" ng-if="showPopupSequence">
+      <!-- Pop-up 1: Introdução -->
+      <div class="popup-content" ng-if="currentPopup === 1">
+        <div class="popup-close" ng-click="closePopupSequence()">×</div>
+        <div class="popup-header">
+          <div class="popup-icon">🌱</div>
+          <h2>Bem-vindo à Floresta BB</h2>
+        </div>
+        <div class="popup-body">
+          <p>Como Gerente Exclusivo, você é agora um <strong>Guardião da Floresta</strong>.</p>
+          <p>Sua missão é cultivar relacionamentos genuínos com clientes, transformando contatos em uma floresta próspera.</p>
+        </div>
+        <div class="popup-footer">
+          <button class="popup-button" ng-click="nextPopup()">Continuar</button>
+        </div>
+        <div class="popup-progress">
+          <span class="progress-dot active"></span>
+          <span class="progress-dot"></span>
+          <span class="progress-dot"></span>
+        </div>
+      </div>
+      
+      <!-- Pop-up 2: Como funciona -->
+      <div class="popup-content" ng-if="currentPopup === 2">
+        <div class="popup-close" ng-click="closePopupSequence()">×</div>
+        <div class="popup-header">
+          <div class="popup-icon">🌳</div>
+          <h2>Como Sua Floresta Cresce</h2>
+        </div>
+        <div class="popup-body">
+          <div class="growth-stages">
+            <div class="stage">
+              <img src="../img/seed.png" alt="Semente" class="stage-icon">
+              <p>Cada <strong>contato</strong> com cliente planta uma semente</p>
+            </div>
+            <div class="stage">
+              <img src="../img/sprout.png" alt="Broto" class="stage-icon">
+              <p>Contatos <strong>contínuos</strong> fazem brotos surgirem</p>
+            </div>
+            <div class="stage">
+              <img src="../img/tree.png" alt="Árvore" class="stage-icon">
+              <p>Uma <strong>venda</strong> faz a árvore crescer</p>
+            </div>
+            <div class="stage">
+              <img src="../img/fruit-tree.png" alt="Árvore com Frutos" class="stage-icon">
+              <p>Produtos <strong>especiais</strong> geram frutos</p>
+            </div>
+          </div>
+        </div>
+        <div class="popup-footer">
+          <button class="popup-button" ng-click="nextPopup()">Continuar</button>
+        </div>
+        <div class="popup-progress">
+          <span class="progress-dot"></span>
+          <span class="progress-dot active"></span>
+          <span class="progress-dot"></span>
+        </div>
+      </div>
+      
+      <!-- Pop-up 3: Benefícios -->
+      <div class="popup-content" ng-if="currentPopup === 3">
+        <div class="popup-close" ng-click="closePopupSequence()">×</div>
+        <div class="popup-header">
+          <div class="popup-icon">🏆</div>
+          <h2>Sua Jornada de Guardião</h2>
+        </div>
+        <div class="popup-body">
+          <p>Sua floresta é o reflexo visual do seu trabalho. Quanto mais você cultiva relacionamentos, mais seu ecossistema floresce.</p>
+          <p>Complete <strong>desafios</strong>, ganhe <strong>pontos</strong> e evolua de nível:</p>
+          <div class="level-progression">
+            <div class="level">Iniciador da Floresta</div>
+            <div class="level">Cultivador Verde</div>
+            <div class="level">Construtor de Bioma</div>
+            <div class="level">Guardião do Ecossistema</div>
+          </div>
+        </div>
+        <div class="popup-footer">
+          <button class="popup-button" ng-click="closePopupSequence()">Começar Agora</button>
+        </div>
+        <div class="popup-progress">
+          <span class="progress-dot"></span>
+          <span class="progress-dot"></span>
+          <span class="progress-dot active"></span>
+        </div>
+      </div>
+    </div>
+    <!-- Carrossel de Dicas -->
+    <div class="tips-carousel-overlay" ng-if="showTipsCarousel">
+      <div class="tips-carousel-container">
+        <div class="tips-carousel-close" ng-click="closeTipsCarousel()">×</div>
+        <div class="tips-carousel-content">
+          <!-- Slide 1 -->
+          <div class="tips-slide" ng-if="currentTip === 1">
+            <h3>🌱 Capítulo 1 – Uma Floresta Invisível</h3>
+            <p>Em algum canto do mundo corporativo — longe da selva de metas e do concreto das planilhas — uma floresta silenciosa começa a crescer.</p>
+            <p>Ela não nasce da terra comum, mas de algo mais raro: a arte de cultivar relações humanas genuínas.</p>
+          </div>
+          
+          <!-- Slide 2 -->
+          <div class="tips-slide" ng-if="currentTip === 2">
+            <h3>🌱 Capítulo 2 – O Saco de Sementes</h3>
+            <p>A cada novo ciclo, um novo campo se revela.</p>
+            <p>Ali, repousa um saco com 800 sementes.</p>
+            <p>Elas são vivas, únicas. Cada uma representa uma pessoa real — um cliente — à espera de ser tocado, escutado, acolhido.</p>
+            <p>Mas muitas se escondem, desconfiadas, como quem teme o vento.</p>
+          </div>
+          
+          <!-- Slide 3 -->
+          <div class="tips-slide" ng-if="currentTip === 3">
+            <h3>🌱 Capítulo 3 – Ações que Geram Vida</h3>
+            <p>Então, algo começa a acontecer.</p>
+            <p>📍 Uma mensagem enviada planta uma semente.</p>
+            <p>🌱 Um acompanhamento cuidadoso faz o broto surgir.</p>
+            <p>🌳 Uma venda bem-feita transforma o broto em árvore.</p>
+            <p>🍎 E quando o produto certo é entregue, a árvore dá frutos raros — dourados, cheios de valor simbólico.</p>
+          </div>
+          
+          <!-- Slide 4 -->
+          <div class="tips-slide" ng-if="currentTip === 4">
+            <h3>🌱 Capítulo 4 – O Valor Invisível</h3>
+            <p>Mais do que a floresta que cresce, o que realmente se transforma é o próprio solo de onde tudo nasce.</p>
+            <p>Mesmo sem resposta imediata, o cuidado gera vida.</p>
+            <p>Cada gesto, cada tentativa, é reconhecida em forma de crescimento. E o terreno, antes seco, se torna fértil de novo.</p>
+          </div>
+          
+          <!-- Slide 5 -->
+          <div class="tips-slide" ng-if="currentTip === 5">
+            <h3>🌱 Capítulo 5 – O Guardião Silencioso</h3>
+            <p>Com o tempo, o campo se transforma.</p>
+            <p>Flores desabrocham, animais surgem, o bioma evolui.</p>
+            <p>E aquele que cultiva — sem saber — passa a ser visto de outra forma.</p>
+            <p>Alguém dá nome ao que ele construiu: Iniciador. Cultivador. Construtor. Guardião.</p>
+            <p>A floresta está ali, viva, visível. Mas a verdadeira mudança acontece por dentro.</p>
+          </div>
+        </div>
+        
+        <div class="tips-carousel-navigation">
+          <button class="nav-button prev" ng-click="prevTip()" ng-disabled="currentTip === 1">
+            <span>←</span>
+          </button>
+          <div class="tips-carousel-indicators">
+            <span class="indicator" ng-class="{'active': currentTip === 1}"></span>
+            <span class="indicator" ng-class="{'active': currentTip === 2}"></span>
+            <span class="indicator" ng-class="{'active': currentTip === 3}"></span>
+            <span class="indicator" ng-class="{'active': currentTip === 4}"></span>
+            <span class="indicator" ng-class="{'active': currentTip === 5}"></span>
+          </div>
+          <button class="nav-button next" ng-click="nextTip()" ng-disabled="currentTip === 5">
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
