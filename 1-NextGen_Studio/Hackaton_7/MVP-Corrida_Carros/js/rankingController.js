@@ -511,7 +511,7 @@ angular
       // Special cars for top 3 positions
       if (position === 1) return "img/carro-ouro.png"
       if (position === 2) return "img/carro-prata.png"
-      if (position === 3) return "img/carro-bronze.png"
+      if (position === 3) return "img/carro-bronze.png" 
 
       // For other positions, use color-based cars
       const colors = ["red", "blue", "green", "yellow"]
