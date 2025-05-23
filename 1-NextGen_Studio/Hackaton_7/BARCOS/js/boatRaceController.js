@@ -10,10 +10,7 @@ angular
         PLAYER_NAME: "Nome do Jogador",
         POINTS: "pts",
         SCORE: "Pontuação",
-        YOUR_SCORE: "Sua Pontuação",
-        CURRENT_LEVEL: "Nível Atual",
         BOAT: "Barco",
-        AVATAR_EDITOR: "Editor de Avatar",
         CONNECTION_STATUS: { CONNECTED: "Conectado", CONNECTING: "Conectando...", DISCONNECTED: "Desconectado" },
         POSITIONS: { FIRST: "1º Lugar", SECOND: "2º Lugar", THIRD: "3º Lugar", FOURTH: "4º Lugar", OTHER: "Posição" },
         BOAT_TYPES: { GOLD: "Iate de Luxo", SILVER: "Veleiro Avançado", BRONZE: "Barco Padrão", REGULAR: "Barco Básico" },
@@ -25,10 +22,7 @@ angular
         PLAYER_NAME: "Player Name",
         POINTS: "pts",
         SCORE: "Score",
-        YOUR_SCORE: "Your Score",
-        CURRENT_LEVEL: "Current Level",
         BOAT: "Boat",
-        AVATAR_EDITOR: "Avatar Editor",
         CONNECTION_STATUS: { CONNECTED: "Connected", CONNECTING: "Connecting...", DISCONNECTED: "Disconnected" },
         POSITIONS: { FIRST: "1st Place", SECOND: "2nd Place", THIRD: "3rd Place", FOURTH: "4th Place", OTHER: "Position" },
         BOAT_TYPES: { GOLD: "Luxury Yacht", SILVER: "Advanced Sailboat", BRONZE: "Standard Boat", REGULAR: "Basic Boat" },
@@ -49,8 +43,6 @@ angular
     $scope.firstPlaceId = null;
     $scope.currentLang = "pt";
     $scope.isUpdating = false;
-    $scope.userScore = 140;
-    $scope.currentLevel = "Nível 1";
 
     let scrollWrapper = null;
     let lastScrollPosition = 0;
@@ -108,10 +100,6 @@ angular
       return "img/default-player.png";
     };
 
-    $scope.editAvatar = () => {
-      alert("Funcionalidade de edição de avatar ainda não implementada. Use a imagem padrão por enquanto.");
-    };
-
     function fetchLeaderboard() {
       $scope.isUpdating = true;
       if (scrollWrapper) lastScrollPosition = scrollWrapper.scrollLeft;
@@ -158,7 +146,7 @@ angular
       data.forEach((player, index) => {
         player.position = index + 1;
         player.id = player.id || player.player || player.name;
-        player.lane = index % 2 === 0 ? 0 : 1;
+        player.lane = index % 3;
       });
 
       const newFirstPlace = data.length > 0 ? data[0].id : null;
@@ -166,7 +154,7 @@ angular
         bellSound.play().catch((e) => console.log("Could not play sound:", e));
       }
       $scope.firstPlaceId = newFirstPlace;
-      $scope.players = data.reverse(); // Inverte para o primeiro estar à direita
+      $scope.players = data.reverse();
       $scope.maxDistance = calculateMaxDistance($scope.players);
 
       const oceanSection = document.querySelector(".ocean-section");
@@ -218,7 +206,7 @@ angular
       if (!players || players.length === 0) return 1200;
       let totalWidth = 600;
       for (let i = 0; i < players.length; i++) {
-        totalWidth += $scope.baseSpacing + (players.length - i) * $scope.progressiveSpacing;
+        totalWidth += $scope.baseSpacing + i * $scope.progressiveSpacing;
       }
       return Math.max(totalWidth, 1200);
     }
@@ -233,7 +221,10 @@ angular
           }
         }
         if (animate) {
-          document.querySelectorAll(".boat").forEach((boat) => boat.classList.add("animated"));
+          document.querySelectorAll(".boat").forEach((boat) => {
+            boat.style.transition = "right 1s ease-in-out, top 1s ease-in-out";
+            boat.classList.add("animated");
+          });
         }
       }, 100);
     }
@@ -247,7 +238,7 @@ angular
           total: Math.floor(Math.random() * 1000) + 500,
           position: i,
           image: null,
-          lane: i % 2 === 0 ? 0 : 1,
+          lane: (i - 1) % 3,
         });
       }
       dummyPlayers.sort((a, b) => b.total - a.total);
@@ -262,11 +253,11 @@ angular
       for (let i = 1; i < position; i++) {
         distanceFromRight += $scope.baseSpacing + i * $scope.progressiveSpacing;
       }
-      const rowOffset = position % 2 === 0 ? 60 : 0;
+      const laneOffset = player.lane * 60 - 60;
       const zIndex = 100 - position;
       return {
         right: distanceFromRight + "px",
-        top: `calc(50% + ${rowOffset}px)`,
+        top: `calc(50% + ${laneOffset}px)`,
         transform: "translateY(-50%)",
         zIndex: zIndex,
       };
@@ -343,6 +334,55 @@ angular
       scrollWrapper = document.getElementById("scroll-wrapper");
       fetchLeaderboard();
       $interval(fetchLeaderboard, 30000);
+      startCloudAnimation();
+      setupScrollHandler();
+    }
+
+    function startCloudAnimation() {
+      const cloudLayer = document.querySelector(".cloud-layer");
+
+      function showCloudPair() {
+        const clouds = document.querySelectorAll(".cloud");
+        clouds.forEach(cloud => cloud.style.opacity = "0");
+
+        const cloud1 = document.createElement("div");
+        cloud1.classList.add("cloud", "cloud-1");
+        cloud1.style.left = "-200px";
+        cloudLayer.appendChild(cloud1);
+
+        const cloud2 = document.createElement("div");
+        cloud2.classList.add("cloud", "cloud-2");
+        cloud2.style.left = "-200px";
+        $timeout(() => {
+          cloudLayer.appendChild(cloud2);
+        }, 8000);
+
+        $timeout(() => {
+          cloud1.style.opacity = "1";
+          cloud2.style.opacity = "1";
+        }, 10);
+
+        $timeout(() => {
+          cloud1.style.opacity = "0";
+          cloud2.style.opacity = "0";
+          if (cloudLayer.contains(cloud1)) cloudLayer.removeChild(cloud1);
+          if (cloudLayer.contains(cloud2)) cloudLayer.removeChild(cloud2);
+        }, 32000);
+
+        $timeout(showCloudPair, 32000);
+      }
+
+      showCloudPair();
+    }
+
+    function setupScrollHandler() {
+      window.addEventListener("wheel", (event) => {
+        if (scrollWrapper) {
+          event.preventDefault();
+          const delta = event.deltaY * 2;
+          scrollWrapper.scrollLeft += delta;
+        }
+      }, { passive: false });
     }
 
     $timeout(init, 100);

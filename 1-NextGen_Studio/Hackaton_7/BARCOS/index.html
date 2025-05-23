@@ -15,12 +15,6 @@
     <button ng-click="changeLanguage('en')" ng-class="{'active': currentLang === 'en'}">EN</button>
   </div>
 
-  <!-- Painel de pontuação -->
-  <div class="score-panel">
-    <span>{{ 'YOUR_SCORE' | translate }}: {{ userScore }}</span>
-    <span>{{ 'CURRENT_LEVEL' | translate }}: {{ currentLevel }}</span>
-  </div>
-
   <!-- Indicador de status de conexão -->
   <div class="connection-status" ng-class="connectionStatus">
     <div class="status-indicator"></div>
@@ -38,16 +32,26 @@
     <div class="ocean-section">
       <!-- Fundo náutico dinâmico -->
       <div class="ocean-background">
-        <!-- Camada de céu com sol -->
-        <div class="sky-layer"></div>
-        <!-- Camada de montanhas -->
-        <div class="mountain-layer"></div>
-        <!-- Camada de ondas -->
-        <div class="waves-layer"></div>
-        <!-- Farol -->
-        <div class="lighthouse"></div>
-        <!-- Container para respingos -->
-        <div class="splash-container"></div>
+        <!-- Camada de céu com nuvens -->
+        <div class="sky-layer">
+          <div class="cloud-layer"></div>
+        </div>
+        <!-- Camada de ondas dinâmicas -->
+        <div class="wave-layer">
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+        </div>
+        <!-- Rochas fixas -->
+        <div class="rock-layer">
+          <div class="rock rock-1"></div>
+          <div class="rock rock-2"></div>
+          <div class="rock rock-3"></div>
+        </div>
+        <!-- Linha de chegada (areia) -->
+        <div class="finish-line"></div>
       </div>
 
       <!-- Barcos dos jogadores -->
@@ -67,19 +71,7 @@
           <span class="player-points">{{player.total}} {{ 'POINTS' | translate }}</span>
         </div>
       </div>
-
-      <!-- Linha de chegada (boia) -->
-      <div class="finish-line">
-        <div class="finish-line-inner"></div>
-      </div>
     </div>
-  </div>
-
-  <!-- Editor de avatar -->
-  <div class="avatar-editor">
-    <h3>{{ 'AVATAR_EDITOR' | translate }}</h3>
-    <img id="avatar-img" src="img/default-avatar.png" alt="{{ 'PLAYER_PHOTO' | translate }}">
-    <button ng-click="editAvatar()">Edit</button>
   </div>
 
   <!-- Preload de áudio -->

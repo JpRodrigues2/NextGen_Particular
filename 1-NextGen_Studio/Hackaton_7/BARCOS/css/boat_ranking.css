@@ -59,42 +59,6 @@ body {
   color: white;
 }
 
-.score-panel {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: rgba(0, 105, 148, 0.9);
-  padding: 10px;
-  border-radius: 10px;
-  z-index: 1000;
-}
-
-.avatar-editor {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 10px;
-  z-index: 1000;
-  text-align: center;
-}
-
-.avatar-editor img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-
-.avatar-editor button {
-  background: #0288d1;
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 .ocean-background {
   position: absolute;
   top: 0;
@@ -109,44 +73,102 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 60%;
-  background: linear-gradient(to bottom, #ff8f00, #81d4fa);
+  height: 33.33%;
+  background: linear-gradient(to bottom, #87ceeb, #e0f6ff);
   z-index: 2;
 }
 
-.mountain-layer {
+.cloud-layer {
   position: absolute;
-  bottom: 40%;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 20%;
-  background: url("../img/mountains.png") repeat-x bottom;
-  z-index: 3;
+  height: 100%;
+  overflow: hidden;
 }
 
-.waves-layer {
+.cloud {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: cloud-move 32s linear forwards;
+  opacity: 0;
+}
+
+.cloud-1 {
+  background-image: url("../img/nuvem.png");
+  top: 20%;
+}
+
+.cloud-2 {
+  background-image: url("../img/nuvem2.png");
+  top: 40%;
+}
+
+.wave-layer {
+  position: absolute;
+  top: 33.33%;
+  left: 0;
+  width: 100%;
+  height: 66.67%;
+  background: #0288d1;
+  z-index: 4;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: wave-move 3s ease-in-out infinite;
+}
+
+.wave:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.wave:nth-child(2) { left: 30%; top: 50%; animation-delay: 1s; }
+.wave:nth-child(3) { left: 50%; top: 30%; animation-delay: 0.5s; }
+.wave:nth-child(4) { left: 70%; top: 60%; animation-delay: 1.5s; }
+.wave:nth-child(5) { left: 90%; top: 40%; animation-delay: 2s; }
+
+.rock-layer {
+  position: absolute;
+  top: 33.33%;
+  left: 0;
+  width: 100%;
+  height: 66.67%;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-top: 10px;
+}
+
+.rock {
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 200px;
+}
+
+.rock-1 { background-image: url("../img/Rocha1.png"); }
+.rock-2 { background-image: url("../img/Rocha2.png"); right: 350px; }
+.rock-3 { background-image: url("../img/Rocha3.png"); right: 500px; }
+
+.finish-line {
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 40%;
-  background: url("../img/waves.png") repeat-x;
-  animation: wave-move 10s linear infinite;
-  z-index: 4;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: url("../img/areia.png") no-repeat;
+  background-size: contain;
+  z-index: 6;
 }
-
-.lighthouse {
-  position: absolute;
-  left: 50px;
-  top: 50%;
-  width: 40px;
-  height: 80px;
-  background: #fff;
-  border-radius: 10px 10px 0 0;
-  z-index: 5;
-}
-
-.splash-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; }
 
 .boat-splash {
   position: absolute;
@@ -176,7 +198,7 @@ body {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: right 1s ease-in-out, top 1s ease-in-out;
   z-index: 10;
   animation: boat-rock 3s ease-in-out infinite;
 }
@@ -184,7 +206,7 @@ body {
 .boat:hover { transform: scale(1.1) translateY(-50%); z-index: 20; }
 
 .boat img {
-  width: 120px;
+  width: 180px; /* Aumentado de 120px para 180px */
   height: auto;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
   user-select: none;
@@ -193,31 +215,13 @@ body {
 .player-label {
   position: absolute;
   bottom: -30px;
-  width: 120px;
+  width: 180px; /* Ajustado para acompanhar o tamanho do barco */
   text-align: center;
-  font-size: 12px;
+  font-size: 14px; /* Ajustado para melhor legibilidade */
 }
 
 .player-name { font-weight: bold; color: #fff; }
 .player-points { color: rgba(255, 255, 255, 0.8); }
-
-.finish-line {
-  position: absolute;
-  right: 80px;
-  top: 50%;
-  width: 40px;
-  height: 40px;
-  z-index: 3;
-}
-
-.finish-line-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ff1744, #b71c1c);
-  box-shadow: 0 0 20px rgba(255, 23, 68, 0.6);
-  animation: buoy-pulse 2s infinite alternate;
-}
 
 .connection-status {
   position: fixed;
@@ -304,26 +308,34 @@ body {
 .sidebar-close { position: absolute; top: 5px; right: 10px; background: none; border: none; color: rgba(255, 255, 255, 0.5); font-size: 20px; cursor: pointer; }
 .sidebar-close:hover { color: white; }
 
-@keyframes wave-move { 0% { background-position-x: 0; } 100% { background-position-x: 1000px; } }
+@keyframes cloud-move {
+  0% { left: -200px; opacity: 1; }
+  100% { left: 100%; opacity: 1; }
+}
+
+@keyframes wave-move {
+  0% { transform: translateX(0) scale(1); opacity: 0.3; }
+  50% { transform: translateX(20px) scale(1.2); opacity: 0.5; }
+  100% { transform: translateX(0) scale(1); opacity: 0.3; }
+}
+
 @keyframes splash-effect { 0%, 50%, 100% { opacity: 0; transform: scale(0.5); } 60% { opacity: 1; transform: scale(1); } 80% { opacity: 1; transform: scale(1.2); } }
 @keyframes wake-pulse { 0% { opacity: 0.4; width: 40px; } 50% { opacity: 0.7; width: 60px; } 100% { opacity: 0.4; width: 40px; } }
 @keyframes boat-rock { 0% { transform: translateY(-50%) rotate(-2deg); } 50% { transform: translateY(-50%) rotate(2deg); } 100% { transform: translateY(-50%) rotate(-2deg); } }
-@keyframes buoy-pulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
 @keyframes blink { 0% { opacity: 0.2; } 50% { opacity: 1; } 100% { opacity: 0.2; } }
 @keyframes ellipsis-animation { 0% { content: "Atualizando."; } 33% { content: "Atualizando.."; } 66% { content: "Atualizando..."; } }
 
 @media (min-width: 1921px) {
-  .boat img { width: 150px; }
-  .player-label { font-size: 14px; }
+  .boat img { width: 225px; } /* Ajuste proporcional para telas grandes */
+  .player-label { font-size: 16px; }
 }
 
 @media (max-width: 1200px) {
-  .boat img { width: 100px; }
-  .player-label { font-size: 10px; }
+  .boat img { width: 150px; } /* Ajuste para telas médias */
+  .player-label { font-size: 12px; }
 }
 
 @media (max-width: 767px) {
-  .boat img { width: 80px; }
-  .player-label { font-size: 8px; }
-  .score-panel, .avatar-editor { font-size: 10px; }
+  .boat img { width: 120px; } /* Ajuste para telas pequenas */
+  .player-label { font-size: 10px; }
 }
