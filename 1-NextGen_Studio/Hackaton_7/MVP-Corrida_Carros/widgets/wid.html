@@ -1,0 +1,164 @@
+<link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="carros" ng-controller="carros" id="carros">
+  <div id="funifier-racing-widget">
+    <!-- Botão de alternância de idioma -->
+    <div class="language-toggle" ng-click="toggleLanguage()">
+      {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+    </div>
+
+    <div class="game-container">
+      <!-- Grandstand Section (Top) -->
+      <div class="grandstand-section">
+        <img ng-src="{{getAssetUrl('grandstand.png')}}" alt="{{ t('GRANDSTAND') }}" class="grandstand-image" onerror="console.error('Erro ao carregar imagem da arquibancada:', this.src)">
+      </div>
+      
+      <!-- Track Section (Bottom) -->
+      <div class="track-section">
+        <!-- Background dinâmico temático de corrida -->
+        <div class="dynamic-background">
+          <!-- Padrão xadrez (bandeira de chegada) -->
+          <div class="checkered-pattern"></div>
+          
+          <!-- Linhas de velocidade -->
+          <div class="speed-lines">
+            <div class="speed-line"></div>
+            <div class="speed-line"></div>
+            <div class="speed-line"></div>
+            <div class="speed-line"></div>
+            <div class="speed-line"></div>
+          </div>
+          
+          <!-- Luzes de pista -->
+          <div class="track-light"></div>
+          <div class="track-light"></div>
+          <div class="track-light"></div>
+          <div class="track-light"></div>
+          <div class="track-light"></div>
+          <div class="track-light"></div>
+          <div class="track-light"></div>
+          <div class="track-light"></div>
+          
+          <!-- Efeito de rastro de pneu -->
+          <div class="tire-tracks"></div>
+        </div>
+        
+        <!-- Connection status indicator -->
+        <div class="connection-status" ng-class="connectionStatus">
+          <div class="status-indicator"></div>
+          <span ng-if="connectionStatus === 'connected'">{{ t('CONNECTION_STATUS.CONNECTED') }}</span>
+          <span ng-if="connectionStatus === 'connecting'">{{ t('CONNECTION_STATUS.CONNECTING') }}</span>
+          <span ng-if="connectionStatus === 'disconnected'">{{ t('CONNECTION_STATUS.DISCONNECTED') }}</span>
+        </div>
+        
+        <div class="pista-container">
+          <div class="pista-scroll">
+            <div class="pista" ng-style="{'width': (maxDistance) + 'px'}">
+              <!-- Track lanes -->
+              <div class="track-lanes">
+                <div class="lane lane-1"></div>
+                <div class="lane lane-2"></div>
+                <div class="lane lane-3"></div>
+                <div class="lane lane-4"></div>
+                <div class="lane-markings"></div>
+              </div>
+              
+              <!-- Finish line -->
+              <div class="finish-line"></div>
+              
+              <!-- Ambient effects -->
+              <div class="ambient-effects">
+                <div class="light-beam light-beam-1"></div>
+                <div class="light-beam light-beam-2"></div>
+                <div class="light-beam light-beam-3"></div>
+              </div>
+              
+              <!-- Player cars -->
+              <div
+                class="carro"
+                ng-repeat="player in players"
+                ng-style="getCarStyle($index, player.total)"
+                data-player-id="{{player.id || player.player}}"
+                ng-click="showPlayerSidebar(player)"
+              >
+                <div class="car-wrapper">
+                  <div class="car-light"></div>
+                  <img ng-src="{{getCarImage(player.position)}}" alt="{{ t('PLAYER_CAR') }}" />
+                  <div class="smoke-effect"></div>
+                </div>
+                
+                <!-- Player info card (always visible) -->
+                <div class="player-info-card">
+                  <div class="position-badge" ng-class="getPositionClass(player.position)">
+                    {{player.position}}
+                  </div>
+                  <div class="player-info-text">
+                    <p class="player-info-name">{{player.name}}</p>
+                    <p class="player-info-points"><span>{{player.total}}</span> {{ t('POINTS') }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Scroll hint -->
+            <div class="scroll-hint">{{ t('SCROLL_HINT') }}</div>
+          </div>
+        </div>
+        
+        <div class="controls">
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-color gold"></div>
+              <span>{{ t('POSITIONS.FIRST') }}</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color silver"></div>
+              <span>{{ t('POSITIONS.SECOND') }}</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color bronze"></div>
+              <span>{{ t('POSITIONS.THIRD') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aba lateral de informações do jogador -->
+    <div id="player-sidebar" class="player-sidebar">
+      <button class="sidebar-close" ng-click="hidePlayerSidebar()">&times;</button>
+      <div class="sidebar-header">
+        <img id="sidebar-photo" class="sidebar-photo" ng-src="{{selectedPlayer.image || getAssetUrl('default-player.png')}}" alt="{{ t('PLAYER_PHOTO') }}">
+        <div class="sidebar-title">
+          <h3 id="sidebar-name" class="sidebar-name">{{selectedPlayer.name || t('PLAYER_NAME')}}</h3>
+          <p id="sidebar-position" class="sidebar-position">
+            <span ng-if="currentLang === 'pt'">{{selectedPlayer.position}}º {{ t('PLACE') }}</span>
+            <span ng-if="currentLang === 'en'">{{formatPosition(selectedPlayer.position)}} place</span>
+          </p>
+        </div>
+      </div>
+      <div class="sidebar-details">
+        <div class="sidebar-stat">
+          <span class="sidebar-stat-label">{{ t('SCORE') }}</span>
+          <span id="sidebar-points" class="sidebar-stat-value">{{selectedPlayer.total || 0}} {{ t('POINTS') }}</span>
+        </div>
+        <div class="sidebar-stat">
+          <span class="sidebar-stat-label">{{ t('CAR') }}</span>
+          <span id="sidebar-car" class="sidebar-stat-value">{{ getCarType(selectedPlayer.position) }}</span>
+        </div>
+       
+        <div class="sidebar-stat" ng-if="selectedPlayer.playerData">
+          <span class="sidebar-stat-label">{{ t('XP') }}</span>
+          <span class="sidebar-stat-value">{{getXP(selectedPlayer.playerData)}}</span>
+        </div>
+        <div class="sidebar-stat" ng-if="selectedPlayer.playerData">
+          <span class="sidebar-stat-label">{{ t('COINS') }}</span>
+          <span class="sidebar-stat-value">{{getCoins(selectedPlayer.playerData)}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Adicionar elementos de áudio pré-carregados -->
+  <audio id="bell-sound" preload="auto" style="display:none;">
+    <source ng-src="{{getAssetUrl('bell.mp3')}}" type="audio/mpeg">
+  </audio>
+</div>
