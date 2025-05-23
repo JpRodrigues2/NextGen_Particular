@@ -1,0 +1,781 @@
+/* Reset específico para o widget */
+#barcos * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+#barcos {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Botão de alternância de idioma */
+#barcos .language-toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+  display: flex;
+  background: rgba(0, 105, 148, 0.8);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#barcos .language-toggle button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#barcos .language-toggle button.active {
+  background: #0288d1;
+  color: white;
+}
+
+#barcos .language-toggle button:hover:not(.active) {
+  background: rgba(2, 136, 209, 0.3);
+  color: white;
+}
+
+/* Wrapper para scroll horizontal */
+#barcos .scroll-wrapper {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Esconder a barra de rolagem para Chrome, Safari e Opera */
+#barcos .scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Seção do oceano */
+#barcos .ocean-section {
+  position: relative;
+  height: 100%;
+  width: 5000px;
+  background: transparent;
+}
+
+/* Fundo náutico dinâmico */
+#barcos .ocean-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Camada de céu com nuvens */
+#barcos .sky-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 33.33%;
+  background: linear-gradient(to bottom, #87ceeb, #e0f6ff);
+  z-index: 2;
+}
+
+#barcos .cloud-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Camada de ondas dinâmicas - MELHORADA */
+#barcos .wave-layer {
+  position: absolute;
+  top: 33.33%;
+  left: 0;
+  width: 100%;
+  height: 66.67%;
+  background: linear-gradient(to bottom, #0288d1, #01579b);
+  z-index: 4;
+  overflow: hidden;
+}
+
+/* Ondas animadas - MELHORADAS */
+#barcos .wave {
+  position: absolute;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: wave-animation 8s infinite ease-in-out;
+}
+
+#barcos .wave-1 {
+  width: 100%;
+  top: 10%;
+  left: 0;
+  height: 60px;
+  animation-delay: 0s;
+  opacity: 0.3;
+}
+
+#barcos .wave-2 {
+  width: 100%;
+  top: 25%;
+  left: -20%;
+  height: 50px;
+  animation-delay: 1s;
+  opacity: 0.2;
+}
+
+#barcos .wave-3 {
+  width: 100%;
+  top: 40%;
+  left: -10%;
+  height: 40px;
+  animation-delay: 0.5s;
+  opacity: 0.25;
+}
+
+#barcos .wave-4 {
+  width: 100%;
+  top: 55%;
+  left: -30%;
+  height: 45px;
+  animation-delay: 1.5s;
+  opacity: 0.2;
+}
+
+#barcos .wave-5 {
+  width: 100%;
+  top: 70%;
+  left: -15%;
+  height: 35px;
+  animation-delay: 0.7s;
+  opacity: 0.3;
+}
+
+#barcos .wave-6 {
+  width: 100%;
+  top: 85%;
+  left: -25%;
+  height: 30px;
+  animation-delay: 1.2s;
+  opacity: 0.2;
+}
+
+#barcos .wave-7 {
+  width: 100%;
+  top: 15%;
+  left: -5%;
+  height: 25px;
+  animation-delay: 0.3s;
+  opacity: 0.15;
+}
+
+#barcos .wave-8 {
+  width: 100%;
+  top: 60%;
+  left: -35%;
+  height: 20px;
+  animation-delay: 0.9s;
+  opacity: 0.25;
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: translateX(0) scaleX(1);
+  }
+  50% {
+    transform: translateX(50px) scaleX(1.1);
+  }
+  100% {
+    transform: translateX(0) scaleX(1);
+  }
+}
+
+/* Ondulações de água */
+#barcos .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+  transform: scale(0);
+  animation: ripple-animation 10s infinite;
+}
+
+#barcos .ripple-1 {
+  width: 100px;
+  height: 100px;
+  top: 40%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+#barcos .ripple-2 {
+  width: 80px;
+  height: 80px;
+  top: 60%;
+  left: 40%;
+  animation-delay: 2s;
+}
+
+#barcos .ripple-3 {
+  width: 120px;
+  height: 120px;
+  top: 50%;
+  left: 60%;
+  animation-delay: 4s;
+}
+
+#barcos .ripple-4 {
+  width: 90px;
+  height: 90px;
+  top: 70%;
+  left: 80%;
+  animation-delay: 6s;
+}
+
+#barcos .ripple-5 {
+  width: 110px;
+  height: 110px;
+  top: 45%;
+  left: 30%;
+  animation-delay: 8s;
+}
+
+@keyframes ripple-animation {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  10% {
+    transform: scale(0.3);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Rochas fixas - MELHORADAS */
+#barcos .rock-layer {
+  position: absolute;
+  top: 33.33%;
+  left: 0;
+  width: 100%;
+  height: 66.67%;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-top: 10px;
+}
+
+#barcos .rock {
+  width: 120px;
+  height: 120px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: 6;
+}
+
+#barcos .rock-1 {
+  background-image: url("https://raw.githubusercontent.com/JpRodrigues2/NextGen_Particular/main/1-NextGen_Studio/assets/barcos/Rocha1.png");
+  right: 300px;
+  top: 40%;
+  transform: rotate(5deg);
+}
+
+#barcos .rock-2 {
+  background-image: url("https://raw.githubusercontent.com/JpRodrigues2/NextGen_Particular/main/1-NextGen_Studio/assets/barcos/Rocha2.png");
+  right: 450px;
+  top: 50%;
+  transform: rotate(-8deg);
+}
+
+#barcos .rock-3 {
+  background-image: url("https://raw.githubusercontent.com/JpRodrigues2/NextGen_Particular/main/1-NextGen_Studio/assets/barcos/Rocha3.png");
+  right: 600px;
+  top: 45%;
+  transform: rotate(3deg);
+}
+
+/* Sombra das rochas para parecer que estão fixadas no fundo */
+#barcos .rock-shadow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+  border-radius: 50%;
+  z-index: 5;
+}
+
+/* Linha de chegada (areia) - RECRIADA COM CSS */
+#barcos .finish-line {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 66.67%;
+  z-index: 6;
+  overflow: hidden;
+}
+
+#barcos .sand-texture {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #f2d675, #e6c96a);
+  z-index: 6;
+}
+
+/* Ondulações na areia */
+#barcos .sand-ripple {
+  position: absolute;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(226, 190, 88, 0.7), transparent);
+  z-index: 7;
+}
+
+#barcos .sand-ripple-1 {
+  top: 20%;
+}
+#barcos .sand-ripple-2 {
+  top: 35%;
+}
+#barcos .sand-ripple-3 {
+  top: 50%;
+}
+#barcos .sand-ripple-4 {
+  top: 65%;
+}
+#barcos .sand-ripple-5 {
+  top: 80%;
+}
+
+/* Borda da água na areia */
+#barcos .water-edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(to bottom, #01579b, transparent);
+  opacity: 0.5;
+  z-index: 7;
+}
+
+/* Barcos dos jogadores - MELHORADOS */
+#barcos .boat {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 10;
+  animation: boat-rock 3s ease-in-out infinite;
+}
+
+#barcos .boat:hover {
+  transform: scale(1.1);
+  z-index: 20;
+}
+
+/* Position change animations - MELHORADAS */
+#barcos .boat.position-improved {
+  animation: improvePosition 1.5s ease-in-out;
+}
+
+#barcos .boat.position-lost {
+  animation: losePosition 1.5s ease-in-out;
+}
+
+#barcos .boat-wrapper {
+  position: relative;
+  margin: 0 auto;
+}
+
+#barcos .boat img {
+  width: 180px;
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  user-select: none;
+  transition: transform 0.3s;
+}
+
+/* Efeitos do barco */
+#barcos .boat-splash {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+  bottom: -10px;
+  right: -20px;
+  opacity: 0;
+  animation: splash-effect 2s infinite;
+  z-index: 9;
+}
+
+#barcos .boat-wake {
+  position: absolute;
+  width: 60px;
+  height: 10px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  bottom: -5px;
+  left: -50px;
+  opacity: 0.7;
+  animation: wake-pulse 1.5s infinite;
+  z-index: 8;
+}
+
+/* Etiqueta do jogador */
+#barcos .player-label {
+  position: absolute;
+  bottom: -30px;
+  width: 180px;
+  text-align: center;
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 2px 5px;
+}
+
+#barcos .player-name {
+  font-weight: bold;
+  color: #fff;
+  display: block;
+}
+
+#barcos .player-points {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+}
+
+/* Indicador de status de conexão */
+#barcos .connection-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 105, 148, 0.7);
+}
+
+#barcos .status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+#barcos .connected .status-indicator {
+  background-color: #06d6a0;
+}
+
+#barcos .disconnected .status-indicator {
+  background-color: #ff6b6b;
+}
+
+#barcos .connecting .status-indicator {
+  background-color: #ffd166;
+  animation: blink 1s infinite;
+}
+
+/* Indicador de atualização */
+#barcos .updating-indicator {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  z-index: 1000;
+  background: rgba(0, 105, 148, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#barcos .updating-indicator.active {
+  opacity: 1;
+}
+
+#barcos .updating-indicator::after {
+  content: "Atualizando...";
+  animation: ellipsis-animation 1.5s infinite;
+}
+
+/* Aba lateral para informações do jogador */
+#barcos .player-sidebar {
+  position: absolute;
+  bottom: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  background: rgba(0, 105, 148, 0.95);
+  border-top: 4px solid #0288d1;
+  border-radius: 12px 12px 0 0;
+  padding: 15px;
+  box-shadow: 0 -5px 25px rgba(2, 136, 209, 0.5);
+  z-index: 1000;
+  transition: bottom 0.3s ease-out;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#barcos .player-sidebar.active {
+  bottom: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+#barcos .sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(2, 136, 209, 0.2);
+  padding-bottom: 15px;
+}
+
+#barcos .sidebar-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #0288d1;
+  box-shadow: 0 0 15px rgba(2, 136, 209, 0.5);
+  margin-right: 15px;
+}
+
+#barcos .sidebar-title {
+  flex: 1;
+}
+
+#barcos .sidebar-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  color: white;
+}
+
+#barcos .sidebar-position {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  color: #0288d1;
+}
+
+#barcos .sidebar-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#barcos .sidebar-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(2, 136, 209, 0.2);
+}
+
+#barcos .sidebar-stat-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#barcos .sidebar-stat-value {
+  font-weight: bold;
+  color: white;
+}
+
+#barcos .sidebar-close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+#barcos .sidebar-close:hover {
+  color: white;
+}
+
+/* ANIMATIONS - MELHORADAS */
+@keyframes splash-effect {
+  0%,
+  50%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes wake-pulse {
+  0% {
+    opacity: 0.4;
+    width: 40px;
+  }
+  50% {
+    opacity: 0.7;
+    width: 60px;
+  }
+  100% {
+    opacity: 0.4;
+    width: 40px;
+  }
+}
+
+@keyframes boat-rock {
+  0% {
+    transform: translateY(-50%) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-50%) rotate(2deg);
+  }
+  100% {
+    transform: translateY(-50%) rotate(-2deg);
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes ellipsis-animation {
+  0% {
+    content: "Atualizando.";
+  }
+  33% {
+    content: "Atualizando..";
+  }
+  66% {
+    content: "Atualizando...";
+  }
+}
+
+/* Animação melhorada para subida de posição */
+@keyframes improvePosition {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+  20% {
+    transform: translateY(-80px) scale(1.1);
+  }
+  40% {
+    transform: translateY(-60px) scale(1.05);
+  }
+  60% {
+    transform: translateY(-80px) scale(1.1);
+  }
+  80% {
+    transform: translateY(-40px) scale(1.05);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* Animação melhorada para perda de posição */
+@keyframes losePosition {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+  20% {
+    transform: translateY(20px) scale(0.95);
+  }
+  40% {
+    transform: translateY(10px) scale(0.98);
+  }
+  60% {
+    transform: translateY(15px) scale(0.96);
+  }
+  80% {
+    transform: translateY(5px) scale(0.99);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* RESPONSIVE DESIGN */
+@media (min-width: 1921px) {
+  #barcos .boat img {
+    width: 225px;
+  }
+  #barcos .player-label {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1200px) {
+  #barcos .boat img {
+    width: 150px;
+  }
+  #barcos .player-label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  #barcos .boat img {
+    width: 120px;
+  }
+  #barcos .player-label {
+    font-size: 10px;
+  }
+  #barcos .scroll-wrapper {
+    height: 500px;
+  }
+}
