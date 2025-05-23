@@ -151,6 +151,7 @@ if (typeof angular !== "undefined") {
       // Elementos de áudio
       let bellSound
       let engineSound
+      let backgroundEngineSound
 
       // Inicializar elementos de áudio
       function initAudio() {
@@ -174,6 +175,14 @@ if (typeof angular !== "undefined") {
           engineSound.preload = "auto"
           engineSound.loop = false
 
+          // Som de motor de fundo contínuo
+          backgroundEngineSound = new Audio()
+          backgroundEngineSound.src =
+            "https://raw.githubusercontent.com/JpRodrigues2/NextGen_Particular/main/1-NextGen_Studio/assets/carros/engine.mp3"
+          backgroundEngineSound.volume = 0.2 // Volume reduzido para não incomodar
+          backgroundEngineSound.preload = "auto"
+          backgroundEngineSound.loop = true // Loop contínuo
+
           // Verificar se os áudios carregaram corretamente
           bellSound.addEventListener("error", (e) => {
             console.error("Erro ao carregar o som de sino:", e)
@@ -187,14 +196,31 @@ if (typeof angular !== "undefined") {
             $scope.audioEnabled = false
           })
 
+          backgroundEngineSound.addEventListener("error", (e) => {
+            console.error("Erro ao carregar o som de motor de fundo:", e)
+            console.log("URL do motor de fundo:", backgroundEngineSound.src)
+            $scope.audioEnabled = false
+          })
+
+          backgroundEngineSound.addEventListener("canplaythrough", () => {
+            console.log("Som de motor de fundo carregado com sucesso")
+            // Iniciar o som de motor de fundo automaticamente
+            backgroundEngineSound.play().catch((e) => {
+              console.error("Erro ao tocar o som de motor de fundo:", e)
+              $scope.audioEnabled = false
+            })
+          })
+
           console.log("Áudios inicializados com as URLs:", {
             bell: bellSound.src,
             engine: engineSound.src,
+            backgroundEngine: backgroundEngineSound.src,
           })
 
           // Tentar carregar os áudios manualmente
           bellSound.load()
           engineSound.load()
+          backgroundEngineSound.load()
         } catch (e) {
           console.error("Erro ao inicializar áudios:", e)
           $scope.audioEnabled = false
@@ -307,7 +333,7 @@ if (typeof angular !== "undefined") {
           method: "POST",
           url: apiUrl,
           headers: {
-            Authorization: Funifier.auth.getAuthorization(),
+            Authorization: typeof Funifier !== "undefined" && Funifier.auth ? Funifier.auth.getAuthorization() : null,
             "Content-Type": "application/json",
           },
           data: [], // Corpo vazio, pois os parâmetros estão na URL
@@ -428,7 +454,7 @@ if (typeof angular !== "undefined") {
           method: "GET",
           url: Funifier.config.service + "/v3/player/" + playerId + "/status",
           headers: {
-            Authorization: Funifier.auth.getAuthorization(),
+            Authorization: typeof Funifier !== "undefined" && Funifier.auth ? Funifier.auth.getAuthorization() : null,
             "Content-Type": "application/json",
           },
         }
@@ -719,7 +745,7 @@ if (typeof angular !== "undefined") {
 
         // Tentar obter de pointCategories (alternativa)
         if (playerData.pointCategories && playerData.pointCategories.moedas !== undefined) {
-          return playerData.pointCategories.moedas
+          return playerData.pointCategories.xp
         }
 
         return 0
