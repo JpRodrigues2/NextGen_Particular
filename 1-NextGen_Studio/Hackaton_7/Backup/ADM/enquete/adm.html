@@ -1,0 +1,160 @@
+<div class="title-block">
+    <h4>FunPack01 - Enquete</h4>
+    <a class="btn btn-default" ng-click="back()">{{"BACK"|translate}}</a>
+</div>
+
+<div class="row">
+    <!-- Formulário (lado esquerdo) -->
+    <div class="col-md-9">
+        <p>
+            Configure aqui o estilo e comportamento do widget de Enquete. Cadastre perguntas, selecione quais serão ativas, personalize a mensagem de agradecimento e ajuste o layout. Veja a prévia ao vivo à direita.
+        </p>
+
+        <!-- Seção de Cadastro de Perguntas -->
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>Cadastrar Nova Pergunta</h5>
+                <div class="form-group">
+                    <label>ID da Pergunta</label>
+                    <input ng-model="newQuestion._id" type="text" class="form-control" placeholder="Ex: q1" />
+                </div>
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <select ng-model="newQuestion.type" class="form-control">
+                        <option value="MULTIPLE_CHOICE">Múltipla Escolha</option>
+                        <option value="TEXT">Texto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Pergunta</label>
+                    <input ng-model="newQuestion.question" type="text" class="form-control" placeholder="Ex: Qual sua faixa etária?" />
+                </div>
+                <div ng-if="newQuestion.type === 'MULTIPLE_CHOICE'">
+                    <label>Opções</label>
+                    <div ng-repeat="choice in newQuestion.choices track by $index" class="row" style="margin-bottom: 10px;">
+                        <div class="col-sm-5">
+                            <input ng-model="choice.answer" type="text" class="form-control" placeholder="Valor (ex: 1)" />
+                        </div>
+                        <div class="col-sm-5">
+                            <input ng-model="choice.label" type="text" class="form-control" placeholder="Rótulo (ex: 10 anos ou menos)" />
+                        </div>
+                        <div class="col-sm-2">
+                            <button ng-click="newQuestion.choices.splice($index, 1)" class="btn btn-danger">-</button>
+                        </div>
+                    </div>
+                    <button ng-click="newQuestion.choices.push({ answer: '', label: '' })" class="btn btn-default">Adicionar Opção</button>
+                </div>
+                <button ng-click="addQuestion()" class="btn btn-primary" style="margin-top: 10px;">Adicionar Pergunta</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Seção de Perguntas Ativas -->
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Perguntas Ativas</h5>
+                <select ng-model="obj.active_questions" multiple class="form-control" style="height: 100px;">
+                    <option ng-repeat="question in obj.questions" ng-value="question._id" ng-selected="obj.active_questions.indexOf(question._id) !== -1">
+                        {{question.question}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Seção de Mensagem de Agradecimento -->
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Mensagem de Agradecimento</h5>
+                <input ng-model="obj.thank_you_message" type="text" class="form-control" placeholder="Ex: Obrigado por participar!" />
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Seção de Customização de Layout -->
+        <h5>Customização de Layout</h5>
+        
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor do Fundo Geral</label>
+                <input ng-model="obj.background_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Cabeçalho</label>
+                <input ng-model="obj.header_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor da Borda</label>
+                <input ng-model="obj.border_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor Principal do Texto</label>
+                <input ng-model="obj.text_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-6">
+                <label>
+                    Fonte dos Textos
+                    <a href="https://fonts.google.com/" target="_blank" style="font-size: 12px; margin-left: 5px;">(Google Fonts)</a>
+                </label>
+                <input ng-model="obj.font" type="text" class="form-control" placeholder="Fonte (ex: Roboto)" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Prévia (lado direito) -->
+    <div class="col-md-3">
+        <h5>Prévia:</h5>
+        <div style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+             ng-style="{
+                 'border': '2px solid ' + obj.border_color,
+                 'font-family': obj.font
+             }">
+            <!-- Header -->
+            <div style="padding: 15px; text-align: center; font-weight: bold; font-size: 18px;"
+                 ng-style="{
+                     'background-color': obj.header_color,
+                     'color': obj.text_color
+                 }">
+                ENQUETE
+            </div>
+            <!-- Content -->
+            <div style="padding: 15px;"
+                 ng-style="{
+                     'background-color': obj.background_color
+                 }">
+                <!-- Pergunta (exemplo) -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 14px;" ng-style="{'color': obj.text_color}">Qual sua faixa etária?</div>
+                    <div style="margin-top: 10px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                            <input type="radio" disabled>
+                            <span style="margin-left: 5px;" ng-style="{'color': obj.text_color}">10 anos ou menos</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                            <input type="radio" disabled>
+                            <span style="margin-left: 5px;" ng-style="{'color': obj.text_color}">De 11 a 20 anos</span>
+                        </div>
+                    </div>
+                    <button style="background-color: #ff9999; color: white; border: none; padding: 5px 10px; border-radius: 5px;" disabled>Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="text-right">
+    <button ng-click="resetToDefault()" class="btn btn-warning">Restaurar Padrão</button>
+    <button ng-click="back()" class="btn btn-default">{{"CANCEL"|translate}}</button>
+    <button ng-click="save()" class="btn btn-default">{{"SAVE"|translate}}</button>
+</div>

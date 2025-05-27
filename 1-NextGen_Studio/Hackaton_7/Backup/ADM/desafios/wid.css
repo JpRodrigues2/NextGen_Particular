@@ -1,0 +1,140 @@
+/* Reset específico para o widget */
+#desafios * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+#desafios {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#desafios #funifier-challenges-widget {
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#desafios .challenges-header {
+  background-color: #f8b37f;
+  color: #2d5c5c;
+  text-align: center;
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#desafios .challenges-content {
+  background-color: #a8d3c8;
+  padding: 20px;
+  position: relative;
+}
+
+#desafios .challenge-item {
+  margin-bottom: 20px;
+}
+
+#desafios .challenge-card {
+  display: flex;
+  align-items: center;
+  background-color: #fff4e6;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+#desafios .challenge-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+}
+
+#desafios .challenge-info {
+  flex-grow: 1;
+}
+
+#desafios .challenge-title {
+  font-size: 18px;
+  color: #2d5c5c;
+  margin-bottom: 5px;
+}
+
+#desafios .challenge-description {
+  font-size: 14px;
+  color: #2d5c5c;
+  margin-bottom: 5px;
+}
+
+#desafios .challenge-points {
+  font-size: 12px;
+  color: #2d5c5c;
+}
+
+#desafios .details-button {
+  background-color: #ff9999;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#desafios .details-button:hover {
+  background-color: #e06b6b;
+}
+
+#desafios .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#desafios .pagination button {
+  background-color: #ff9999;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+#desafios .pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#desafios .pagination span {
+  margin: 0 10px;
+  color: #2d5c5c;
+}
+
+#desafios .language-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+#desafios .language-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}

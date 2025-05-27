@@ -145,10 +145,7 @@
           <span class="sidebar-stat-label">{{ t('CAR') }}</span>
           <span id="sidebar-car" class="sidebar-stat-value">{{ getCarType(selectedPlayer.position) }}</span>
         </div>
-        <div class="sidebar-stat" ng-if="selectedPlayer.playerData">
-          <span class="sidebar-stat-label">{{ t('LEVEL') }}</span>
-          <span class="sidebar-stat-value">{{getLevelName(selectedPlayer.playerData)}}</span>
-        </div>
+        
         <div class="sidebar-stat" ng-if="selectedPlayer.playerData">
           <span class="sidebar-stat-label">{{ t('XP') }}</span>
           <span class="sidebar-stat-value">{{getXP(selectedPlayer.playerData)}}</span>

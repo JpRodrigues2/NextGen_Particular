@@ -1,0 +1,319 @@
+/* Reset específico para o widget */
+#dashboard * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+#dashboard {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 99999999;
+}
+
+#dashboard #funifier-dashboard-widget {
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+  background: #7fbfb3;
+  border: 2px solid #ffffff;
+}
+
+/* Header do Dashboard */
+#dashboard .dashboard-header {
+  background-color: #f9b87f;
+  padding: 20px;
+  text-align: center;
+}
+
+#dashboard .dashboard-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2d5d56;
+  margin: 0;
+}
+
+/* Conteúdo do Dashboard */
+#dashboard .dashboard-content {
+  background-color: #a8d3c8;
+  padding: 30px 20px;
+}
+
+/* Mensagens */
+#dashboard .message {
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+#dashboard .error-message {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #d32f2f;
+  border: 1px solid #d32f2f;
+}
+
+/* Seção do Jogador */
+#dashboard .player-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Avatar do Jogador */
+#dashboard .player-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#dashboard .player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Nome do Jogador */
+#dashboard .player-name {
+  font-size: 32px;
+  font-weight: bold;
+  color: #2d5d56;
+  text-align: center;
+}
+
+/* Grid de Estatísticas */
+#dashboard .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Cards de Estatísticas */
+#dashboard .stat-card {
+  background-color: #ffeaaa;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+#dashboard .stat-card:hover {
+  transform: translateY(-2px);
+}
+
+#dashboard .card-score {
+  background-color: #ffeaaa;
+}
+
+#dashboard .card-level {
+  background-color: #e8f4f0;
+}
+
+#dashboard .card-achievements {
+  background-color: #f8c8a0;
+}
+
+#dashboard .card-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #2d5d56;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+#dashboard .card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+#dashboard .card-icon {
+  font-size: 32px;
+}
+
+#dashboard .card-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2d5d56;
+}
+
+/* Card de Nível Especial */
+#dashboard .level-badge {
+  background: linear-gradient(135deg, #ff6b9d, #c44569);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#dashboard .level-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2d5d56;
+}
+
+/* Seção de Progresso de Nível */
+#dashboard .level-progress-section {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 10px;
+}
+
+#dashboard .progress-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#dashboard .progress-bar {
+  width: 100%;
+  height: 30px;
+  background-color: #d4a574;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#dashboard .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e57373, #d32f2f);
+  border-radius: 15px;
+  transition: width 0.8s ease;
+  position: relative;
+}
+
+#dashboard .progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+#dashboard .progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #2d5d56;
+}
+
+#dashboard .current-level,
+#dashboard .next-level {
+  font-weight: bold;
+}
+
+#dashboard .next-level {
+  font-style: italic;
+}
+
+#dashboard .progress-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #2d5d56;
+  margin-top: 10px;
+}
+
+/* Seletor de idioma */
+#dashboard .language-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10;
+  color: #2d5d56;
+  transition: background-color 0.3s;
+}
+
+#dashboard .language-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  #dashboard .dashboard-title {
+    font-size: 24px;
+  }
+
+  #dashboard .dashboard-content {
+    padding: 20px 15px;
+  }
+
+  #dashboard .player-avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  #dashboard .player-name {
+    font-size: 24px;
+  }
+
+  #dashboard .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  #dashboard .stat-card {
+    padding: 15px;
+  }
+
+  #dashboard .card-icon {
+    font-size: 24px;
+  }
+
+  #dashboard .card-value {
+    font-size: 20px;
+  }
+
+  #dashboard .level-badge {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  #dashboard .level-name {
+    font-size: 14px;
+  }
+
+  #dashboard .progress-bar {
+    height: 25px;
+  }
+
+  #dashboard .progress-text {
+    font-size: 12px;
+  }
+
+  #dashboard .progress-title {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,188 @@
+/* Reset específico para o widget */
+#desafios * {
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    font-family: "Roboto Condensed" !important;
+    line-height: 1.2;
+    text-align: inherit;
+    text-decoration: none;
+    color: #FFF;
+    list-style-type: none;
+    float: none;
+    letter-spacing: normal;
+    font-weight: normal;
+    -webkit-box-sizing: initial;
+    -moz-box-sizing: initial;
+    box-sizing: initial;    
+}
+
+#desafios {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 99999999;
+}
+
+#desafios strong {
+    font-weight: bold;
+}
+
+#desafios #funifier-challenges-widget {
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+#desafios .challenges-header {
+    background-color: #f8b37f;
+    color: #2d5c5c;
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#desafios .challenges-content {
+    background-color: #a8d3c8;
+    padding: 20px;
+    position: relative;
+}
+
+/* Estilo da lista de desafios */
+#desafios .challenges-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#desafios .challenge-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Cores alternadas para os desafios */
+#desafios .challenge-even {
+    background-color: #ffeaaa; /* Amarelo claro */
+}
+
+#desafios .challenge-odd {
+    background-color: #e8f4f0; /* Verde claro */
+}
+
+#desafios .challenge-card:nth-child(3n) {
+    background-color: #f8c8a0; /* Laranja claro */
+}
+
+#desafios .challenge-icon {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+#desafios .challenge-icon img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
+}
+
+#desafios .challenge-info {
+    flex-grow: 1;
+}
+
+#desafios .challenge-title {
+    font-weight: bold;
+    font-size: 22px;
+    color: #2d5c5c;
+    margin-bottom: 5px;
+}
+
+#desafios .challenge-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+#desafios .challenge-rewards {
+    display: flex;
+    gap: 15px;
+}
+
+#desafios .reward {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#desafios .reward-value {
+    font-weight: bold;
+    font-size: 18px;
+    color: #2d5c5c;
+}
+
+#desafios .reward-type {
+    font-size: 14px;
+    color: #666;
+}
+
+#desafios .no-data {
+    padding: 30px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    background-color: white;
+    border-radius: 15px;
+}
+
+#desafios .language-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 10;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    #desafios .challenges-header {
+        font-size: 24px;
+        padding: 15px;
+    }
+
+    #desafios .challenge-card {
+        padding: 15px;
+    }
+
+    #desafios .challenge-icon {
+        width: 60px;
+        height: 60px;
+        margin-right: 15px;
+    }
+
+    #desafios .challenge-title {
+        font-size: 18px;
+    }
+
+    #desafios .challenge-description {
+        font-size: 14px;
+    }
+
+    #desafios .reward-value {
+        font-size: 16px;
+    }
+
+    #desafios .reward-type {
+        font-size: 12px;
+    }
+}

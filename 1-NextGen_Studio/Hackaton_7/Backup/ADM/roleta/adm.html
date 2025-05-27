@@ -1,0 +1,222 @@
+<div class="title-block">
+    <h4>FunPack01 - Dashboard do Jogador</h4>
+    <a class="btn btn-default" ng-click="back()">{{"BACK"|translate}}</a>
+</div>
+
+<div class="row">
+    <!-- Formulário (lado esquerdo) -->
+    <div class="col-md-9">
+        <p>
+            Configure aqui o widget de dashboard do jogador. Escolha quais atributos exibir e personalize o estilo visual. Veja a prévia ao vivo à direita para acompanhar as mudanças em tempo real.
+        </p>
+
+        <!-- Seção de Atributos a Exibir -->
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>Atributos a Exibir</h5>
+                <p style="font-size: 12px; color: #666;">Selecione quais informações serão exibidas no dashboard:</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_avatar"> Avatar do jogador
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_name"> Nome do jogador
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_total_score"> Pontuação total
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_xp"> Pontos de experiência (XP)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_level"> Nível atual
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_coins"> Moedas
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_challenges"> Desafios completados
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_items"> Itens coletados
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="obj.show_progress"> Progresso de nível
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Seção de Customização de Layout -->
+        <h5>Customização de Layout</h5>
+        
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor do Fundo Geral</label>
+                <input ng-model="obj.background_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Cabeçalho</label>
+                <input ng-model="obj.header_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor da Borda</label>
+                <input ng-model="obj.border_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor Principal do Texto</label>
+                <input ng-model="obj.text_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor dos Cards de Pontuação</label>
+                <input ng-model="obj.card_score_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Card de Nível</label>
+                <input ng-model="obj.card_level_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor dos Cards de Conquistas</label>
+                <input ng-model="obj.card_achievements_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor da Barra de Progresso</label>
+                <input ng-model="obj.progress_bar_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Fundo da Barra de Progresso</label>
+                <input ng-model="obj.progress_background_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-6">
+                <label>
+                    Fonte dos Textos
+                    <a href="https://fonts.google.com/" target="_blank" style="font-size: 12px; margin-left: 5px;">(Google Fonts)</a>
+                </label>
+                <input ng-model="obj.font" type="text" class="form-control" placeholder="Fonte (ex: Roboto)" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Prévia (lado direito) -->
+    <div class="col-md-3">
+        <h5>Prévia:</h5>
+        <div style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+             ng-style="{
+                 'border': '2px solid ' + obj.border_color,
+                 'font-family': obj.font
+             }">
+            <!-- Header -->
+            <div style="padding: 15px; text-align: center; font-weight: bold; font-size: 18px;"
+                 ng-style="{
+                     'background-color': obj.header_color,
+                     'color': obj.text_color
+                 }">
+                STATUS DO JOGADOR
+            </div>
+            <!-- Content -->
+            <div style="padding: 20px; text-align: center;"
+                 ng-style="{
+                     'background-color': obj.background_color
+                 }">
+                <!-- Avatar -->
+                <div ng-if="obj.show_avatar" style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; background: #ddd; border: 3px solid white;"></div>
+                
+                <!-- Nome -->
+                <div ng-if="obj.show_name" style="font-weight: bold; font-size: 16px; margin-bottom: 15px;" ng-style="{'color': obj.text_color}">João Pedro</div>
+                
+                <!-- Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; margin-bottom: 15px;">
+                    <div ng-if="obj.show_total_score" style="padding: 8px; border-radius: 8px; text-align: center;"
+                         ng-style="{'background-color': obj.card_score_color}">
+                        <div style="font-size: 10px; font-weight: bold;" ng-style="{'color': obj.text_color}">TOTAL</div>
+                        <div style="font-size: 16px; font-weight: bold;" ng-style="{'color': obj.text_color}">⭐ 261</div>
+                    </div>
+                    <div ng-if="obj.show_xp" style="padding: 8px; border-radius: 8px; text-align: center;"
+                         ng-style="{'background-color': obj.card_score_color}">
+                        <div style="font-size: 10px; font-weight: bold;" ng-style="{'color': obj.text_color}">XP</div>
+                        <div style="font-size: 16px; font-weight: bold;" ng-style="{'color': obj.text_color}">🔷 205</div>
+                    </div>
+                    <div ng-if="obj.show_level" style="padding: 8px; border-radius: 8px; text-align: center;"
+                         ng-style="{'background-color': obj.card_level_color}">
+                        <div style="font-size: 10px; font-weight: bold;" ng-style="{'color': obj.text_color}">NÍVEL</div>
+                        <div style="font-size: 16px; font-weight: bold;" ng-style="{'color': obj.text_color}">🌟 1</div>
+                    </div>
+                    <div ng-if="obj.show_coins" style="padding: 8px; border-radius: 8px; text-align: center;"
+                         ng-style="{'background-color': obj.card_achievements_color}">
+                        <div style="font-size: 10px; font-weight: bold;" ng-style="{'color': obj.text_color}">MOEDAS</div>
+                        <div style="font-size: 16px; font-weight: bold;" ng-style="{'color': obj.text_color}">🪙 56</div>
+                    </div>
+                    <div ng-if="obj.show_challenges" style="padding: 8px; border-radius: 8px; text-align: center;"
+                         ng-style="{'background-color': obj.card_achievements_color}">
+                        <div style="font-size: 10px; font-weight: bold;" ng-style="{'color': obj.text_color}">DESAFIOS</div>
+                        <div style="font-size: 16px; font-weight: bold;" ng-style="{'color': obj.text_color}">🏆 5</div>
+                    </div>
+                    <div ng-if="obj.show_items" style="padding: 8px; border-radius: 8px; text-align: center;"
+                         ng-style="{'background-color': obj.card_achievements_color}">
+                        <div style="font-size: 10px; font-weight: bold;" ng-style="{'color': obj.text_color}">ITENS</div>
+                        <div style="font-size: 16px; font-weight: bold;" ng-style="{'color': obj.text_color}">📦 0</div>
+                    </div>
+                </div>
+                
+                <!-- Progresso -->
+                <div ng-if="obj.show_progress">
+                    <div style="width: 100%; height: 20px; border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 5px;"
+                         ng-style="{'background-color': obj.progress_background_color}">
+                        <div style="height: 100%; width: 70%; border-radius: 10px;"
+                             ng-style="{'background-color': obj.progress_bar_color}"></div>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10px; font-weight: bold; color: white;">70%</div>
+                    </div>
+                    <div style="font-size: 12px; font-weight: bold;" ng-style="{'color': obj.text_color}">Progresso de nível</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+            <h6>Atributos Visíveis: {{getVisibleAttributesCount()}}</h6>
+            <p style="font-size: 11px; color: #666;">
+                {{getVisibleAttributesCount()}} de 9 atributos selecionados
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="text-right">
+    <button ng-click="resetToDefault()" class="btn btn-warning">Restaurar Padrão</button>
+    <button ng-click="back()" class="btn btn-default">{{"CANCEL"|translate}}</button>
+    <button ng-click="save()" class="btn btn-default">{{"SAVE"|translate}}</button>
+</div>

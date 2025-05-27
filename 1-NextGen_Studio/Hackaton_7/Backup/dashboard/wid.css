@@ -1,0 +1,270 @@
+/* Reset específico para o widget */
+#dashboard_copy * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family e color serão definidos pelas variáveis CSS */
+    font-family: "Arial", sans-serif; /* Fallback */
+    color: inherit; /* Herdará do elemento pai que usa a variável */
+}
+
+/* Variáveis CSS padrão (serão sobrescritas pelo admin) */
+#dashboard_copy {
+    --widget-background-color-main: #a8d3c8;
+    --widget-background-color-header: #f8b37f;
+    --widget-background-color-cards: #f8b37f;
+    --widget-font-color: #2d5c5c;
+    --widget-avatar-border-color: white;
+    --widget-progress-bar-color: #4a90e2;
+    --widget-progress-bar-background-color: #e0e0e0;
+    --widget-font-family: 'Roboto', sans-serif; /* Fallback */
+
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    position: relative;
+    background-color: var(--widget-background-color-main); /* Usa a variável */
+}
+
+/* Aplicar a fonte e cor geral a todos os textos */
+#dashboard_copy h1,
+#dashboard_copy .player-name,
+#dashboard_copy .stat-label,
+#dashboard_copy .stat-value,
+#dashboard_copy .stat-value span,
+#dashboard_copy .progress-text,
+#dashboard_copy .next-level,
+#dashboard_copy .progress-label,
+#dashboard_copy .loading,
+#dashboard_copy .error {
+    font-family: var(--widget-font-family);
+    color: var(--widget-font-color);
+}
+
+
+#dashboard_copy .header {
+    background-color: var(--widget-background-color-header); /* Usa a variável */
+    /* color: #2d5c5c; - Removido, agora via var(--widget-font-color) */
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#dashboard_copy .player-info {
+    background-color: var(--widget-background-color-main); /* Usa a variável */
+    padding: 20px 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#dashboard_copy .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--widget-avatar-border-color); /* Usa a variável */
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+#dashboard_copy .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#dashboard_copy .player-name {
+    /* color: #2d5c5c; - Removido, agora via var(--widget-font-color) */
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#dashboard_copy .stats-container {
+    background-color: var(--widget-background-color-main); /* Usa a variável */
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+#dashboard_copy .stat-card {
+    flex: 1;
+    max-width: 140px;
+    padding: 15px 10px;
+    border-radius: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    outline: none;
+    min-height: 120px;
+}
+
+/* Aplicar a cor de fundo dos cards via variável */
+#dashboard_copy .points-card,
+#dashboard_copy .level-card,
+#dashboard_copy .coins-card {
+    background-color: var(--widget-background-color-cards); /* Usa a variável */
+}
+
+#dashboard_copy .stat-label {
+    font-size: 14px;
+    font-weight: bold;
+    /* color: #2d5c5c; - Removido, agora via var(--widget-font-color) */
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+#dashboard_copy .stat-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+#dashboard_copy .stat-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.3); /* Pode manter fixo ou tornar variável */
+}
+
+#dashboard_copy .stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    /* color: #2d5c5c; - Removido, agora via var(--widget-font-color) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#dashboard_copy .stat-value span {
+    /* color: #2d5c5c; - Removido, agora via var(--widget-font-color) */
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Remover estilos antigos dos ícones */
+#dashboard_copy .level-badge {
+    display: none;
+}
+
+/* Atualizar a cor da barra de progresso */
+#dashboard_copy .progress-container {
+    width: 100%;
+    margin: 20px 0 0 0;
+    background-color: var(--widget-background-color-main); /* Usa a variável */
+    padding: 0 20px 20px;
+}
+
+#dashboard_copy .progress-bar {
+    width: 100%;
+    height: 30px;
+    background-color: var(--widget-progress-bar-background-color); /* Usa a variável */
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+#dashboard_copy .progress-fill {
+    height: 100%;
+    background-color: var(--widget-progress-bar-color); /* Usa a variável */
+    border-radius: 15px;
+    position: relative;
+    transition: width 0.5s ease-out;
+}
+
+#dashboard_copy .progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    /* color: white; - Removido, agora via var(--widget-font-color) */
+    font-weight: bold;
+    line-height: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+#dashboard_copy .next-level {
+    /* color: white; - Removido, agora via var(--widget-font-color) */
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#dashboard_copy .progress-label {
+    /* color: #2d5c5c; - Removido, agora via var(--widget-font-color) */
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#dashboard_copy .stat-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* Responsividade (mantida) */
+@media (max-width: 480px) {
+    #dashboard_copy .stats-container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 20px;
+    }
+
+    #dashboard_copy .stat-card {
+        max-width: none;
+        width: 100%;
+    }
+
+    #dashboard_copy .header {
+        font-size: 24px;
+    }
+
+    #dashboard_copy .player-name {
+        font-size: 28px;
+    }
+
+    #dashboard_copy .stat-value,
+    #dashboard_copy .stat-value span {
+        font-size: 24px;
+    }
+
+    #dashboard_copy .stat-icon {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Estados de loading e erro */
+#dashboard_copy .loading,
+#dashboard_copy .error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    /* color e background-color virão das variáveis */
+    font-weight: bold;
+}

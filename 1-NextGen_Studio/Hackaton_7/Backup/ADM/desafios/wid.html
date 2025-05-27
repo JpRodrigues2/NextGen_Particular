@@ -1,0 +1,31 @@
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="desafios" ng-controller="desafios" id="desafios">
+  <div id="funifier-challenges-widget">
+    <div class="challenges-header">{{t('challengesTitle')}}</div>
+    <div class="challenges-content">
+      <div class="challenge-item" ng-repeat="challenge in getDisplayedChallenges()">
+        <div class="challenge-card">
+          <img ng-src="{{challenge.badgeUrl || 'https://via.placeholder.com/50'}}" alt="{{challenge.challenge}}" class="challenge-icon" />
+          <div class="challenge-info">
+            <h3 class="challenge-title">{{challenge.challenge}}</h3>
+            <p class="challenge-description">{{challenge.description || 'Sem descrição disponível'}}</p>
+            <p class="challenge-points">Pontuação: {{challenge.points[0].total}} {{challenge.points[0].category}} + {{challenge.points[1].total}} {{challenge.points[1].category}}</p>
+          </div>
+          <button class="details-button" ng-click="alert('Detalhes de {{challenge.challenge}}')">{{t('detailsButton')}}</button>
+        </div>
+      </div>
+
+      <!-- Paginação -->
+      <div class="pagination" ng-if="totalPages() > 1">
+        <button ng-click="setPage(currentPage - 1)" ng-disabled="currentPage === 1">Anterior</button>
+        <span>Página {{currentPage}} de {{totalPages()}}</span>
+        <button ng-click="setPage(currentPage + 1)" ng-disabled="currentPage === totalPages()">Próxima</button>
+      </div>
+
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+    </div>
+  </div>
+</div>

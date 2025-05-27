@@ -1,0 +1,38 @@
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="desafios" ng-controller="desafios" id="desafios">
+  <div id="funifier-challenges-widget">
+    <div class="challenges-header">{{t('challengesTitle')}}</div>
+    <div class="challenges-content">
+      <!-- Lista de desafios -->
+      <div class="challenges-list">
+        <div class="challenge-card" 
+             ng-repeat="challenge in challengesData" 
+             ng-class="{'challenge-even': $index % 2 === 0, 'challenge-odd': $index % 2 !== 0}">
+          <div class="challenge-icon">
+            <img ng-src="{{getChallengeIcon(challenge)}}" alt="{{challenge.challenge}}">
+          </div>
+          <div class="challenge-info">
+            <div class="challenge-title">{{challenge.challenge}}</div>
+            <div class="challenge-description">{{getTranslatedDescription(challenge)}}</div>
+            <div class="challenge-rewards">
+              <div class="reward" ng-repeat="point in challenge.points">
+                <span class="reward-value">{{point.total}}</span>
+                <span class="reward-type">{{getPointTypeName(point.category)}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mensagem quando não há dados -->
+        <div class="no-data" ng-if="challengesData.length === 0">
+          {{t('noChallengesData')}}
+        </div>
+      </div>
+      
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+    </div>
+  </div>
+</div>

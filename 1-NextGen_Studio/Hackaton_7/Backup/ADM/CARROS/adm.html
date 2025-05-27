@@ -1,0 +1,146 @@
+<div class="title-block">
+    <h4>FunPack01 - Corrida de Carros</h4>
+    <a class="btn btn-default" ng-click="back()">{{"BACK"|translate}}</a>
+</div>
+
+<div class="row">
+    <!-- Formulário (lado esquerdo) -->
+    <div class="col-md-9">
+        <p>
+            Configure aqui o estilo geral do widget de corrida de carros. Personalize cores, fonte, imagem da arquibancada e adicione suas imagens de carros personalizadas. Veja a prévia ao vivo à direita para acompanhar as mudanças em tempo real.
+        </p>
+
+        <div class="row">
+            <!-- Imagem da Arquibancada -->
+            <div class="col-xs-6 col-sm-6 text-center">
+                <label>Imagem da Arquibancada</label><br/>
+                <img ng-if="obj.grandstand_image" ng-src="{{obj.grandstand_image}}" style="width: 120px; margin-bottom: 10px;" />
+                <img ng-if="!obj.grandstand_image" ng-src="/images/no-image.png" style="width: 120px; margin-bottom: 10px;" />
+                <br/>
+                <image-picker title="Selecionar Imagem da Arquibancada" 
+                    on-change="setGrandstandImage"
+                    show-picker-url="true"
+                    show-picker-local="true"
+                    show-picker-gallery="true"
+                    upload-max-size="10000k">
+                </image-picker>
+                <br/>
+                <button class="btn btn-default btn-sm" ng-click="removeGrandstandImage()">
+                    <span class="glyphicon glyphicon-trash"></span> Remover Imagem
+                </button>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor de Fundo</label>
+                <input ng-model="obj.background_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor da Borda</label>
+                <input ng-model="obj.border_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor da Fonte</label>
+                <input ng-model="obj.font_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-6">
+                <label>
+                    Fonte 
+                    <a href="https://fonts.google.com/" target="_blank" style="font-size: 12px; margin-left: 5px;">(Google Fonts)</a>
+                </label>
+                <input ng-model="obj.font" type="text" class="form-control" placeholder="Fonte (ex: Roboto)" />
+            </div>
+            <div class="col-sm-6">
+                <label>Som de Sino (Mudança de 1º Lugar)</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="obj.bell_sound_enabled"> Habilitar som de sino
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prévia (lado direito) -->
+    <div class="col-md-3">
+        <h5>Prévia:</h5>
+        <div style="padding: 15px; text-align: center;"
+             ng-style="{
+                 'background-color': obj.background_color,
+                 'color': obj.font_color,
+                 'font-family': obj.font,
+                 'border': '2px solid ' + obj.border_color,
+                 'min-height': '220px',
+                 'background-size': 'cover',
+                 'background-position': 'center'
+             }">
+            <img ng-if="obj.grandstand_image" ng-src="{{obj.grandstand_image}}" style="width: 80px; margin-bottom: 10px;" />
+            <h5>{{ obj.title || 'Corrida de Carros' }}</h5>
+            <p style="font-size: 12px;">Prévia ao vivo do seu widget</p>
+            <p style="font-size: 10px;">
+                Som de sino: {{ obj.bell_sound_enabled ? 'Habilitado' : 'Desabilitado' }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<!-- Car Management Section -->
+<div class="car-management-section">
+    <h5>Gerenciar Imagens dos Carros</h5>
+    <div class="row">
+        <div class="col-sm-5">
+            <label>Selecione o Carro</label>
+            <select class="form-control" ng-model="selectedCar" ng-options="car.value as car.label for car in carOptions">
+                <option value="">Selecione...</option>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <label>Imagem do Carro</label>
+            <image-picker title="Selecionar Imagem do Carro"
+                on-change="setCarImage"
+                show-picker-url="true"
+                show-picker-local="true"
+                show-picker-gallery="true"
+                upload-max-size="10000k">
+            </image-picker>
+        </div>
+        <div class="col-sm-2" style="margin-top: 25px;">
+            <button class="btn btn-primary" ng-click="saveCarImage()" ng-disabled="!selectedCar || !carImageUrl">Salvar Carro</button>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-12">
+            <h6>Carros Registrados:</h6>
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Carro</th>
+                        <th>Imagem</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="car in registeredCars">
+                        <td>{{car.label}}</td>
+                        <td><img ng-src="{{car.image}}" style="width: 60px;" /></td>
+                        <td><button class="btn btn-danger btn-xs" ng-click="removeCarImage(car.value)">Remover</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="text-right">
+    <button ng-click="resetToDefault()" class="btn btn-warning">Restaurar Padrão</button>
+    <button ng-click="back()" class="btn btn-default">{{"CANCEL"|translate}}</button>
+    <button ng-click="save()" class="btn btn-default">{{"SAVE"|translate}}</button>
+</div>

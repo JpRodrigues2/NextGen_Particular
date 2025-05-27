@@ -1,0 +1,60 @@
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="loja" ng-controller="loja" id="loja">
+  <div id="funifier-store-widget">
+    <!-- Header da Loja -->
+    <div class="store-header">
+      <h1 class="store-title">{{ t('storeTitle') }}</h1>
+    </div>
+
+    <!-- Saldo de Moedas -->
+    <div class="coin-balance">
+      <span class="balance-text">{{ t('currentBalance') }}</span>
+      <span class="balance-amount">{{ playerCoins }}</span>
+      <span class="coin-icon">🪙</span>
+    </div>
+
+    <!-- Seção de Itens -->
+    <div class="items-section">
+      <h2 class="section-title">{{ t('availableItems') }}</h2>
+      
+      <!-- Loading/Message -->
+      <div class="message" ng-if="message" ng-class="{'error-message': messageType === 'error', 'success-message': messageType === 'success'}">
+        {{ message }}
+      </div>
+
+      <!-- Lista de Itens -->
+      <div class="items-grid" ng-if="!loading && items.length > 0">
+        <div class="item-card" ng-repeat="item in items">
+          <div class="item-image">
+            <img ng-src="{{ item.imageUrl }}" alt="{{ item.name }}" ng-if="item.imageUrl">
+            <div class="no-image" ng-if="!item.imageUrl">📦</div>
+          </div>
+          <div class="item-info">
+            <h3 class="item-name">{{ item.name }}</h3>
+            <div class="item-price">
+              <span class="coin-icon">🪙</span>
+              <span class="price-amount">{{ item.price }}</span>
+            </div>
+          </div>
+          <button 
+            class="buy-button" 
+            ng-click="buyItem(item)"
+            ng-disabled="!canBuy(item) || loading"
+            ng-class="{'disabled': !canBuy(item)}">
+            {{ t('buyButton') }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Mensagem quando não há itens -->
+      <div class="no-items" ng-if="!loading && items.length === 0 && !message">
+        {{ t('noItems') }}
+      </div>
+    </div>
+
+    <!-- Seletor de idioma -->
+    <div class="language-toggle" ng-click="toggleLanguage()">
+      {{ currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT' }}
+    </div>
+  </div>
+</div>

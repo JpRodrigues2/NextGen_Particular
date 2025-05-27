@@ -1,0 +1,194 @@
+#lojinha2 {
+  font-family: Arial, sans-serif;
+  background: #7fbfb3; /* Mint green background */
+  padding: 15px; /* Reduced padding */
+  max-width: 350px; /* Further reduced width from 500px to 350px */
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid white;
+}
+
+/* Header */
+#lojinha2::before {
+  content: "LOJA VIRTUAL";
+  display: block;
+  background-color: #f9b87f; /* Peach header */
+  color: #2d5d56; /* Dark teal text */
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 0;
+  margin: -15px -15px 15px -15px;
+  border-radius: 18px 18px 0 0;
+  border-bottom: 2px solid white;
+}
+
+/* Player ID display */
+.funifier-player-id {
+  background-color: #fff6d6;
+  color: #2d5d56;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #5a9088;
+}
+
+#funifier-catalog-select {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  padding: 6px;
+  width: 100%;
+  max-width: 220px; /* Reduced width */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff6d6; /* Light cream color */
+  border: 2px solid #5a9088; /* Teal border */
+  border-radius: 8px;
+  color: #2d5d56; /* Dark teal text */
+}
+
+/* "Itens Disponíveis" title */
+#funifier-items-container::before {
+  content: "Itens Disponíveis";
+  display: block;
+  color: #2d5d56; /* Dark teal text */
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+/* Taller items container with scrolling */
+#funifier-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #c2e5dc; /* Lighter mint green */
+  border-radius: 15px;
+  padding: 15px;
+  margin-top: 15px;
+  max-height: 450px; /* Increased height from 300px to 450px */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Scrollbar styling */
+#funifier-items-container::-webkit-scrollbar {
+  width: 6px; /* Narrower scrollbar */
+}
+
+#funifier-items-container::-webkit-scrollbar-track {
+  background: #c2e5dc;
+  border-radius: 10px;
+}
+
+#funifier-items-container::-webkit-scrollbar-thumb {
+  background: #5a9088;
+  border-radius: 10px;
+}
+
+/* Adjust item cards for narrower layout */
+.funifier-item-card {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+  padding: 10px 0;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f9b87f;
+}
+
+.funifier-item-card:last-child {
+  border-bottom: none;
+}
+
+/* Adjust layout for narrower width */
+.funifier-item-card img {
+  max-width: 40px;
+  max-height: 40px;
+  object-fit: contain;
+  margin-right: 8px; /* Reduced margin */
+}
+
+.funifier-item-name {
+  font-weight: bold;
+  font-size: 15px; /* Slightly smaller font */
+  color: #2d5d56;
+  flex: 1;
+  /* Ensure text wraps properly in narrow layout */
+  word-break: break-word;
+}
+
+.funifier-item-price {
+  color: #2d5d56;
+  font-weight: bold;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  margin-right: 8px; /* Reduced margin */
+  white-space: nowrap; /* Prevent price from wrapping */
+}
+
+.funifier-item-price::before {
+  content: "";
+  display: inline-block;
+  width: 18px; /* Slightly smaller icon */
+  height: 18px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f0b432"><circle cx="12" cy="12" r="10" fill="%23f0b432"/><text x="12" y="16" font-family="Arial" font-size="12" text-anchor="middle" fill="%23fff">$</text></svg>');
+  background-size: contain;
+  margin-right: 4px;
+}
+
+.funifier-buy-btn {
+  background-color: #e57373; /* Soft red */
+  color: white;
+  border: none;
+  padding: 6px 10px; /* Smaller padding */
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px; /* Smaller font */
+  white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+.funifier-buy-btn:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+#funifier-message {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2d5d56;
+  min-height: 40px; /* Add minimum height for messages */
+}
+
+/* Purchase success message styling */
+.funifier-purchase-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(76, 175, 80, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.funifier-purchase-icon {
+  color: #4caf50;
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.funifier-purchase-text {
+  color: #2d5d56;
+  font-size: 14px;
+}

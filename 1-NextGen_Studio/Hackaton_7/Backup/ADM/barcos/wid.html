@@ -1,0 +1,107 @@
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="barcos" ng-controller="barcos" id="barcos">
+  <!-- Botão de alternância de idioma -->
+  <div class="language-toggle">
+    <button ng-click="changeLanguage('pt')" ng-class="{'active': currentLang === 'pt'}">PT</button>
+    <button ng-click="changeLanguage('en')" ng-class="{'active': currentLang === 'en'}">EN</button>
+  </div>
+
+  <!-- Indicador de status de conexão -->
+  <div class="connection-status" ng-class="connectionStatus">
+    <div class="status-indicator"></div>
+    <span ng-if="connectionStatus === 'connected'">{{ t('CONNECTION_STATUS.CONNECTED') }}</span>
+    <span ng-if="connectionStatus === 'connecting'">{{ t('CONNECTION_STATUS.CONNECTING') }}</span>
+    <span ng-if="connectionStatus === 'disconnected'">{{ t('CONNECTION_STATUS.DISCONNECTED') }}</span>
+  </div>
+
+  <!-- Indicador de atualização -->
+  <div class="updating-indicator" ng-class="{'active': isUpdating}"></div>
+
+  <!-- Wrapper para scroll horizontal -->
+  <div id="scroll-wrapper" class="scroll-wrapper">
+    <!-- Seção do oceano -->
+    <div class="ocean-section">
+      <!-- Fundo náutico dinâmico -->
+      <div class="ocean-background">
+        <!-- Camada de céu com nuvens -->
+        <div class="sky-layer">
+          <!-- Sol -->
+          <div class="sun"></div>
+          <!-- Camada de nuvens -->
+          <div class="cloud-layer">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+          </div>
+        </div>
+        
+        <!-- Camada de ondas dinâmicas -->
+        <div class="wave-layer">
+          <div class="wave wave-1"></div>
+          <div class="wave wave-2"></div>
+          <div class="wave wave-3"></div>
+          <div class="wave wave-4"></div>
+          <div class="wave wave-5"></div>
+          <div class="wave wave-6"></div>
+          <div class="wave wave-7"></div>
+          <div class="wave wave-8"></div>
+          
+          <!-- Ondas de superfície -->
+          <div class="surface-wave surface-wave-1"></div>
+          <div class="surface-wave surface-wave-2"></div>
+        </div>
+        
+        <!-- Linha de chegada (areia) -->
+        <div class="finish-line"></div>
+      </div>
+
+      <!-- Barcos dos jogadores -->
+      <div
+        class="boat"
+        ng-repeat="player in players"
+        ng-style="getBoatStyle($index, player.total)"
+        data-player-id="{{player.id || player.player}}"
+        ng-click="showPlayerSidebar(player)"
+      >
+        <div class="boat-wrapper">
+          <div class="boat-wake"></div>
+          <img ng-src="{{getBoatImage(player.position)}}" alt="{{ t('PLAYER_BOAT') }}" />
+          <div class="boat-splash"></div>
+        </div>
+        <div class="player-label">
+          <span class="player-name">{{player.name}}</span>
+          <span class="player-points">{{player.total}} {{ t('POINTS') }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aba lateral para informações do jogador -->
+  <div id="player-sidebar" class="player-sidebar">
+    <button class="sidebar-close" ng-click="hidePlayerSidebar()">×</button>
+    <div class="sidebar-header">
+      <img id="sidebar-photo" class="sidebar-photo" ng-src="{{getPlayerImageUrl(selectedPlayer)}}" alt="{{ t('PLAYER_PHOTO') }}">
+      <div class="sidebar-title">
+        <h3 id="sidebar-name" class="sidebar-name">{{selectedPlayer.name || t('PLAYER_NAME')}}</h3>
+        <p id="sidebar-position" class="sidebar-position">
+          <span ng-if="currentLang === 'pt'">{{selectedPlayer.position}}º {{ t('PLACE') }}</span>
+          <span ng-if="currentLang === 'en'">{{formatPosition(selectedPlayer.position)}} {{ t('PLACE') }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="sidebar-details">
+      <div class="sidebar-stat">
+        <span class="sidebar-stat-label">{{ t('SCORE') }}</span>
+        <span id="sidebar-points" class="sidebar-stat-value">{{selectedPlayer.total || 0}} {{ t('POINTS') }}</span>
+      </div>
+      <div class="sidebar-stat">
+        <span class="sidebar-stat-label">{{ t('BOAT') }}</span>
+        <span id="sidebar-boat" class="sidebar-stat-value">{{ getBoatType(selectedPlayer.position) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preload de áudio -->
+  <audio id="bell-sound" preload="auto" style="display:none;"></audio>
+  <audio id="wave-sound" preload="auto" loop style="display:none;"></audio>
+</div>

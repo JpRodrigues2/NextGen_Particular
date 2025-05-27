@@ -1,0 +1,38 @@
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="enquete" ng-controller="enquete" id="enquete">
+  <div id="funifier-enquete-widget">
+    <div class="enquete-header">{{t('enqueteTitle')}}</div>
+    <div class="enquete-content">
+      <div ng-if="questions.length > 0 && !submitted" class="question-section">
+        <h3 class="question-title">{{questions[currentQuestionIndex].question}}</h3>
+        <div ng-if="questions[currentQuestionIndex].type === 'MULTIPLE_CHOICE'">
+          <div ng-repeat="choice in questions[currentQuestionIndex].choices" class="answer-option">
+            <input type="radio" ng-model="userAnswer" ng-value="choice.answer" name="enqueteAnswer" />
+            <span>{{choice.label}}</span>
+          </div>
+        </div>
+        <div ng-if="questions[currentQuestionIndex].type === 'TEXT'">
+          <input type="text" ng-model="userAnswer" class="answer-input" placeholder="Digite sua resposta" />
+        </div>
+        <button ng-click="submitAnswer()" ng-disabled="!userAnswer" class="submit-button">{{t('submit')}}</button>
+      </div>
+      <div ng-if="submitted && results" class="results-section">
+        <p class="thank-you-message">{{thankYouMessage}}</p>
+        <h4>Resultados:</h4>
+        <ul class="results-list">
+          <li ng-repeat="result in results" class="results-item">
+            {{questions[currentQuestionIndex].choices.find(c => c.answer === result._id)?.label || result._id}}: {{result.total}} voto(s)
+          </li>
+        </ul>
+        <button ng-click="nextQuestion()" class="next-button">{{t('nextQuestion')}}</button>
+      </div>
+      <div ng-if="questions.length === 0" class="empty-message">
+        Nenhuma pergunta disponível.
+      </div>
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+    </div>
+  </div>
+</div>

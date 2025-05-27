@@ -1,0 +1,107 @@
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="dashboard" ng-controller="dashboard" id="dashboard">
+  <div id="funifier-dashboard-widget">
+    <!-- Header do Dashboard -->
+    <div class="dashboard-header">
+      <h1 class="dashboard-title">{{ t('dashboardTitle') }}</h1>
+    </div>
+
+    <!-- Conteúdo do Dashboard -->
+    <div class="dashboard-content">
+      <!-- Loading/Message -->
+      <div class="message" ng-if="message" ng-class="{'error-message': messageType === 'error'}">
+        {{ message }}
+      </div>
+
+      <!-- Player Info Section -->
+      <div class="player-section" ng-if="!loading && playerData.name">
+        <!-- Avatar do Jogador -->
+        <div class="player-avatar" ng-if="shouldShow('show_avatar')">
+          <img ng-src="{{ getPlayerImage() }}" alt="Avatar do jogador">
+        </div>
+
+        <!-- Nome do Jogador -->
+        <div class="player-name" ng-if="shouldShow('show_name')">
+          {{ getPlayerName() }}
+        </div>
+
+        <!-- Cards de Estatísticas -->
+        <div class="stats-grid">
+          <!-- Card Pontuação Total -->
+          <div class="stat-card card-score" ng-if="shouldShow('show_total_score')">
+            <div class="card-title">{{ t('totalScore') }}</div>
+            <div class="card-content">
+              <div class="card-icon">⭐</div>
+              <div class="card-value">{{ getTotalScore() }}</div>
+            </div>
+          </div>
+
+          <!-- Card XP -->
+          <div class="stat-card card-score" ng-if="shouldShow('show_xp')">
+            <div class="card-title">{{ t('xp') }}</div>
+            <div class="card-content">
+              <div class="card-icon">🔷</div>
+              <div class="card-value">{{ getXP() }}</div>
+            </div>
+          </div>
+
+          <!-- Card Nível -->
+          <div class="stat-card card-level" ng-if="shouldShow('show_level')">
+            <div class="card-title">{{ t('level') }}</div>
+            <div class="card-content">
+              <div class="level-badge">{{ getLevelPosition() }}</div>
+              <div class="level-name">{{ getCurrentLevel() }}</div>
+            </div>
+          </div>
+
+          <!-- Card Moedas -->
+          <div class="stat-card card-achievements" ng-if="shouldShow('show_coins')">
+            <div class="card-title">{{ t('coins') }}</div>
+            <div class="card-content">
+              <div class="card-icon">🪙</div>
+              <div class="card-value">{{ getCoins() }}</div>
+            </div>
+          </div>
+
+          <!-- Card Desafios -->
+          <div class="stat-card card-achievements" ng-if="shouldShow('show_challenges')">
+            <div class="card-title">{{ t('challenges') }}</div>
+            <div class="card-content">
+              <div class="card-icon">🏆</div>
+              <div class="card-value">{{ getChallenges() }}</div>
+            </div>
+          </div>
+
+          <!-- Card Itens -->
+          <div class="stat-card card-achievements" ng-if="shouldShow('show_items')">
+            <div class="card-title">{{ t('items') }}</div>
+            <div class="card-content">
+              <div class="card-icon">📦</div>
+              <div class="card-value">{{ getItems() }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progresso de Nível -->
+        <div class="level-progress-section" ng-if="shouldShow('show_progress')">
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" ng-style="{'width': getLevelProgress() + '%'}"></div>
+              <div class="progress-text">{{ getLevelProgress() }}%</div>
+            </div>
+            <div class="progress-label">
+              <span class="current-level">{{ getCurrentLevel() }}</span>
+              <span class="next-level">{{ getNextLevel() }}</span>
+            </div>
+          </div>
+          <div class="progress-title">{{ t('levelProgress') }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seletor de idioma -->
+    <div class="language-toggle" ng-click="toggleLanguage()">
+      {{ currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT' }}
+    </div>
+  </div>
+</div>

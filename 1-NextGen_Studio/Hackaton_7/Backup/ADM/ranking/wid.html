@@ -1,0 +1,79 @@
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="ranking_copy" ng-controller="ranking_copy" id="ranking_copy">
+  
+  <div id="funifier-ranking-widget">
+    <div class="ranking-header">{{t('rankingTitle')}}</div>
+    <div class="ranking-content">
+      <!-- Seletor de leaderboard -->
+      
+      
+      <!-- Período removido conforme solicitado -->
+      
+      <!-- Lista de jogadores no ranking -->
+      <div class="ranking-list">
+        <!-- Jogador atual destacado -->
+        <div class="ranking-player current-player" ng-if="choices.position.player">
+          <div class="player-avatar">
+            <img ng-src="{{choices.position.image || 'https://s3.amazonaws.com/funifier-widget/catalog_new/leaderboard/default/images/default-avatar.png'}}" alt="{{choices.position.name}}">
+          </div>
+          <div class="player-info">
+            <div class="player-name">{{choices.position.name}} <span class="crown" ng-if="choices.position.position === 1">👑</span></div>
+            <div class="player-position">
+              <span ng-if="currentLang === 'pt'">{{choices.position.position}}º {{t('place')}}</span>
+              <span ng-if="currentLang === 'en'">{{formatPosition(choices.position.position)}} place</span>
+              <span class="trend-indicator" ng-if="choices.position.move === 'up'">
+                <span class="trend-up">▲</span>
+              </span>
+              <span class="trend-indicator" ng-if="choices.position.move === 'down'">
+                <span class="trend-down">▼</span>
+              </span>
+            </div>
+          </div>
+          <div class="player-score">
+            <div class="score-value">{{choices.position.total}}</div>
+          </div>
+        </div>
+        
+        <!-- Lista de outros jogadores com scroll -->
+        <div class="players-container">
+          <div class="ranking-player" 
+               ng-repeat="player in rankingData | limitTo:displayLimit" 
+               ng-class="{'player-first': player.position === 1, 'player-second': player.position === 2, 'player-third': player.position === 3}">
+            <div class="player-avatar">
+              <img ng-src="{{player.image || 'https://s3.amazonaws.com/funifier-widget/catalog_new/leaderboard/default/images/default-avatar.png'}}" alt="{{player.name}}">
+            </div>
+            <div class="player-info">
+              <div class="player-name">{{player.name}} <span class="crown" ng-if="player.position === 1">👑</span></div>
+              <div class="player-position">
+                <span ng-if="currentLang === 'pt'">{{player.position}}º {{t('place')}}</span>
+                <span ng-if="currentLang === 'en'">{{formatPosition(player.position)}} place</span>
+                <span class="trend-indicator" ng-if="player.move === 'up'">
+                  <span class="trend-up">▲</span>
+                </span>
+                <span class="trend-indicator" ng-if="player.move === 'down'">
+                  <span class="trend-down">▼</span>
+                </span>
+              </div>
+            </div>
+            <div class="player-score">
+              <div class="score-value">{{player.total}}</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mensagem quando não há dados -->
+        <div class="no-data" ng-if="rankingData.length === 0">
+          {{t('noRankingData')}}
+        </div>
+      </div>
+      
+      <!-- Botão "mostrar mais" removido -->
+      
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+    </div>
+  </div>
+  
+</div>

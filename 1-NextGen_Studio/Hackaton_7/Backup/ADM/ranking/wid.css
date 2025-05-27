@@ -1,0 +1,225 @@
+/* Reset específico para o widget */
+#ranking_copy * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+#ranking_copy {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#ranking_copy #funifier-ranking-widget {
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#ranking_copy .ranking-header {
+  background-color: #f8b37f;
+  color: #2d5c5c;
+  text-align: center;
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#ranking_copy .ranking-content {
+  background-color: #a8d3c8;
+  padding: 20px;
+  position: relative;
+}
+
+/* Estilo dos seletores */
+#ranking_copy .leaderboard-selector {
+  margin-bottom: 15px;
+}
+
+#ranking_copy .leaderboard-selector select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #fff;
+  font-size: 16px;
+  color: #2d5c5c;
+  cursor: pointer;
+}
+
+/* Estilos removidos para o seletor de período que não existe mais */
+
+/* Estilo da lista de jogadores com scroll */
+#ranking_copy .ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Container com scroll para os jogadores - altura reduzida */
+#ranking_copy .players-container {
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 5px; /* Espaço para a barra de rolagem */
+}
+
+/* Estilizando a barra de rolagem */
+#ranking_copy .players-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+#ranking_copy .players-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+#ranking_copy .players-container::-webkit-scrollbar-thumb {
+  background-color: #1bd0e1;
+  border-radius: 10px;
+}
+
+#ranking_copy .ranking-player {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Jogador atual */
+#ranking_copy .current-player {
+  background-color: #1bd0e1 !important;
+  margin-bottom: 15px;
+}
+
+#ranking_copy .current-player .player-name,
+#ranking_copy .current-player .player-position,
+#ranking_copy .current-player .player-score .score-value {
+  color: white !important;
+}
+
+/* Cores alternadas para os jogadores */
+#ranking_copy .player-first {
+  background-color: #ffeaaa; /* Amarelo claro para o primeiro lugar */
+}
+
+#ranking_copy .player-second {
+  background-color: #e8f4f0; /* Verde claro para o segundo lugar */
+}
+
+#ranking_copy .player-third {
+  background-color: #f8c8a0; /* Laranja claro para o terceiro lugar */
+}
+
+#ranking_copy .ranking-player:not(.player-first):not(.player-second):not(.player-third):not(.current-player) {
+  background-color: white; /* Branco para os demais jogadores */
+}
+
+#ranking_copy .player-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 15px;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+#ranking_copy .player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#ranking_copy .player-info {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+#ranking_copy .player-name {
+  color: #2d5c5c;
+  font-weight: bold;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#ranking_copy .player-position {
+  color: #555;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+#ranking_copy .player-score {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 60px;
+}
+
+#ranking_copy .score-value {
+  font-weight: bold;
+  color: #2d5c5c;
+  font-size: 18px;
+}
+
+/* Indicadores de tendência */
+#ranking_copy .trend-up {
+  color: green;
+  margin-left: 5px;
+}
+
+#ranking_copy .trend-down {
+  color: red;
+  margin-left: 5px;
+}
+
+#ranking_copy .crown {
+  margin-left: 5px;
+  font-size: 16px;
+}
+
+/* Mensagem sem dados */
+#ranking_copy .no-data {
+  text-align: center;
+  padding: 20px;
+  color: #555;
+  background-color: white;
+  border-radius: 10px;
+}
+
+/* Código removido para botão mostrar mais que não existe mais */
+
+/* Seletor de idioma */
+#ranking_copy .language-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+#ranking_copy .language-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}

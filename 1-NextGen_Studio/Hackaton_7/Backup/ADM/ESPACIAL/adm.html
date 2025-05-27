@@ -1,0 +1,128 @@
+<div class="title-block">
+    <h4>FunPack01</h4>
+    <a class="btn btn-default" ng-click="back()">{{"BACK"|translate}}</a>
+</div>
+
+<div class="row">
+    <!-- Formulário (lado esquerdo) -->
+    <div class="col-md-9">
+        <p>
+            Configure aqui o estilo geral dos widgets deste pacote. Personalize cores, fonte e adicione sua logomarca. Veja a prévia ao vivo à direita para acompanhar as mudanças em tempo real.
+        </p>
+
+        
+        <div class="row">
+            <!-- Logo (Background) -->
+            <div class="col-xs-6 col-sm-6 text-center">
+                <label>Background</label><br/>
+                <img ng-if="obj.logo" ng-src="{{obj.logo}}" style="width: 120px; margin-bottom: 10px;" />
+                <img ng-if="!obj.logo" ng-src="/images/no-image.png" style="width: 120px; margin-bottom: 10px;" />
+                <br/>
+                <image-picker title="Selecionar Logo" 
+                    on-change="setLogo"
+                    show-picker-url="true"
+                    show-picker-local="true"
+                    show-picker-gallery="true"
+                    upload-max-size="10000k">
+                </image-picker>
+                <br/>
+                <button class="btn btn-default btn-sm" ng-click="removeLogo()">
+                    <span class="glyphicon glyphicon-trash"></span> Remover Logo
+                </button>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-6">
+                <label>
+                    Fonte 
+                    <a href="https://fonts.google.com/" target="_blank" style="font-size: 12px; margin-left: 5px;">(Google Fonts)</a>
+                </label>
+                <input ng-model="obj.font" type="text" class="form-control" placeholder="Fonte (ex: Roboto)" />
+            </div>
+            <div class="col-sm-6">
+                <label>Cor da Fonte</label>
+                <input ng-model="obj.font_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        
+    </div>
+
+    <!-- Prévia (lado direito) -->
+    <div class="col-md-3">
+        <h5>Prévia:</h5>
+        <div style="padding: 15px; text-align: center;"
+             ng-style="{
+                 'background-color': obj.background_color,
+                 'background-image': obj.background_image ? 'url(' + obj.background_image + ')' : 'none',
+                 'color': obj.font_color,
+                 'font-family': obj.font,
+                 'border': '2px solid ' + obj.border_color,
+                 'min-height': '220px',
+                 'background-size': 'cover',
+                 'background-position': 'center'
+             }">
+            <img ng-if="obj.logo" ng-src="{{obj.logo}}" style="width: 80px; margin-bottom: 10px;" />
+            <h5>{{ obj.title || 'Título Exemplo' }}</h5>
+            <p style="font-size: 12px;">Prévia ao vivo do seu widget</p>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<!-- Car Management Section -->
+<div class="car-management-section">
+    <h5>Gerenciar Imagens das Naves</h5>
+    <div class="row">
+        <div class="col-sm-5">
+            <label>Selecione a Nave</label>
+            <select class="form-control" ng-model="selectedCar" ng-options="car.value as car.label for car in carOptions">
+                <option value="">Selecione...</option>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <label>Imagem da Nave</label>
+            <image-picker title="Selecionar Imagem da Nave"
+                on-change="setCarImage"
+                show-picker-url="true"
+                show-picker-local="true"
+                show-picker-gallery="true"
+                upload-max-size="10000k">
+            </image-picker>
+        </div>
+        <div class="col-sm-2" style="margin-top: 25px;">
+            <button class="btn btn-primary" ng-click="saveCarImage()" ng-disabled="!selectedCar || !carImageUrl">Salvar Nave</button>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-12">
+            <h6>Naves Registradas:</h6>
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Nave</th>
+                        <th>Imagem</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="car in registeredCars">
+                        <td>{{car.label}}</td>
+                        <td><img ng-src="{{car.image}}" style="width: 60px;" /></td>
+                        <td><button class="btn btn-danger btn-xs" ng-click="removeCarImage(car.value)">Remover</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="text-right">
+    <button ng-click="resetToDefault()" class="btn btn-warning">Restaurar Padrão</button>
+    <button ng-click="back()" class="btn btn-default">{{"CANCEL"|translate}}</button>
+    <button ng-click="save()" class="btn btn-default">{{"SAVE"|translate}}</button>
+</div>
