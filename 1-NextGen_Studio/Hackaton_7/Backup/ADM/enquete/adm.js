@@ -20,8 +20,8 @@ $scope.obj = {
       ],
       active: true,
     },
-  ], // Lista de perguntas cadastradas
-  active_questions: ["q1"], // IDs das perguntas ativas
+  ],
+  active_questions: ["q1"],
 };
 
 $scope.newQuestion = {

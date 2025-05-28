@@ -8,18 +8,16 @@ angular.module("desafios", []).controller("desafios", [
 
     // Configuração inicial
     $scope.challenges = []; // Armazena os desafios ativos
-    $scope.itemsPerPage = 3; // Número padrão de desafios por página
+    $scope.itemsPerPage = 3; // Número padrão de desafios por página (será atualizado pelo banco de dados)
     $scope.currentPage = 1;
 
     // Configuração de idiomas
     $scope.translations = {
       pt: {
         challengesTitle: "DESAFIOS",
-        detailsButton: "DETALHES",
       },
       en: {
         challengesTitle: "CHALLENGES",
-        detailsButton: "DETAILS",
       },
     };
 
@@ -50,6 +48,8 @@ angular.module("desafios", []).controller("desafios", [
       }).then((data) => {
         if (data.data && data.data[0]) {
           $scope.whitelabelConfig = data.data[0];
+          // Atualizar itemsPerPage com o valor do banco de dados
+          $scope.itemsPerPage = $scope.whitelabelConfig.items_per_page || 3;
           applyWhitelabelStyles();
         }
       });
@@ -121,23 +121,6 @@ angular.module("desafios", []).controller("desafios", [
           reason: "No text_color found in DB.",
         });
       }
-
-      // Cor do botão
-      if (cfg.button_color) {
-        const style = document.createElement("style");
-        style.innerHTML = `
-          #desafios .details-button {
-            background-color: ${cfg.button_color} !important;
-          }
-        `;
-        document.head.appendChild(style);
-      } else {
-        console.error("[WhiteLabel] Button color not found in DB:", {
-          key: "button_color",
-          config: cfg,
-          reason: "No button_color found in DB.",
-        });
-      }
     }
 
     // Função para obter os desafios via API
@@ -154,7 +137,7 @@ angular.module("desafios", []).controller("desafios", [
         (data) => {
           if (data.data) {
             $scope.challenges = data.data.filter((challenge) => challenge.active);
-            fetchWhitelabelConfig();
+            fetchWhitelabelConfig(); // Buscar configurações após carregar os desafios
           }
         },
         (err) => {

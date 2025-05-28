@@ -1,0 +1,213 @@
+<div class="title-block">
+    <h4>FunPack01 - Ranking Convencional</h4>
+    <a class="btn btn-default" ng-click="back()">{{"BACK"|translate}}</a>
+</div>
+
+<div class="row">
+    <!-- Formulário (lado esquerdo) -->
+    <div class="col-md-9">
+        <p>
+            Configure aqui o estilo geral do widget de ranking. Personalize cores, fonte, visibilidade dos rankings e layout da lista. Veja a prévia ao vivo à direita para acompanhar as mudanças em tempo real.
+        </p>
+
+        <!-- Seção de Rankings Visíveis -->
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>Rankings Visíveis por Grupo de Usuários</h5>
+                <p style="font-size: 12px; color: #666;">Selecione quais rankings serão visíveis para os usuários deste grupo:</p>
+                <div class="checkbox-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                    <div ng-repeat="leaderboard in availableLeaderboards" class="checkbox">
+                        <label>
+                            <input type="checkbox" 
+                                   ng-model="leaderboard.selected"
+                                   ng-change="updateVisibleLeaderboards()"> 
+                            {{leaderboard.title || leaderboard.name || leaderboard._id}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Seção de Customização de Layout -->
+        <h5>Customização de Layout</h5>
+        
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor do Fundo Geral</label>
+                <input ng-model="obj.background_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Cabeçalho</label>
+                <input ng-model="obj.header_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor da Borda</label>
+                <input ng-model="obj.border_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor Principal do Texto</label>
+                <input ng-model="obj.text_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor de Destaque do Jogador Atual</label>
+                <input ng-model="obj.current_player_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor da Borda do Avatar</label>
+                <input ng-model="obj.avatar_border_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor do Primeiro Lugar</label>
+                <input ng-model="obj.first_place_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Segundo Lugar</label>
+                <input ng-model="obj.second_place_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Terceiro Lugar</label>
+                <input ng-model="obj.third_place_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor dos Demais Jogadores</label>
+                <input ng-model="obj.other_players_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-6">
+                <label>
+                    Fonte dos Textos
+                    <a href="https://fonts.google.com/" target="_blank" style="font-size: 12px; margin-left: 5px;">(Google Fonts)</a>
+                </label>
+                <input ng-model="obj.font" type="text" class="form-control" placeholder="Fonte (ex: Roboto)" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Prévia (lado direito) -->
+    <div class="col-md-3">
+        <h5>Prévia:</h5>
+        <div style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+             ng-style="{
+                 'border': '2px solid ' + obj.border_color,
+                 'font-family': obj.font
+             }">
+            <!-- Header -->
+            <div style="padding: 15px; text-align: center; font-weight: bold; font-size: 18px;"
+                 ng-style="{
+                     'background-color': obj.header_color,
+                     'color': obj.text_color
+                 }">
+                RANKING
+            </div>
+            <!-- Content -->
+            <div style="padding: 15px;"
+                 ng-style="{
+                     'background-color': obj.background_color
+                 }">
+                <!-- Current Player -->
+                <div style="display: flex; align-items: center; padding: 10px; border-radius: 10px; margin-bottom: 10px;"
+                     ng-style="{
+                         'background-color': obj.current_player_color
+                     }">
+                    <div style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; background: #ddd;"
+                         ng-style="{
+                             'border': '2px solid ' + obj.avatar_border_color
+                         }"></div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; font-size: 12px;" ng-style="{'color': obj.text_color}">Você</div>
+                        <div style="font-size: 10px;" ng-style="{'color': obj.text_color}">5º lugar</div>
+                    </div>
+                    <div style="font-weight: bold; font-size: 12px;" ng-style="{'color': obj.text_color}">1250</div>
+                </div>
+                
+                <!-- Top 3 Players -->
+                <div style="display: flex; align-items: center; padding: 8px; border-radius: 8px; margin-bottom: 5px;"
+                     ng-style="{
+                         'background-color': obj.first_place_color
+                     }">
+                    <div style="width: 25px; height: 25px; border-radius: 50%; margin-right: 8px; background: #ddd;"
+                         ng-style="{
+                             'border': '2px solid ' + obj.avatar_border_color
+                         }"></div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; font-size: 11px;" ng-style="{'color': obj.text_color}">João 👑</div>
+                        <div style="font-size: 9px;" ng-style="{'color': obj.text_color}">1º lugar</div>
+                    </div>
+                    <div style="font-weight: bold; font-size: 11px;" ng-style="{'color': obj.text_color}">2500</div>
+                </div>
+                
+                <div style="display: flex; align-items: center; padding: 8px; border-radius: 8px; margin-bottom: 5px;"
+                     ng-style="{
+                         'background-color': obj.second_place_color
+                     }">
+                    <div style="width: 25px; height: 25px; border-radius: 50%; margin-right: 8px; background: #ddd;"
+                         ng-style="{
+                             'border': '2px solid ' + obj.avatar_border_color
+                         }"></div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; font-size: 11px;" ng-style="{'color': obj.text_color}">Maria</div>
+                        <div style="font-size: 9px;" ng-style="{'color': obj.text_color}">2º lugar</div>
+                    </div>
+                    <div style="font-weight: bold; font-size: 11px;" ng-style="{'color': obj.text_color}">2100</div>
+                </div>
+                
+                <div style="display: flex; align-items: center; padding: 8px; border-radius: 8px; margin-bottom: 5px;"
+                     ng-style="{
+                         'background-color': obj.third_place_color
+                     }">
+                    <div style="width: 25px; height: 25px; border-radius: 50%; margin-right: 8px; background: #ddd;"
+                         ng-style="{
+                             'border': '2px solid ' + obj.avatar_border_color
+                         }"></div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; font-size: 11px;" ng-style="{'color': obj.text_color}">Pedro</div>
+                        <div style="font-size: 9px;" ng-style="{'color': obj.text_color}">3º lugar</div>
+                    </div>
+                    <div style="font-weight: bold; font-size: 11px;" ng-style="{'color': obj.text_color}">1800</div>
+                </div>
+
+                <!-- Other Player -->
+                <div style="display: flex; align-items: center; padding: 8px; border-radius: 8px;"
+                     ng-style="{
+                         'background-color': obj.other_players_color
+                     }">
+                    <div style="width: 25px; height: 25px; border-radius: 50%; margin-right: 8px; background: #ddd;"
+                         ng-style="{
+                             'border': '2px solid ' + obj.avatar_border_color
+                         }"></div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; font-size: 11px;" ng-style="{'color': obj.text_color}">Ana</div>
+                        <div style="font-size: 9px;" ng-style="{'color': obj.text_color}">4º lugar</div>
+                    </div>
+                    <div style="font-weight: bold; font-size: 11px;" ng-style="{'color': obj.text_color}">1500</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+            <h6>Rankings Visíveis: {{getSelectedLeaderboardsCount()}}</h6>
+            <p style="font-size: 11px; color: #666;">
+                {{getSelectedLeaderboardsCount()}} de {{availableLeaderboards.length}} rankings selecionados
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="text-right">
+    <button ng-click="applyBancoDoBrasilStyle()" class="btn btn-info">Estilo Banco do Brasil</button>
+    <button ng-click="resetToDefault()" class="btn btn-warning">Restaurar Padrão</button>
+    <button ng-click="back()" class="btn btn-default">{{"CANCEL"|translate}}</button>
+    <button ng-click="save()" class="btn btn-default">{{"SAVE"|translate}}</button>
+</div>

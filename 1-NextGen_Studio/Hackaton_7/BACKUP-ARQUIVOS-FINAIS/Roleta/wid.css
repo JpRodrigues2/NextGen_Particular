@@ -1,0 +1,250 @@
+/* Reset específico para o widget */
+#roleta * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+#roleta {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#roleta #funifier-wheel-widget {
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#roleta .wheel-header {
+  background-color: #f8b37f;
+  color: #2d5c5c;
+  text-align: center;
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#roleta .wheel-content {
+  background-color: #a8d3c8;
+  padding: 20px;
+  position: relative;
+}
+
+/* Lista de prêmios */
+#roleta .prizes-list {
+  margin-bottom: 20px;
+}
+
+#roleta .prizes-list h3 {
+  font-size: 20px;
+  color: #2d5c5c;
+  margin-bottom: 10px;
+}
+
+#roleta .prize-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+#roleta .prize-image {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+#roleta .prize-title {
+  color: #2d5c5c;
+  font-size: 16px;
+}
+
+/* Roleta */
+#roleta .wheel-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#roleta .wheel {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  border: 5px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 8s ease-out;
+}
+
+#roleta .wheel.spinning {
+  animation: spin 2s cubic-bezier(0.2, 0, 0.1, 1) forwards;
+}
+
+/* Animação de giro com desaceleração mais gradativa */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  60% {
+    transform: rotate(900deg);
+  }
+  80% {
+    transform: rotate(1080deg);
+  }
+  90% {
+    transform: rotate(1116deg);
+  }
+  97% {
+    transform: rotate(1134deg);
+  }
+  100% {
+    transform: rotate(1135deg);
+  }
+}
+
+#roleta .wheel-section {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 50% 50%);
+  transform-origin: 50% 50%;
+}
+
+#roleta .wheel-section-content {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%) rotate(-90deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  text-align: center;
+}
+
+#roleta .wheel-prize-image {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+#roleta .wheel-prize-title {
+  font-size: 12px;
+  color: #fff;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+#roleta .wheel-section:nth-child(1) { background-color: #ff9999; }
+#roleta .wheel-section:nth-child(2) { background-color: #ffd699; }
+#roleta .wheel-section:nth-child(3) { background-color: #99ccff; }
+#roleta .wheel-section:nth-child(4) { background-color: #ffcc99; }
+#roleta .wheel-section:nth-child(5) { background-color: #ccffcc; }
+#roleta .wheel-section:nth-child(6) { background-color: #ffcccc; }
+
+#roleta .wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background-color: #666;
+  border-radius: 50%;
+  border: 3px solid #fff;
+}
+
+/* Botão de giro */
+#roleta .spin-button {
+  display: block;
+  margin: 0 auto;
+  padding: 15px 30px;
+  background-color: #ff5555;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+#roleta .spin-button.spinning {
+  background-color: #999 !important;
+  cursor: not-allowed;
+}
+
+#roleta .spin-button:hover:not(.spinning) {
+  background-color: #e04444;
+}
+
+#roleta .coin-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+/* Saldo de moedas */
+#roleta .coin-balance {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #2d5c5c;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Mensagem de resultado */
+#roleta .result-message {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 16px;
+  color: #2d5c5c;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Seletor de idioma */
+#roleta .language-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+#roleta .language-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Estilo dinâmico para elementos adicionais */
+#roleta .dynamic-style {
+  background-color: rgba(255, 205, 0, 0.7); /* Para o language-toggle */
+  color: #0066b3; /* Para o language-toggle */
+}
+
+#roleta .language-toggle:hover.dynamic-style {
+  background-color: rgba(255, 205, 0, 0.9);
+}

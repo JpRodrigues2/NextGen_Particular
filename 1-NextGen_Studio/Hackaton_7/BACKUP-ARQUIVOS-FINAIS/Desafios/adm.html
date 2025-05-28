@@ -1,0 +1,136 @@
+<div class="title-block">
+    <h4>FunPack01 - Desafios</h4>
+    <a class="btn btn-default" ng-click="back()">{{"BACK"|translate}}</a>
+</div>
+
+<div class="row">
+    <!-- Formulário (lado esquerdo) -->
+    <div class="col-md-9">
+        <p>
+            Configure aqui o estilo e comportamento do widget de Desafios. Personalize cores, número de desafios por página e filtros visíveis. Veja a prévia ao vivo à direita para acompanhar as mudanças em tempo real.
+        </p>
+
+        <!-- Seção de Configuração de Paginação -->
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Número de Desafios por Página</h5>
+                <input ng-model="obj.items_per_page" type="number" min="1" class="form-control" placeholder="Ex: 3" />
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Seção de Filtros Visíveis -->
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Filtros Visíveis</h5>
+                <select ng-model="obj.filters" multiple class="form-control" style="height: 100px;">
+                    <option value="type">Por Tipo</option>
+                    <option value="category">Por Categoria</option>
+                </select>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Seção de Customização de Layout -->
+        <h5>Customização de Layout</h5>
+        
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor do Fundo Geral</label>
+                <input ng-model="obj.background_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Cabeçalho</label>
+                <input ng-model="obj.header_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor da Borda</label>
+                <input ng-model="obj.border_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-4">
+                <label>Cor Principal do Texto</label>
+                <input ng-model="obj.text_color" type="color" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+                <label>Cor do Botão</label>
+                <input ng-model="obj.button_color" type="color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-6">
+                <label>
+                    Fonte dos Textos
+                    <a href="https://fonts.google.com/" target="_blank" style="font-size: 12px; margin-left: 5px;">(Google Fonts)</a>
+                </label>
+                <input ng-model="obj.font" type="text" class="form-control" placeholder="Fonte (ex: Roboto)" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Prévia (lado direito) -->
+    <div class="col-md-3">
+        <h5>Prévia:</h5>
+        <div style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+             ng-style="{
+                 'border': '2px solid ' + obj.border_color,
+                 'font-family': obj.font
+             }">
+            <!-- Header -->
+            <div style="padding: 15px; text-align: center; font-weight: bold; font-size: 18px;"
+                 ng-style="{
+                     'background-color': obj.header_color,
+                     'color': obj.text_color
+                 }">
+                DESAFIOS
+            </div>
+            <!-- Content -->
+            <div style="padding: 15px;"
+                 ng-style="{
+                     'background-color': obj.background_color
+                 }">
+                <!-- Desafios (exemplo de 3 itens) -->
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; align-items: center; padding: 10px; background: #fff4e6; border-radius: 10px; margin-bottom: 10px;">
+                        <div style="width: 40px; height: 40px; background: #ddd; margin-right: 10px;"></div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: bold;" ng-style="{'color': obj.text_color}">Responda um formulário</div>
+                            <div style="font-size: 12px;" ng-style="{'color': obj.text_color}">Sem descrição disponível</div>
+                            <div style="font-size: 10px;" ng-style="{'color': obj.text_color}">Pontuação: 10 xp + 10 moedas</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; padding: 10px; background: #e6f3f0; border-radius: 10px; margin-bottom: 10px;">
+                        <div style="width: 40px; height: 40px; background: #ddd; margin-right: 10px;"></div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: bold;" ng-style="{'color': obj.text_color}">Suba de nível</div>
+                            <div style="font-size: 12px;" ng-style="{'color': obj.text_color}">Sem descrição disponível</div>
+                            <div style="font-size: 10px;" ng-style="{'color': obj.text_color}">Pontuação: 10 xp + 10 moedas</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; padding: 10px; background: #ffe6cc; border-radius: 10px;">
+                        <div style="width: 40px; height: 40px; background: #ddd; margin-right: 10px;"></div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: bold;" ng-style="{'color': obj.text_color}">Faça uma venda</div>
+                            <div style="font-size: 12px;" ng-style="{'color': obj.text_color}">Faça vendas e acumule pontos!</div>
+                            <div style="font-size: 10px;" ng-style="{'color': obj.text_color}">Pontuação: 10 xp + 1 moeda</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="text-right">
+    <button ng-click="applyBancoDoBrasilStyle()" class="btn btn-info">Estilo Banco do Brasil</button>
+    <button ng-click="resetToDefault()" class="btn btn-warning">Restaurar Padrão</button>
+    <button ng-click="back()" class="btn btn-default">{{"CANCEL"|translate}}</button>
+    <button ng-click="save()" class="btn btn-default">{{"SAVE"|translate}}</button>
+</div>

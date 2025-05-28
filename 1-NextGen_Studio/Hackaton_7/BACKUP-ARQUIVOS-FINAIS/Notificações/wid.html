@@ -1,0 +1,30 @@
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="notificacoes" ng-controller="notificacoes" id="notificacoes">
+  <div id="funifier-notifications-widget">
+    <div class="notifications-header">{{t('notificationsTitle')}}</div>
+    <div class="notifications-content">
+      <ul class="notification-list">
+        <li class="notification-item" ng-repeat="n in notifications">
+          <div class="notification-icon">
+            <img ng-if="n.item.image.small.url" ng-src="{{n.item.image.small.url}}" alt="Ícone de Notificação" />
+            <img ng-if="!n.item.image.small.url" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Sino-Xc4SoFnnXKFFOtzvUsqMiRn6wr3OQ4.png" alt="Ícone de Notificação" />
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">{{n.definition.content}}</div>
+            <div class="notification-date">{{n.time | date:dateFormat}}</div>
+          </div>
+        </li>
+        <li class="empty-notification" ng-if="!notifications.length">
+          {{t('noNotifications')}}
+        </li>
+      </ul>
+      <div class="auto-update-indicator" ng-if="config.updateInterval > 0">
+        <span>🔄 Atualizando a cada {{config.updateInterval / 1000}}s</span>
+      </div>
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+    </div>
+  </div>
+</div>

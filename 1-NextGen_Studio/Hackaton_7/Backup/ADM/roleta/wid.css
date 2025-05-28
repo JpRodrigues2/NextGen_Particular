@@ -86,6 +86,33 @@
   overflow: hidden;
   border: 5px solid #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 8s ease-out;
+}
+
+#roleta .wheel.spinning {
+  animation: spin 2s cubic-bezier(0.2, 0, 0.1, 1) forwards;
+}
+
+/* Animação de giro com desaceleração mais gradativa */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  60% {
+    transform: rotate(900deg);
+  }
+  80% {
+    transform: rotate(1080deg);
+  }
+  90% {
+    transform: rotate(1116deg);
+  }
+  97% {
+    transform: rotate(1134deg);
+  }
+  100% {
+    transform: rotate(1135deg);
+  }
 }
 
 #roleta .wheel-section {
@@ -94,13 +121,31 @@
   height: 100%;
   clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 50% 50%);
   transform-origin: 50% 50%;
+}
+
+#roleta .wheel-section-content {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%) rotate(-90deg);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  color: #fff;
+  width: 80px;
   text-align: center;
-  padding: 20px;
+}
+
+#roleta .wheel-prize-image {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+#roleta .wheel-prize-title {
+  font-size: 12px;
+  color: #fff;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 #roleta .wheel-section:nth-child(1) { background-color: #ff9999; }
@@ -131,7 +176,7 @@
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-top: 30px solid #ff5555;
+  border-top: 30px solid #ff5555; /* Default color */
   z-index: 10;
 }
 
@@ -205,4 +250,15 @@
 
 #roleta .language-toggle:hover {
   background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Estilo dinâmico para elementos adicionais */
+#roleta .dynamic-style {
+  border-top-color: #ffcd00; /* Para o wheel-pointer */
+  background-color: rgba(255, 205, 0, 0.7); /* Para o language-toggle */
+  color: #0066b3; /* Para o language-toggle */
+}
+
+#roleta .language-toggle:hover.dynamic-style {
+  background-color: rgba(255, 205, 0, 0.9);
 }

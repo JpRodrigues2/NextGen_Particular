@@ -1,69 +1,63 @@
 $scope.obj = {
   _id: "global",
   background_color: "#a8d3c8",
-  header_color: "#f9b87f",
-  border_color: "#ffffff",
+  header_color: "#f8b37f",
+  border_color: "#1bd0e1",
   font: "Roboto",
-  text_color: "#2d5d56",
-  card_score_color: "#ffeaaa",
-  card_level_color: "#e8f4f0",
-  card_achievements_color: "#f8c8a0",
-  progress_bar_color: "#e57373",
-  progress_background_color: "#d4a574",
-  show_avatar: true,
-  show_name: true,
-  show_total_score: true,
-  show_xp: true,
-  show_level: true,
-  show_coins: true,
-  show_challenges: true,
-  show_items: true,
-  show_progress: true,
-}
+  text_color: "#2d5c5c",
+  button_color: "#ff5555",
+  wheel_colors: ["#ff9999", "#ffd699", "#99ccff", "#ffcc99", "#ccffcc", "#ffcccc"],
+  prizes: [
+    { title: "5 Moedas", image: "https://s3.amazonaws.com/funifier/icons/coin.png", value: "5moedas", probability: 0.2 },
+    { title: "20 XP", image: "https://s3.amazonaws.com/funifier/icons/xp.png", value: "20xp", probability: 0.2 },
+    { title: "Boné", image: "https://s3.amazonaws.com/funifier/games/682a0e6f2327f74f3a3e0089/images/682e3ec6d2a446407c30ad84_original_Bon��.png", value: "bone", probability: 0.2 },
+    { title: "Ingresso", image: "https://s3.amazonaws.com/funifier/games/682a0e6f2327f74f3a3e0089/images/682e3f1ed2a446407c30ad9d_original_Ingresso.png", value: "ingresso", probability: 0.2 },
+    { title: "Não Foi Dessa Vez", image: "https://s3.amazonaws.com/funifier/games/682a0e6f2327f74f3a3e0089/images/682e3f3bd2a446407c30adb0_original_N��o foi dessa vez (1).png", value: "loose", probability: 0.2 },
+    { title: "Tente Novamente", image: "https://s3.amazonaws.com/funifier/games/682a0e6f2327f74f3a3e0089/images/682e3f6dd2a446407c30adb3_original_ChatGPT Image 16 de mai. de 2025, 22_48_13.png", value: "tentenovamente", probability: 0.2 },
+  ],
+  participation_frequency: "daily", // Frequência de participação (daily, weekly, unlimited)
+};
 
-$scope.options = {}
+$scope.options = {};
 
-// Get count of visible attributes
-$scope.getVisibleAttributesCount = () => {
-  const attributes = [
-    "show_avatar",
-    "show_name",
-    "show_total_score",
-    "show_xp",
-    "show_level",
-    "show_coins",
-    "show_challenges",
-    "show_items",
-    "show_progress",
-  ]
-  return attributes.filter((attr) => $scope.obj[attr]).length
-}
+// Aplicar estilo Banco do Brasil
+$scope.applyBancoDoBrasilStyle = () => {
+  $scope.obj.background_color = "#ffffff"; // White background
+  $scope.obj.header_color = "#0066b3"; // Blue header
+  $scope.obj.border_color = "#0066b3"; // Blue border
+  $scope.obj.text_color = "#0066b3"; // Blue text
+  $scope.obj.button_color = "#ffcd00"; // Yellow button
+  $scope.obj.wheel_colors = ["#ffcd00", "#0066b3", "#ffffff", "#ffcd00", "#0066b3", "#ffffff"]; // Alternating yellow, blue, white
+  $scope.save(); // Save the new configuration to the database
+};
 
+// Salvar configurações
 $scope.save = () => {
   var req = {
     method: "PUT",
-    url: Marketplace.auth.getService() + "/v3/database/dashboard__c",
+    url: Marketplace.auth.getService() + "/v3/database/roleta__c",
     headers: {
       Authorization: Marketplace.auth.getAuthorization(),
       "content-type": "application/json",
       "cache-control": "no-cache",
     },
     data: $scope.obj,
-  }
+  };
   $http(req).then(
     (data) => {
-      alert("Configuração salva com sucesso!")
+      alert("Configuração salva com sucesso!");
     },
     (err) => {
-      console.log(err)
+      console.log(err);
     },
-  )
-}
+  );
+};
 
+// Carregar configurações
 $scope.load = () => {
   $http({
     method: "GET",
-    url: Marketplace.auth.getService() + "/v3/database/dashboard__c?strict=true&q=_id:'global'",
+    url: Marketplace.auth.getService() + "/v3/database/roleta__c?strict=true&q=_id:'global'",
     headers: {
       Authorization: Marketplace.auth.getAuthorization(),
       "content-type": "application/json",
@@ -72,80 +66,93 @@ $scope.load = () => {
   }).then(
     (data) => {
       if (data.data[0]) {
-        $scope.obj = data.data[0]
+        $scope.obj = data.data[0];
         if ($scope.obj.font) {
-          $scope.loadFont($scope.obj.font)
+          $scope.loadFont($scope.obj.font);
         }
       }
     },
     (err) => {
-      console.log(err)
+      console.log(err);
     },
-  )
-}
+  );
+};
 
+// Carregar fonte dinamicamente
 $scope.loadFont = (fontName) => {
-  if (!fontName) return
-  var formattedFont = fontName.replace(/ /g, "+")
-  var linkId = "dynamic-font-link-dashboard"
-  var existingLink = document.getElementById(linkId)
+  if (!fontName) return;
+  var formattedFont = fontName.replace(/ /g, "+");
+  var linkId = "dynamic-font-link-roleta";
+  var existingLink = document.getElementById(linkId);
 
   if (existingLink) {
-    existingLink.href = "https://fonts.googleapis.com/css?family=" + formattedFont
+    existingLink.href = "https://fonts.googleapis.com/css?family=" + formattedFont;
   } else {
-    var link = document.createElement("link")
-    link.id = linkId
-    link.rel = "stylesheet"
-    link.href = "https://fonts.googleapis.com/css?family=" + formattedFont
-    document.head.appendChild(link)
+    var link = document.createElement("link");
+    link.id = linkId;
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css?family=" + formattedFont;
+    document.head.appendChild(link);
   }
-}
+};
 
 $scope.$watch("obj.font", (newVal) => {
   if (newVal) {
-    $scope.loadFont(newVal)
+    $scope.loadFont(newVal);
   }
-})
+});
 
-// Reset to default config (clear DB and insert default)
+// Adicionar novo prêmio
+$scope.addPrize = () => {
+  $scope.obj.prizes.push({
+    title: "",
+    image: "",
+    value: "",
+    probability: 0.2,
+  });
+};
+
+// Remover prêmio
+$scope.removePrize = (index) => {
+  if ($scope.obj.prizes.length > 1) {
+    $scope.obj.prizes.splice(index, 1);
+  }
+};
+
+// Restaurar padrão
 $scope.resetToDefault = () => {
-  if (!confirm("Tem certeza que deseja restaurar o padrão? Isso apagará todas as configurações personalizadas.")) return
-  // Remove all entries
+  if (!confirm("Tem certeza que deseja restaurar o padrão? Isso apagará todas as configurações personalizadas.")) return;
   $http({
     method: "DELETE",
-    url: Marketplace.auth.getService() + "/v3/database/dashboard__c?q=*",
+    url: Marketplace.auth.getService() + "/v3/database/roleta__c?q=*",
     headers: {
       Authorization: Marketplace.auth.getAuthorization(),
       "content-type": "application/json",
       "cache-control": "no-cache",
     },
   }).then(() => {
-    // Insert default global config
     var defaultObj = {
       _id: "global",
       background_color: "#a8d3c8",
-      header_color: "#f9b87f",
-      border_color: "#ffffff",
+      header_color: "#f8b37f",
+      border_color: "#1bd0e1",
       font: "Roboto",
-      text_color: "#2d5d56",
-      card_score_color: "#ffeaaa",
-      card_level_color: "#e8f4f0",
-      card_achievements_color: "#f8c8a0",
-      progress_bar_color: "#e57373",
-      progress_background_color: "#d4a574",
-      show_avatar: true,
-      show_name: true,
-      show_total_score: true,
-      show_xp: true,
-      show_level: true,
-      show_coins: true,
-      show_challenges: true,
-      show_items: true,
-      show_progress: true,
-    }
+      text_color: "#2d5c5c",
+      button_color: "#ff5555",
+      wheel_colors: ["#ff9999", "#ffd699", "#99ccff", "#ffcc99", "#ccffcc", "#ffcccc"],
+      prizes: [
+        { title: "5 Moedas", image: "https://s3.amazonaws.com/funifier/icons/coin.png", value: "5moedas", probability: 0.2 },
+        { title: "20 XP", image: "https://s3.amazonaws.com/funifier/icons/xp.png", value: "20xp", probability: 0.2 },
+        { title: "Boné", image: "https://s3.amazonaws.com/funifier/games/682a0e6f2327f74f3a3e0089/images/682e3ec6d2a446407c30ad84_original_Bon��.png", value: "bone", probability: 0.2 },
+        { title: "Ingresso", image: "https://s3.amazonaws.com/funifier/games/682a0e6f2327f74f3a3e0089/images/682e3f1ed2a446407c30ad9d_original_Ingresso.png", value: "ingresso", probability: 0.2 },
+        { title: "Não Foi Dessa Vez", image: "https://s3.amazonaws.com/funifier/games/682a0e6f2327f74f3a3e0089/images/682e3f3bd2a446407c30adb0_original_N��o foi dessa vez (1).png", value: "loose", probability: 0.2 },
+        { title: "Tente Novamente", image: "https://s3.amazonaws.com/funifier/games/682a0e6f2327f74f3a3e0089/images/682e3f6dd2a446407c30adb3_original_ChatGPT Image 16 de mai. de 2025, 22_48_13.png", value: "tentenovamente", probability: 0.2 },
+      ],
+      participation_frequency: "daily",
+    };
     $http({
       method: "PUT",
-      url: Marketplace.auth.getService() + "/v3/database/dashboard__c",
+      url: Marketplace.auth.getService() + "/v3/database/roleta__c",
       headers: {
         Authorization: Marketplace.auth.getAuthorization(),
         "content-type": "application/json",
@@ -153,10 +160,10 @@ $scope.resetToDefault = () => {
       },
       data: defaultObj,
     }).then(() => {
-      $scope.load()
-    })
-  })
-}
+      $scope.load();
+    });
+  });
+};
 
-// Initialize
-$scope.load()
+// Inicializar
+$scope.load();

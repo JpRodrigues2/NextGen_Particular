@@ -1,0 +1,107 @@
+#enquete {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+  font-family: "Roboto", sans-serif;
+}
+
+#enquete .enquete-header {
+  background-color: #f8b37f;
+  color: #2d5c5c;
+  text-align: center;
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#enquete .enquete-content {
+  background-color: #a8d3c8;
+  padding: 20px;
+  position: relative;
+  min-height: 300px;
+}
+
+#enquete .question-title {
+  font-size: 18px;
+  color: #2d5c5c; /* Will be overridden by whitelabel text_color */
+  margin-bottom: 15px;
+}
+
+#enquete .answer-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#enquete .answer-option input {
+  margin-right: 10px;
+}
+
+#enquete .answer-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#enquete .submit-button {
+  background-color: #ff9999;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#enquete .submit-button:hover {
+  background-color: #e06b6b;
+}
+
+#enquete .results-section {
+  text-align: center;
+}
+
+#enquete .thank-you-message {
+  font-size: 16px;
+  color: #2d5c5c; /* Will be overridden by whitelabel text_color */
+  margin-bottom: 15px;
+}
+
+#enquete .next-button {
+  background-color: #ff9999;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#enquete .next-button:hover {
+  background-color: #e06b6b;
+}
+
+#enquete .empty-message {
+  text-align: center;
+  padding: 20px;
+  color: #2d5c5c; /* Will be overridden by whitelabel text_color */
+  font-style: italic;
+}
+
+#enquete .language-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+}

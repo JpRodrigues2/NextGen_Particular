@@ -1,0 +1,50 @@
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<div ng-app="roleta" ng-controller="roleta" id="roleta">
+  <div id="funifier-wheel-widget">
+    <div class="wheel-header">{{t('wheelTitle')}}</div>
+    <div class="wheel-content">
+      <!-- Lista de prêmios -->
+      <div class="prizes-list">
+        <h3>{{t('prizesTitle')}}</h3>
+        <div class="prize-item" ng-repeat="prize in prizes">
+          <img ng-src="{{prize.image}}" alt="{{prize.title}}" class="prize-image" />
+          <span class="prize-title">{{prize.title}}</span>
+        </div>
+      </div>
+
+      <!-- Roleta -->
+      <div class="wheel-container">
+        <div class="wheel" ng-class="{'spinning': isSpinning}">
+          <div class="wheel-section" ng-repeat="prize in prizes" ng-style="{'transform': 'rotate(' + ($index * (360 / prizes.length)) + 'deg)'}">
+            <div class="wheel-section-content">
+              <img ng-src="{{prize.image}}" alt="{{prize.title}}" class="wheel-prize-image" />
+              <span class="wheel-prize-title">{{prize.title}}</span>
+            </div>
+          </div>
+          <div class="wheel-center"></div>
+        </div>
+      </div>
+
+      <!-- Botão de giro -->
+      <div class="spin-button" ng-class="{'spinning': isSpinning}" ng-click="spinWheel()">
+        <span ng-if="!isSpinning">{{t('spinButton')}} <!--({{spinCost}} <img src="https://s3.amazonaws.com/funifier/icons/coin.png" alt="moedas" class="coin-icon" />)--></span>
+        <span ng-if="isSpinning">{{t('spinning')}}</span>
+      </div>
+
+      <!-- Saldo de moedas do jogador -->
+      <div class="coin-balance">
+        {{t('coinBalance')}}: {{playerCoins}} <!--<img src="https://s3.amazonaws.com/funifier/icons/coin.png" alt="moedas" class="coin-icon" />-->
+      </div>
+
+      <!-- Resultado do giro -->
+      <div class="result-message" ng-if="result">
+        {{t('winMessage')}} {{result}}
+      </div>
+
+      <!-- Seletor de idioma -->
+      <div class="language-toggle" ng-click="toggleLanguage()">
+        {{currentLang === 'pt' ? '🇺🇸 EN' : '🇧🇷 PT'}}
+      </div>
+    </div>
+  </div>
+</div>
